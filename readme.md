@@ -6,15 +6,16 @@
 <a href="https://shang.qq.com/wpa/qunwpa?idkey=37b6b06f7c941dae20dcd5784088905d6461064d7f33478692f0c4215546cee0"><img src="https://img.shields.io/badge/QQ%E7%BE%A4-568679748-green" alt="QQ群：568679748"></a>
 </p>
 
-## 从原版更换为修改版
+## 从原版更换为魔改版
 将本项目所有文件直接覆盖原有文件，在网站根目录下执行`php artisan dujiao update` 即可无缝切换到修改版
 
-## 修改说明
+## 魔改说明
 - [x] 增加choice模板,该模板具有以下特色功能：
   - 下拉式分类选择和商品选择
   - 分类密码
   - 商品密码 
 - [x] 商品库存预警
+- [x] 添加极验验证
 - [x] 代充订单用户邮件提醒
 - [x] 首页弹窗
 - [x] 分类搜索和商品搜索
@@ -39,7 +40,7 @@ demo地址：[http://dujiaoka.com](http://dujiaoka.com)
 
 ## 界面尝鲜
 
-![首页.png](https://i.loli.net/2020/04/07/dZwvKfnNGgkHSli.png)   
+![首页.png](https://cdn.jsdelivr.net/gh/iLay1678/images/imgs/Snipaste_2020-05-31_09-53-08.png)   
 ![后台.png](https://i.loli.net/2020/04/07/ZcYLqN4d2fuAI7X.png)    
 
 
