@@ -29,6 +29,6 @@
     独角数卡-Mod
 </div>
 <div class="links">
-    <a href="https://github.com/iLay1678/dujiaoka" target="_blank">GITHUB</a>
+    <a href="https://github.com/iLay1678/dujiaoka-mod-pub" target="_blank">GITHUB</a>
     <a href="http://dujiaoka.com"  target="_blank">当前系统版本：V{{ env("DUJIAO_VERSION")  }}</a>
 </div>

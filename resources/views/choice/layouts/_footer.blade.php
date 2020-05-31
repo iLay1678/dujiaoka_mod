@@ -6,7 +6,7 @@
 <div class="layui-card-body">
                     <div class="footer-wrap">
                         <div style="text-align: center">{!! config('webset.footer') !!} </div>
-                        <p>Copyright @ 2018-<?php echo date('Y');?> {{ config('webset.text_logo') }} . Powered By <a href="https://github.com/assimon/dujiaoka" target="_blank" rel="nofollow noopener noreferrer">独角数卡</a></p>
+                        <p>Copyright @ 2018-<?php echo date('Y');?> {{ config('webset.text_logo') }} . Powered By <a href="https://github.com/iLay1678/dujiaoka-mod-pub" target="_blank" rel="nofollow noopener noreferrer">独角数卡-Mod</a></p>
                     </div>
 
  </div> </div>
