@@ -204,7 +204,7 @@
                                                 </div>
                                             </div>
                                             <div class="layui-form-item">
-                                                <button id="submit" class="layui-btn layui-btn-normal" id="buy"
+                                                <button class="layui-btn layui-btn-normal" id="buy"
                                                         lay-submit
                                                         lay-filter="postOrder">立即下单
                                                 </button>
