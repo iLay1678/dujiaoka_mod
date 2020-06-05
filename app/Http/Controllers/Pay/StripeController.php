@@ -5,6 +5,7 @@ require_once('lib/stripe/init.php');
 
 use App\Models\Pays;
 use Illuminate\Http\Request;
+use GuzzleHttp\Client;
 use Illuminate\Support\Facades\Redis;
 
 class StripeController extends PayController
