@@ -27,7 +27,7 @@ class StripeController extends PayController
                 try {
                     \Stripe\Stripe::setApiKey($this->payInfo['merchant_id']);
                     $amount = (float)$this->orderInfo['actual_price'] * 100;
-                    $price = (float)$this->orderInfo['actual_price'];
+                    $price = (float)$this->orderInfo['actual_price']*100;
                     $usd=number_format($this->getUsdCurrency($this->orderInfo['actual_price']), 2);
                     $orderid = $this->orderInfo['order_id'];
                     $pk = $this->payInfo['merchant_id'];
@@ -205,7 +205,7 @@ $(\".request-wechat-pay\").click(function(){
   if( $(\".wcpay-qrcode\").data(\"requested\")==0 ){
     stripe.createSource({
       type: 'wechat',
-      amount:<?php echo $usd;?>,
+      amount:$usd,
       currency: 'usd',
       owner: {
         name: '$orderid'
