@@ -27,8 +27,8 @@ class StripeController extends PayController
                 try {
                     \Stripe\Stripe::setApiKey($this->payInfo['merchant_id']);
                     $amount = (float)$this->orderInfo['actual_price'] * 100;
-                    $price = (float)$this->orderInfo['actual_price']*100;
-                    $usd=number_format($this->getUsdCurrency($this->orderInfo['actual_price']), 2);
+                    $price = (float)$this->orderInfo['actual_price'];
+                    $usd=number_format($this->getUsdCurrency($this->orderInfo['actual_price']), 2)*100;
                     $orderid = $this->orderInfo['order_id'];
                     $pk = $this->payInfo['merchant_id'];
                     $return_url = site_url() . $this->payInfo['pay_handleroute'] . '/return_url/?orderid=' . $this->orderInfo['order_id'];
