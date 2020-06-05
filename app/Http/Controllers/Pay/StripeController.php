@@ -164,7 +164,6 @@ class StripeController extends PayController
 <script src=\"https://js.stripe.com/v3/\"></script>
 <script>
 var stripe = Stripe('$pk');
-var rmb2usd='0.14';
 var source='';
 (function() {
        stripe.createSource({
@@ -181,13 +180,6 @@ var source='';
         }).then(function(result) {
           $(\"#alipaybtn\").attr(\"href\",result.source.redirect.url);
         });
-$.ajax({
-    url: 'https://api.exchangerate-api.com/v4/latest/CNY',
-    type: 'GET',
-    success: function (result) {
-       rmb2usd=result.rates.USD;
-    }
-});
 
     })();
 function paymentcheck(){
@@ -210,10 +202,10 @@ function paymentcheck(){
 $(\".request-wechat-pay\").click(function(){
   if( $(\".wcpay-qrcode\").data(\"requested\")==0 ){
   var price=$price;
-  var usd=price * rmb2usd;
+  var usd=<?php echo number_format($this->getUsdCurrency($this->orderInfo['actual_price']), 2);?>
     stripe.createSource({
       type: 'wechat',
-      amount: usd.toFixed(2) * 100,
+      amount: usd*100,
       currency: 'usd',
       owner: {
         name: '$orderid'
@@ -297,9 +289,8 @@ $(\".request-wechat-pay\").click(function(){
                     'source' => $data['source'],
                 ]);
             }
-            $rmb2usd = json_decode(file_get_contents('https://api.exchangerate-api.com/v4/latest/CNY'), true)['rates']['USD'];
             if ($source_object->status == 'consumed' && $source_object->owner->name == $data['orderid']) {
-                $this->successOrder($data['orderid'], $source_object->id, number_format($source_object->amount / 100 / $rmb2usd, 2));
+                $this->successOrder($data['orderid'], $source_object->id, $cacheord['actual_price']);
                 return 'success';
             } else {
                 return 'fail';
@@ -307,5 +298,29 @@ $(\".request-wechat-pay\").click(function(){
         }
 
     }
+     /**
+     * 根据RMB获取美元
+     * @param $cny
+     * @return float|int
+     * @throws \Exception
+     */
+    public function getUsdCurrency($cny)
+    {
+        $client = new Client();
+        $res = $client->get('https://m.cmbchina.com/api/rate/getfxrate');
+        $fxrate = json_decode($res->getBody(), true);
+        if (!isset($fxrate['data'])) {
+            throw new \Exception('汇率接口异常');
+        }
+        $dfFxrate = 0.13;
+        foreach ($fxrate['data'] as $item) {
+            if ($item['ZCcyNbr'] == "美元") {
+                $dfFxrate = 100 / $item['ZRtcOfr'];
+                break;
+            }
+        }
+        return $cny * $dfFxrate;
+    }
+
 
 }
