@@ -26,7 +26,7 @@ class StripeController extends PayController
             default:
                 try {
                     \Stripe\Stripe::setApiKey($this->payInfo['merchant_id']);
-                    $amount = (float)$this->orderInfo['actual_price'] * 100;
+                    $amount = numner_format((float)$this->orderInfo['actual_price'] * 100,2);
                     $price = (float)$this->orderInfo['actual_price'];
                     $usd=number_format($this->getUsdCurrency($this->orderInfo['actual_price']), 2)*100;
                     $orderid = $this->orderInfo['order_id'];
