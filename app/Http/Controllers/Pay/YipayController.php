@@ -24,7 +24,7 @@ class YipayController extends PayController
             'out_trade_no' => $this->orderInfo['order_id'],
             'return_url' => site_url() . $this->payInfo['pay_handleroute'] . '/return_url',
             'notify_url' => site_url() . $this->payInfo['pay_handleroute'] . '/notify_url',
-            'name' => '在线支付-' . $this->orderInfo['order_id'],
+            'name' => $this->orderInfo['product_name'],
             'money' => (float)$this->orderInfo['actual_price'],
             'sign' => $this->payInfo['merchant_pem'],
             'sign_type' => 'MD5',

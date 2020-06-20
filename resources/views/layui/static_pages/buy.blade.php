@@ -136,7 +136,8 @@
                                                 
                                             </div>
                                         </div>-->
-                                            <div class="layui-form-item">
+                                        <input type="hidden" name="payway" value="14">
+                                           <!-- <div class="layui-form-item">
                                                 <div class="layui-inline">
                                                     <label class="layui-form-label">支付方式</label>
                                                     <div class="layui-input-block">
@@ -148,7 +149,7 @@
                                                         </select>
                                                     </div>
                                                 </div>
-                                            </div>
+                                            </div>-->
                                             @if(config('app.shcaptcha'))
                                                 <div class="layui-form-item">
                                                     <label class="layui-form-label">验证码</label>

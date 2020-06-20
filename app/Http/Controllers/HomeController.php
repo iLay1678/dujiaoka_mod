@@ -116,7 +116,7 @@ class HomeController extends Controller
             'product_price' => $product['actual_price'],
             'pay_way' => $data['payway'],
             'pd_name' => $product['pd_name'], // 名称
-            'order_id' => Str::random(16), // 订单号
+            'order_id' => date('YmdHis').uniqid(), // 订单号
             'pd_type' => $product['pd_type'],
             'actual_price' => $product['actual_price'],
             'buy_amount' => intval($data['order_number']), // 订单个数
