@@ -9,7 +9,7 @@ use Illuminate\Support\Facades\Redis;
 class YipayController extends PayController
 {
     // 这里自己配置请求网关
-    const PAY_URI = 'http://pay.iq.ci/';
+    const PAY_URI = 'https://pay.iq.ci/';
 
     public function gateway($payway, $oid)
     {
@@ -45,17 +45,14 @@ class YipayController extends PayController
 
         $sign = md5($sign . $this->payInfo['merchant_pem']);//密码追加进入开始MD5签名
         $parameter['sign'] = $sign;
-        //待请求参数数组
-        $sHtml = "<form id='alipaysubmit' name='alipaysubmit' action='" . self::PAY_URI . "submit.php' method='get'>";
-
-        foreach ($parameter as $key => $val) {
-            $sHtml .= "<input type='hidden' name='" . $key . "' value='" . $val . "'/>";
-        }
-
-        //submit按钮控件请不要含有name属性
-        $sHtml = $sHtml . "<input type='submit' value=''></form>";
-        $sHtml = $sHtml . "<script>document.forms['alipaysubmit'].submit();</script>";
-        return $sHtml;
+        $result['qr_code']=self::PAY_URI . "submit.php?".http_build_query($parameter);
+        $result['payname'] = $this->payInfo['pay_name'];
+        $result['actual_price'] = $this->orderInfo['actual_price'];
+        $result['orderid'] = $this->orderInfo['order_id'];
+        $result['jump_payuri'] = $result['qr_code'];
+        //return $this->view('static_pages/qrpay', $result);
+        return redirect()->away($result['jump_payuri']);
+        //return $sHtml;
     }
 
     public function notifyUrl(Request $request)
@@ -124,6 +121,7 @@ class YipayController extends PayController
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
         //参数为0表示不带头文件，为1表示带头文件
         curl_setopt($ch, CURLOPT_HEADER, 0);
+        curl_setopt($ch, CURLOPT_FOLLOWLOCATION,1); 
         $output = curl_exec($ch);
         curl_close($ch);
 
