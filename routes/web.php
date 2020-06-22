@@ -12,7 +12,7 @@
 */
 
 Route::get('/', 'HomeController@index');
-Route::get('buy/{product}', 'HomeController@buy');
+Route::match(['get', 'post'],'buy/{product}', 'HomeController@buy');
 Route::get('bill/{orderid}', 'HomeController@bill');
 Route::get('pages', 'HomeController@pages');
 Route::get('pages/{tag}.html', 'HomeController@page');

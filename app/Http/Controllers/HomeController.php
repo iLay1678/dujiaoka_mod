@@ -34,11 +34,15 @@ class HomeController extends Controller
      * 商品详情
      * @param Products $product
      */
-    public function buy(Products $product)
+    public function buy(Products $product,Request $request)
     {
+        $data = $request->all();
         $product = $product->toArray();
         if ($product['pd_status'] != 1) {
             return $this->error('   商品信息不存在！');
+        }
+        if (isset($data['pwd'])) {
+            $product['pwd']=$data['pwd'];
         }
         // 格式化批发配置以及输入框配置
         if ($product['wholesale_price']) {
