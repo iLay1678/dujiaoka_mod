@@ -58,7 +58,6 @@ class OrdersController extends Controller
         if (empty($data['account']) || empty($data['search_pwd'])) return $this->error('必填项不能为空', url('searchOrder'));
         $orders = Orders::where(['account' => $data['account'], 'search_pwd' => $data['search_pwd']])
             ->orderBy('created_at', 'desc')
-            ->take(5)
             ->get()
             ->toArray();
         if (empty($orders)) return $this->error('未找到相关订单！', url('searchOrder'));

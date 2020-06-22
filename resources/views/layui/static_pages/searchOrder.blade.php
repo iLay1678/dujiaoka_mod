@@ -10,9 +10,9 @@
                 <div class="layui-card-header">查询订单</div>
 
                 <div class="layui-card-body ">
-                    <blockquote class="layui-elem-quote">
+                    <!--<blockquote class="layui-elem-quote">
 				友情提示:订单查询最多仅能查询到最近五笔订单。
-			</blockquote>
+			        </blockquote>-->
                     <div class="layui-tab layui-tab-brief">
                         <ul class="layui-tab-title">
                             <li class="layui-this">订单号</li>
