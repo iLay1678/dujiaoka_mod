@@ -45,7 +45,7 @@ class PagesController extends AdminController
 
         $form->text('title', __('Page title'))->required();;
         $form->UEditor('content', __('Page content'))->required();
-        $form->text('tag', __('Page tag'))->required()->help('页面链接为：'.url("").'/pages/标识.html');
+        $form->text('tag', __('Page tag'))->required()->help('页面链接为：'.url("").'/pages/页面标识.html');
         $form->radio('status', __('Page status'))->options([1=> '启用', 2=> '关闭'])
             ->rules('required',['请选择状态'])
             ->default(1);

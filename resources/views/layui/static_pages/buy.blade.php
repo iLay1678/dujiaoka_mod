@@ -243,6 +243,10 @@
     <script>
 
         var instock = {{ $in_stock }}
+        if(instock<1){
+             $('#buy').attr('disabled', true);
+             $('#buy').addClass('layui-btn-disabled');
+        }
             //一般直接写在一个js文件中
 
             layui.config({
@@ -292,6 +296,10 @@
                         $('#buy').attr('disabled', false);
                         $('#buy').removeClass('layui-btn-disabled');
                     } else {
+                        $('#buy').attr('disabled', true);
+                        $('#buy').addClass('layui-btn-disabled');
+                    }
+                    if(instock<1){
                         $('#buy').attr('disabled', true);
                         $('#buy').addClass('layui-btn-disabled');
                     }
