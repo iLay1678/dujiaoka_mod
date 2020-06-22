@@ -22,7 +22,7 @@
                     <p>{{ config('webset.title') }}</p>
                     <div class="lowin-group">
                         <label>请输入商品密码</label>
-                        <input type="password" name="pwd" class="lowin-input">
+                        <input type="password" name="pwd" class="lowin-input" required="">
                     </div>
                     <button class="lowin-btn">
                         确认
@@ -60,7 +60,7 @@ exit();
                     <p>{{ config('webset.title') }}</p>
                     <div class="lowin-group">
                         <label>密码错误，请重新输入</label>
-                        <input type="password" name="pwd" class="lowin-input">
+                        <input type="password" name="pwd" class="lowin-input" required="">
                     </div>
                     <button class="lowin-btn">
                         确认
