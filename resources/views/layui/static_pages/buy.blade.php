@@ -324,11 +324,7 @@ exit();
 @section('tpljs')
 <script>
 
-    var instock = {
-    {
-        $in_stock
-    }
-    }
+    var instock = {{$in_stock}}
     if (instock < 1) {
         $('#buy').attr('disabled', true);
         $('#buy').addClass('layui-btn-disabled');
