@@ -60,8 +60,10 @@
                 $(".category").hide().filter(function(index) {
                     return $(".layui-card-header", this).html().indexOf(txt) != -1;
                 }).show();
+                $(".product").show();
             } else {
                 $(".category").show();
+                $(".product").show();
             }
         });
         $("#Searchm").on("input", function (e) {
@@ -94,6 +96,21 @@
                 $(".product").show();
             }
         });
+        if(getQueryVariable('search_word')){
+            $(".classifys").val("");
+            form.render("select");
+            //文本输入框
+            var txt = decodeURIComponent(getQueryVariable('search_word'));
+            //不为空
+            if ($.trim(txt) != "") {
+                //显示搜索内容相关的div
+                $(".category").hide().filter(":contains('" + txt + "')").show();
+                $(".product").hide().filter(":contains('" + txt + "')").show();
+            } else {
+                $(".category").show();
+                $(".product").show();
+            }    
+        }
     })
 
     //手机设备的简单适配
@@ -123,6 +140,15 @@
         $('html,body').removeClass('ovfHiden');
         $('#main-menu-mobile').hide();
     });
-
+function getQueryVariable(variable)
+{
+       var query = window.location.search.substring(1);
+       var vars = query.split("&");
+       for (var i=0;i<vars.length;i++) {
+               var pair = vars[i].split("=");
+               if(pair[0] == variable){return pair[1];}
+       }
+       return(false);
+}
 </script>
 
