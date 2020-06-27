@@ -90,13 +90,13 @@ exit();
 
             <div class="layui-card-body">
                 <div class="layui-row">
-                    <div class="layui-col-md4 layui-hide-xs">
+                    <div class="layui-col-md4">
                         <div class="layui-card">
                             <div class="layui-card-body">
-                                <img src="{{ \Illuminate\Support\Facades\Storage::disk('admin')->url($pd_picture) }}"
+                                <img  style="border-radius:3px;box-shadow:rgba(0,0,0,0.15) 0 0 8px;background:#FBFBFB;border:1px solid #ddd;padding:5px;" src="{{ \Illuminate\Support\Facades\Storage::disk('admin')->url($pd_picture) }}"
                                      width="100%" height="100%">
                             </div>
-                            <div class="layui-card-body">
+                            <div class="layui-card-body layui-hide-xs">
                                 <img
                                     src="data:image/png;base64,{!! base64_encode(QrCode::format('png')->size(200)->generate(Request::url())) !!}"
                                     width="100%" height="100%">
@@ -110,14 +110,15 @@ exit();
                     <!-- 商品详细区 -->
                     <div class="layui-col-md8  layui-col-xs12">
                         <div class="layui-card">
-                            <div class="layui-card-header">
-                                <span style="font-size: 16px;">{{ $pd_name }}</span>
+                            <div class="layui-card-header" style="line-height: 25px;word-wrap:break-word; word-break:break-all;white-space: normal;height:auto;">
                                 @if($pd_type == 1)
-                                <span class="layui-badge layui-bg-black">自动发货</span>
+                                <span class="layui-badge layui-bg-green">自动发货</span>
                                 @else
-                                <span class="layui-badge layui-bg-gray">人工发货</span>
+                                <span class="layui-badge layui-bg-black">人工发货</span>
                                 @endif
-                                <span class="layui-badge layui-bg-blue">库存({{ $in_stock }})</span>
+                                &nbsp;&nbsp;
+                                <span style="font-size: 20px;color: #3C3C3C;">{{ $pd_name }}</span>
+                                &nbsp;&nbsp;
                             </div>
                             <div class="layui-card-body">
                                 <form class="layui-form layui-form-pane" action="{{ url('postOrder') }}"
@@ -127,6 +128,7 @@ exit();
                                         <span style="color:#6c6c6c">价格：</span>
                                         <span class="product-price">¥ {{ $actual_price }}</span>
                                         <span class="product-price-cost-price">¥ {{ $cost_price }}</span>
+                                        <span style="color:#6c6c6c">&nbsp;&nbsp;库存({{ $in_stock }})</span>
                                     </div>
 
                                     @if(!empty($wholesale_price) && is_array($wholesale_price))

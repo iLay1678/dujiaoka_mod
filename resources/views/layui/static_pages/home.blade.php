@@ -48,28 +48,28 @@
                                                 <div class="layui-hide">{{ $classify['name'] }}
                                                     -{{ $product['pd_name'] }}</div>
                                                 <div class="goodsdetail-mobile-text">
-                                                    <p class="title">{{ $product['pd_name'] }}</p>
-                                                    <p class="biaozhi">
-                                                        <span class="price"><b>￥{{ $product['actual_price'] }}</b></span>
-                                                        @if($product['pd_type'] == 1)
-                                                            <span class="layui-badge layui-bg-black">自动发货</span>
+                                                    @if($product['pd_type'] == 1)
+                                                            <span class="layui-badge layui-bg-green">自动发货</span>
                                                         @else
-                                                            <span class="layui-badge layui-bg-gray">人工发货</span>
+                                                            <span class="layui-badge layui-bg-black">人工发货</span>
                                                         @endif
                                                         @if($product['wholesale_price'])
                                                             &nbsp<span class="layui-badge layui-bg-blue">折扣</span>
                                                         @endif
+                                                    <div class="title">{{ $product['pd_name'] }}</div>
+                                                    <p class="biaozhi">
+                                                        
                                                     </p>
                                                     <p>
-                                                        <span>库存:{{$product['in_stock']}}&nbsp|&nbsp销量:{{ $product['sales_volume'] }}&nbsp</span>
+                                                        <span>库存:{{$product['in_stock']}}&nbsp|&nbsp销量:{{ $product['sales_volume'] }}&nbsp|&nbsp<span class="price"><b>￥{{ $product['actual_price'] }}</b></span></span>
                                                     </p>
-                                                    <div class="goodsdetail-mobile-description">
+                                                    <!--<div class="goodsdetail-mobile-description">
                                                         <p></p>
                                                         <footer style="text-align: center;"></footer>
                                                         <p></p>
                                                         <div class="product-desc"
                                                              style="text-align: start;">{!! $product['pd_info'] !!}</div>
-                                                    </div>
+                                                    </div>-->
                                                 </div>
                                             </div>
                                         </div>
@@ -141,9 +141,9 @@
                                     </td>
                                     <td>
                                         @if($product['pd_type'] == 1)
-                                            <span class="layui-badge layui-bg-black">自动发货</span>
+                                            <span class="layui-badge layui-bg-green">自动发货</span>
                                         @else
-                                            <span class="layui-badge layui-bg-gray">人工发货</span>
+                                            <span class="layui-badge layui-bg-black">人工发货</span>
                                         @endif
                                     </td>
                                     <td>{{ $product['in_stock'] }}</td>
