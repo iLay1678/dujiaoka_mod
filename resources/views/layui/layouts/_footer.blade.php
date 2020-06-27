@@ -51,8 +51,7 @@
             }
         }
         form.on('select(classifys)', function (data) {
-            $("#Searchp").val('')
-            $("#Searchm").val('')
+            $("#Search").val('');
             //文本输入框
             var txt = data.value;
             //不为空
@@ -61,37 +60,26 @@
                     return $(".layui-card-header", this).html().indexOf(txt) != -1;
                 }).show();
                 $(".product").show();
-            } else {
+               
+            }
+            else{
                 $(".category").show();
                 $(".product").show();
             }
         });
-        $("#Searchm").on("input", function (e) {
+        $("#Search").on("input", function (e) {
             $(".classifys").val("");
             form.render("select");
             //文本输入框
-            var txt = $("#Searchm").val();
+            var txt = $("#Search").val();
             //不为空
             if ($.trim(txt) != "") {
                 //显示搜索内容相关的div
                 $(".category").hide().filter(":contains('" + txt + "')").show();
                 $(".product").hide().filter(":contains('" + txt + "')").show();
-            } else {
-                $(".category").show();
-                $(".product").show();
-            }
-        });
-        $("#Searchp").on("input", function (e) {
-            $(".classifys").val("");
-            form.render("select");
-            //文本输入框
-            var txt = $("#Searchp").val();
-            //不为空
-            if ($.trim(txt) != "") {
-                //显示搜索内容相关的div
-                $(".category").hide().filter(":contains('" + txt + "')").show();
-                $(".product").hide().filter(":contains('" + txt + "')").show();
-            } else {
+                
+            } 
+            else{
                 $(".category").show();
                 $(".product").show();
             }

@@ -18,7 +18,6 @@
         <div class="layui-container">
              <div class="">
                  <a class="fly-logo" href="/"><img src="/logo.png"></a>
-                 <div class="fly-logo layui-form layui-hide-md @if(\Illuminate\Support\Facades\Request::path() != '/') layui-hide @endif" style="right:50px;width:150px"><input id="Searchm" type="text" placeholder="搜索商品或分类" value="" class="layui-input" autocomplete="off" ></div>
              </div>
             <ul class="layui-nav fly-nav" id="webmenu">
 				<li></li>
@@ -31,7 +30,6 @@
                 <li class="layui-nav-item layui-hide-xs @if(\Illuminate\Support\Facades\Request::path() == 'pages') layui-this @endif">
                     <a href="{{ url('pages') }}">文章中心</a>
                 </li>
-                 <li class="layui-form layui-hide-xs @if(\Illuminate\Support\Facades\Request::path() != '/') layui-hide @endif" style="position: relative;display: inline-block;*display: inline;*zoom: 1;vertical-align: middle;line-height: 60px;"><input id="Searchp" type="text" placeholder="搜索商品或分类" value="" class="layui-input" autocomplete="off" ></li>
             <span class="layui-nav-bar"></span></ul>
 			<ul class="layui-nav fly-nav-user">
 				<li class="layui-nav-item layui-hide-lg layui-hide-md layadmin-flexible">

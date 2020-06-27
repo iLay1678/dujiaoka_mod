@@ -6,24 +6,88 @@
 <script>
     document.title = '商品购买 - '+document.title;  
 </script>
-    <div class="layui-container cardcon" style="left:0px;">
-        <hr>
+<div class="layui-row">
+  <div class="layui-container">
+    <hr class="layui-bg-gray">
+    <fieldset class="layui-elem-field">
+      <legend>商品筛选</legend>
+      <div class="layui-field-box">
         <div class="layui-form layui-form-item">
-            <label class="layui-form-label">分类筛选</label>
-            <div style="position: relative;display: inline-block;*display: inline;*zoom: 1;vertical-align: middle;line-height: 60px;width:200px">
-                <select class="classifys" lay-filter="classifys">
-                    <option value="">请选择分类</option>
-                    @foreach($classifys as $classify)
-                        <option value="{{ $classify['name'] }}">{{ $classify['name'] }}</option>
-                    @endforeach
-                </select></div>
+          <div class="layui-inline">
+            <input id="Search" type="text" placeholder="搜索商品或分类" value="" class="layui-input" autocomplete="off"></div>
+          <div class="layui-inline">
+            <select class="classifys " lay-filter="classifys">
+              <option value="">请选择分类</option>
+              @foreach($classifys as $classify)
+              <option value="{{ $classify['name'] }}">{{ $classify['name'] }}</option>
+              @endforeach</select>
+          </div>
         </div>
-        <hr>
-    </div>
+      </div>
+    </fieldset>
+  </div>
+</div>
+    
     @foreach($classifys as $classify)
+    @if(Agent::isMobile())
+    <!--移动端-->
+        <div class="layui-row">
+            <div class="layui-container">
+                <div class="layui-card cardcon category">
+                    <div class="layui-card-header">{{ $classify['name'] }}</div>
+                    <div class="layui-card-body">
+                        <div class="layui-row">
+                            @foreach($classify['products'] as $product)
+                                <div class="layui-card-body product">
+                                    <a href="{{ url("/buy/{$product['id']}") }}">
+                                        <div class="layui-col-md3 layui-col-sm4 goodsdetail">
+                                            <div class="goodsdetail-mobile">
+                                                <div class="goodsdetail-mobile-img">
+                                                    <img src="{{ \Illuminate\Support\Facades\Storage::disk('admin')->url($product['pd_picture']) }}">
+                                                </div>
+                                                <div class="layui-hide">{{ $classify['name'] }}
+                                                    -{{ $product['pd_name'] }}</div>
+                                                <div class="goodsdetail-mobile-text">
+                                                    <p class="title">{{ $product['pd_name'] }}</p>
+                                                    <p class="biaozhi">
+                                                        <span class="price"><b>￥{{ $product['actual_price'] }}</b></span>
+                                                        @if($product['pd_type'] == 1)
+                                                            <span class="layui-badge layui-bg-black">自动发货</span>
+                                                        @else
+                                                            <span class="layui-badge layui-bg-gray">人工发货</span>
+                                                        @endif
+                                                        @if($product['wholesale_price'])
+                                                            &nbsp<span class="layui-badge layui-bg-blue">折扣</span>
+                                                        @endif
+                                                    </p>
+                                                    <p>
+                                                        <span>库存:{{$product['in_stock']}}&nbsp|&nbsp销量:{{ $product['sales_volume'] }}&nbsp</span>
+                                                    </p>
+                                                    <div class="goodsdetail-mobile-description">
+                                                        <p></p>
+                                                        <footer style="text-align: center;"></footer>
+                                                        <p></p>
+                                                        <div class="product-desc"
+                                                             style="text-align: start;">{!! $product['pd_info'] !!}</div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </a>
 
+                                </div>
+
+                            @endforeach
+
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+        @else
         <!--电脑端-->
-        <div class="layui-row layui-hide-xs category">
+        <div class="layui-row category">
             <div class="layui-container">
                 <div class="layui-card cardcon">
                     <div class="layui-card-header">{{ $classify['name'] }}</div>
@@ -106,62 +170,8 @@
             </div>
         </div>
 
-        <!--移动端-->
-        <div class="layui-row layui-hide-md">
-            <div class="layui-container">
-                <div class="layui-card cardcon category">
-                    <div class="layui-card-header">{{ $classify['name'] }}</div>
-                    <div class="layui-card-body">
-                        <div class="layui-row">
-                            @foreach($classify['products'] as $product)
-                                <div class="layui-card-body product">
-                                    <a href="{{ url("/buy/{$product['id']}") }}">
-                                        <div class="layui-col-md3 layui-col-sm4 goodsdetail">
-                                            <div class="goodsdetail-mobile">
-                                                <div class="goodsdetail-mobile-img">
-                                                    <img src="{{ \Illuminate\Support\Facades\Storage::disk('admin')->url($product['pd_picture']) }}">
-                                                </div>
-                                                <div class="layui-hide">{{ $classify['name'] }}
-                                                    -{{ $product['pd_name'] }}</div>
-                                                <div class="goodsdetail-mobile-text">
-                                                    <p class="title">{{ $product['pd_name'] }}</p>
-                                                    <p class="biaozhi">
-                                                        <span class="price"><b>￥{{ $product['actual_price'] }}</b></span>
-                                                        @if($product['pd_type'] == 1)
-                                                            <span class="layui-badge layui-bg-black">自动发货</span>
-                                                        @else
-                                                            <span class="layui-badge layui-bg-gray">人工发货</span>
-                                                        @endif
-                                                        @if($product['wholesale_price'])
-                                                            &nbsp<span class="layui-badge layui-bg-blue">折扣</span>
-                                                        @endif
-                                                    </p>
-                                                    <p>
-                                                        <span>库存:{{$product['in_stock']}}&nbsp|&nbsp销量:{{ $product['sales_volume'] }}&nbsp</span>
-                                                    </p>
-                                                    <div class="goodsdetail-mobile-description">
-                                                        <p></p>
-                                                        <footer style="text-align: center;"></footer>
-                                                        <p></p>
-                                                        <div class="product-desc"
-                                                             style="text-align: start;">{!! $product['pd_info'] !!}</div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </a>
-
-                                </div>
-
-                            @endforeach
-
-                        </div>
-
-                    </div>
-                </div>
-            </div>
-        </div>
-
+        
+    @endif
     @endforeach
     <div id="layerad" style="display: none;">{!! config('webset.layerad') !!}</div>
 @stop
