@@ -42,12 +42,14 @@
                                     <a href="{{ url("/buy/{$product['id']}") }}">
                                         <div class="layui-col-md3 layui-col-sm4 goodsdetail">
                                             <div class="goodsdetail-mobile">
-                                                <div class="goodsdetail-mobile-img">
+                                               <div class="goodsdetail-mobile-img">
                                                     <img src="{{ \Illuminate\Support\Facades\Storage::disk('admin')->url($product['pd_picture']) }}">
                                                 </div>
                                                 <div class="layui-hide">{{ $classify['name'] }}
                                                     -{{ $product['pd_name'] }}</div>
                                                 <div class="goodsdetail-mobile-text">
+                                                    <div class="title"><strong>{{ $product['pd_name'] }}</strong></div>
+                                                    <span class="price"><b>￥{{ $product['actual_price'] }}</b></span>&nbsp
                                                     @if($product['pd_type'] == 1)
                                                             <span class="layui-badge layui-bg-green">自动发货</span>
                                                         @else
@@ -56,12 +58,11 @@
                                                         @if($product['wholesale_price'])
                                                             &nbsp<span class="layui-badge layui-bg-blue">折扣</span>
                                                         @endif
-                                                    <div class="title">{{ $product['pd_name'] }}</div>
                                                     <p class="biaozhi">
                                                         
                                                     </p>
                                                     <p>
-                                                        <span>库存:{{$product['in_stock']}}&nbsp|&nbsp销量:{{ $product['sales_volume'] }}&nbsp|&nbsp<span class="price"><b>￥{{ $product['actual_price'] }}</b></span></span>
+                                                        <span>库存:{{$product['in_stock']}}&nbsp|&nbsp销量:{{ $product['sales_volume'] }}&nbsp</span>
                                                     </p>
                                                     <!--<div class="goodsdetail-mobile-description">
                                                         <p></p>
