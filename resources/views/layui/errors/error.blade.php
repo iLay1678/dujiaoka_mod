@@ -12,9 +12,9 @@
                         </p>
                         <p class="errpanl" style="text-align: center">
                             @if(!$url)
-                                <a href="javascript:history.back(-1);"  class="layui-btn layui-btn-sm">返回</a>
+                                <a href="javascript:history.back(-1);"  class="layui-btn layui-btn-sm">{{ __('system.back_btn') }}</a>
                             @else
-                                <a href="{{ $url }}"  class="layui-btn layui-btn-sm">返回</a>
+                                <a href="{{ $url }}"  class="layui-btn layui-btn-sm">{{ __('system.back_btn') }}</a>
                             @endif
                         </p>
                     </div>

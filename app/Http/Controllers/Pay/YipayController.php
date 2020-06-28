@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Pay;
 
+use App\Exceptions\AppException;
 use App\Models\Pays;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Redis;
@@ -13,10 +14,8 @@ class YipayController extends PayController
 
     public function gateway($payway, $oid)
     {
-        $check = $this->checkOrder($payway, $oid);
-        if ($check !== true) {
-            return $this->error($check);
-        }
+        $this->checkOrder($payway, $oid);
+
         //组装支付参数
         $parameter = [
             'pid' => (int)$this->payInfo['merchant_id'],
@@ -102,7 +101,7 @@ class YipayController extends PayController
                 }
 
             } catch (\Exception $e) {
-                return $this->error('易支付异常：' . $e->getMessage());
+                throw new AppException('易支付异常：' . $e->getMessage());
             }
         }
     }
@@ -121,7 +120,7 @@ class YipayController extends PayController
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
         //参数为0表示不带头文件，为1表示带头文件
         curl_setopt($ch, CURLOPT_HEADER, 0);
-        curl_setopt($ch, CURLOPT_FOLLOWLOCATION,1); 
+        curl_setopt($ch, CURLOPT_FOLLOWLOCATION,1);
         $output = curl_exec($ch);
         curl_close($ch);
 

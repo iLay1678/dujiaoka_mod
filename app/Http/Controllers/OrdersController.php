@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Exceptions\AppException;
 use App\Models\Orders;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Cookie;
@@ -43,8 +44,8 @@ class OrdersController extends Controller
     public function searchOrderById($oid = "")
     {
         $orderId =  \request()->input('order_id') ? \request()->input('order_id') : $oid;
-        $order = Orders::where('order_id', $orderId)->get()->toArray();
-        if (empty($orderId) || empty($order)) return $this->error('订单信息不存在！', url('searchOrder'));
+        $order = Orders::where('order_id', $orderId)->get();
+        if (empty($orderId) || empty($order)) throw new AppException('订单信息不存在！');
         return $this->view('static_pages/orderinfo', ['orders' => $order]);
     }
 
@@ -53,14 +54,13 @@ class OrdersController extends Controller
      */
     public function searchOrderByAccount(Request $request)
     {
-        
+
         $data = $request->only(['account', 'search_pwd']);
-        if (empty($data['account']) || empty($data['search_pwd'])) return $this->error('必填项不能为空', url('searchOrder'));
+        if (empty($data['account']) || empty($data['search_pwd']))  throw new AppException('必填项不能为空');
         $orders = Orders::where(['account' => $data['account'], 'search_pwd' => $data['search_pwd']])
             ->orderBy('created_at', 'desc')
-            ->get()
-            ->toArray();
-        if (empty($orders)) return $this->error('未找到相关订单！', url('searchOrder'));
+            ->get();
+        if (empty($orders)) throw new AppException('未找到相关订单！');
         return $this->view('static_pages/orderinfo', ['orders' => $orders]);
     }
 
@@ -70,14 +70,14 @@ class OrdersController extends Controller
     public function searchOrderByBrowser()
     {
         $cookies = Cookie::get('orders');
-        if (empty($cookies)) return $this->error('未找到相关订单缓存', url('searchOrder'));
+        if (empty($cookies)) throw new AppException('未找到相关订单缓存');
         $orderIds = json_decode($cookies, true);
         $orders = Orders::whereIn('order_id', $orderIds)
             ->orderBy('created_at', 'desc')
             ->take(5)
             ->get()
             ->toArray();
-        if (empty($orders)) return $this->error('未找到相关订单！', url('searchOrder'));
+        if (empty($orders)) throw new AppException('未找到相关订单！', url('searchOrder'));
         return $this->view('static_pages/orderinfo', ['orders' => $orders]);
 
     }

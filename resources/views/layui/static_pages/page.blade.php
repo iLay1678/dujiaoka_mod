@@ -1,7 +1,7 @@
 @extends('layui.layouts.default')
 @section('content')
 <script>
-    document.title = '{{ $title }} - '+document.title;  
+    document.title = '{{ $title }} - '+document.title;
 </script>
 <div class="">
 
@@ -13,7 +13,7 @@
                     <h2>{{ $title }}</h2>
                     <hr>
                     {!! $content !!}
-                    <p>更新于：{{$updated_at}}</p>
+                    <p>{{ __('system.update_time') }}：{{$updated_at}}</p>
                 </div>
             </div>
         </div>

@@ -40,24 +40,5 @@ class Orders extends Model
         return $this->belongsTo(Pays::class, 'pay_way');
     }
 
-    /**
-     * 格式化批发价
-     * @param $cacheOrder
-     * @param $product
-     */
-    public static function wholesalePrice($cacheOrder = [], $product = [], $data = [])
-    {
-        $wholesaleAll = explode(PHP_EOL, $product['wholesale_price']);
-        $actual_price = $cacheOrder['actual_price'] * $data['order_number'];
-        foreach ($wholesaleAll as $wholesale) {
-            $wholesaleInfo = explode('=', delete_html($wholesale));
-            $wnum = $wholesaleInfo[0];
-            $wmoney = $wholesaleInfo[1];
-            if ($data['order_number'] >= $wnum) {
-                $actual_price = $wmoney * $data['order_number'];
-            }
-        }
-        return $actual_price;
-    }
 
 }

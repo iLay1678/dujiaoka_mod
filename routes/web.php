@@ -11,17 +11,19 @@
 |
 */
 
-Route::get('/', 'HomeController@index');
-Route::match(['get', 'post'],'buy/{product}', 'HomeController@buy');
-Route::get('bill/{orderid}', 'HomeController@bill');
-Route::get('pages', 'HomeController@pages');
-Route::get('pages/{tag}.html', 'HomeController@page');
-Route::post('postOrder', 'HomeController@postOrder');
-Route::get('getOrderStatus/{orderid}', 'OrdersController@getOrderStatus');
-Route::get('searchOrder', 'OrdersController@searchOrder');
-Route::match(['get', 'post'], 'searchOrderById/{oid?}', 'OrdersController@searchOrderById');
-Route::post('searchOrderByAccount', 'OrdersController@searchOrderByAccount');
-Route::get('searchOrderByBrowser', 'OrdersController@searchOrderByBrowser');
+Route::group(['middleware' => ['switch.language']], function () {
+    Route::get('/', 'HomeController@index');
+    Route::match(['get', 'post'],'buy/{product}', 'HomeController@buy');
+    Route::get('bill/{orderid}', 'HomeController@bill');
+    Route::get('pages', 'HomeController@pages');
+    Route::get('pages/{tag}.html', 'HomeController@page');
+    Route::post('postOrder', 'HomeController@postOrder');
+    Route::get('getOrderStatus/{orderid}', 'OrdersController@getOrderStatus');
+    Route::get('searchOrder', 'OrdersController@searchOrder');
+    Route::match(['get', 'post'], 'searchOrderById/{oid?}', 'OrdersController@searchOrderById');
+    Route::post('searchOrderByAccount', 'OrdersController@searchOrderByAccount');
+    Route::get('searchOrderByBrowser', 'OrdersController@searchOrderByBrowser');
+});
 
 //api相关
 Route::group(['prefix' => 'api'], function () {

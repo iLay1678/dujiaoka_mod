@@ -22,13 +22,13 @@
             <ul class="layui-nav fly-nav" id="webmenu">
 				<li></li>
                  <li class="layui-nav-item layui-hide-xs layui-nav-item @if(\Illuminate\Support\Facades\Request::path() == '/') layui-this @endif">
-                    <a href="/">购买商品</a>
+                    <a href="/">{{__('system.home_page')}}</a>
                 </li>
                 <li class="layui-nav-item layui-hide-xs @if(\Illuminate\Support\Facades\Request::path() == 'searchOrder') layui-this @endif">
-                    <a href="{{ url('searchOrder') }}">查询订单</a>
+                    <a href="{{ url('searchOrder') }}">{{ __('system.order_search') }}</a>
                 </li>
                 <li class="layui-nav-item layui-hide-xs @if(\Illuminate\Support\Facades\Request::path() == 'pages') layui-this @endif">
-                    <a href="{{ url('pages') }}">文章中心</a>
+                    <a href="{{ url('pages') }}">{{ __('system.article_page') }}</a>
                 </li>
             <span class="layui-nav-bar"></span></ul>
 			<ul class="layui-nav fly-nav-user">
@@ -44,9 +44,9 @@
   <li class="layui-nav-item layui-nav-itemed">
     <!-- <a href="javascript:;">主菜单</a> -->
     <dl class="layui-nav-child">
-				<dd><a href="/">商店首页</a></dd>
-		<dd><a href="{{ url('searchOrder') }}">查询订单</a></dd>
-		<dd><a href="{{ url('pages') }}">文章中心</a></dd>
+				<dd><a href="/">{{__('system.home_page')}}</a></dd>
+		<dd><a href="{{ url('searchOrder') }}">{{ __('system.order_search') }}</a></dd>
+		<dd><a href="{{ url('pages') }}">{{ __('system.article_page') }}</a></dd>
 	</dl>
   </li>
 <span class="layui-nav-bar"></span></ul>

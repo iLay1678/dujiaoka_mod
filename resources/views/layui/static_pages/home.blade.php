@@ -4,20 +4,20 @@
 @endsection
 @section('content')
 <script>
-    document.title = '商品购买 - '+document.title;  
+    document.title = '{{ __('system.home_page') }} - '+document.title;
 </script>
 <div class="layui-row">
   <div class="layui-container">
     <hr class="layui-bg-gray">
     <fieldset class="layui-elem-field">
-      <legend>商品筛选</legend>
+      <legend>{{ __('system.product') }}</legend>
       <div class="layui-field-box">
         <div class="layui-form layui-form-item">
           <div class="layui-inline">
-            <input id="Search" type="text" placeholder="搜索商品或分类" value="" class="layui-input" autocomplete="off"></div>
+            <input id="Search" type="text" placeholder="{{ __('system.search_for_products_or_categories') }}" value="" class="layui-input" autocomplete="off"></div>
           <div class="layui-inline">
             <select class="classifys " lay-filter="classifys">
-              <option value="">请选择分类</option>
+              <option value="">{{ __('system.choose_categories‘) }}</option>
               @foreach($classifys as $classify)
               <option value="{{ $classify['name'] }}">{{ $classify['name'] }}</option>
               @endforeach</select>
@@ -27,7 +27,7 @@
     </fieldset>
   </div>
 </div>
-    
+
     @foreach($classifys as $classify)
     @if(Agent::isMobile())
     <!--移动端-->
@@ -51,18 +51,18 @@
                                                     <div class="title"><strong>{{ $product['pd_name'] }}</strong></div>
                                                     <span class="price"><b>￥{{ $product['actual_price'] }}</b></span>&nbsp
                                                     @if($product['pd_type'] == 1)
-                                                            <span class="layui-badge layui-bg-green">自动发货</span>
+                                                            <span class="layui-badge layui-bg-green">{{ __('system.automatic_delivery') }}</span>
                                                         @else
-                                                            <span class="layui-badge layui-bg-black">人工发货</span>
+                                                            <span class="layui-badge layui-bg-black">{{ __('system.charge') }}</span>
                                                         @endif
                                                         @if($product['wholesale_price'])
-                                                            &nbsp<span class="layui-badge layui-bg-blue">折扣</span>
+                                                            &nbsp<span class="layui-badge layui-bg-blue">{{ __('system.discount') }}</span>
                                                         @endif
                                                     <p class="biaozhi">
-                                                        
+
                                                     </p>
                                                     <p>
-                                                        <span>库存:{{$product['in_stock']}}&nbsp|&nbsp销量:{{ $product['sales_volume'] }}&nbsp</span>
+                                                        <span>{{ __('system.in_stock') }}:{{$product['in_stock']}}&nbsp|&nbsp{{ __('system.sales') }}:{{ $product['sales_volume'] }}&nbsp</span>
                                                     </p>
                                                     <!--<div class="goodsdetail-mobile-description">
                                                         <p></p>
@@ -105,12 +105,12 @@
                             </colgroup>
                             <thead>
                             <tr>
-                                <th>商品名称</th>
-                                <th>发货模式</th>
-                                <th>库存</th>
-                                <th>销量</th>
-                                <th>单价</th>
-                                <th style="text-align: center !important;">操作</th>
+                                <th>{{ __('system.product_name') }}</th>
+                                <th>{{ __('system.sale_mode') }}</th>
+                                <th>{{ __('system.in_stock') }}</th>
+                                <th>{{ __('system.sales') }}</th>
+                                <th>{{ __('system.sale_price') }}</th>
+                                <th style="text-align: center !important;">{{ __('system.operate') }}</th>
                             </tr>
                             </thead>
                             <tbody class="layui-collapse">
@@ -133,7 +133,7 @@
                                     <td class="layui-hide">{{ $classify['name'] }}-{{ $product['pd_name'] }}</td>
                                     <td><strong class="layui-colla-title">{{ $product['pd_name'] }}
                                             @if($product['wholesale_price'])
-                                                &nbsp<span class="layui-badge layui-bg-blue">折扣</span>
+                                                &nbsp<span class="layui-badge layui-bg-blue">{{ __('system.discount') }}</span>
                                             @endif
                                             <i class="layui-icon layui-colla-icon"></i></strong>
                                         <div class="layui-colla-content">
@@ -142,9 +142,9 @@
                                     </td>
                                     <td>
                                         @if($product['pd_type'] == 1)
-                                            <span class="layui-badge layui-bg-green">自动发货</span>
+                                            <span class="layui-badge layui-bg-green">{{ __('system.automatic_delivery') }}</span>
                                         @else
-                                            <span class="layui-badge layui-bg-black">人工发货</span>
+                                            <span class="layui-badge layui-bg-black">{{ __('system.charge') }}</span>
                                         @endif
                                     </td>
                                     <td>{{ $product['in_stock'] }}</td>
@@ -153,10 +153,10 @@
                                     <td align="center">
                                         @if($product['in_stock'] > 0)
                                             <a href="{{ url("/buy/{$product['id']}") }}"
-                                               class="layui-btn  layui-btn-sm layui-btn-normal">购买<i
+                                               class="layui-btn  layui-btn-sm layui-btn-normal">{{ __('system.buy') }}<i
                                                         class="layui-icon layui-icon-cart"></i></a>
                                         @else
-                                            <a href="#" class="layui-btn  layui-btn-sm layui-btn-disabled">购买<i
+                                            <a href="#" class="layui-btn  layui-btn-sm layui-btn-disabled">{{ __('system.buy') }}<i
                                                         class="layui-icon layui-icon-cart"></i></a>
                                         @endif
                                     </td>
@@ -171,7 +171,7 @@
             </div>
         </div>
 
-        
+
     @endif
     @endforeach
     <div id="layerad" style="display: none;">{!! config('webset.layerad') !!}</div>

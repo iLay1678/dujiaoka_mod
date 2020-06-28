@@ -1,6 +1,7 @@
 <?php
 namespace App\Http\Controllers\Pay;
 
+use App\Exceptions\AppException;
 use App\Models\Pays;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Redis;
@@ -9,10 +10,7 @@ class MugglepayController extends PayController
 
     public function gateway($payway, $oid)
     {
-        $check = $this->checkOrder($payway, $oid);
-        if ($check !== true) {
-            return $this->error($check);
-        }
+        $this->checkOrder($payway, $oid);
         //构造要请求的参数数组，无需改动
         switch ($this->payInfo['pay_check']) {
             case 'mgcoin':
@@ -35,7 +33,7 @@ class MugglepayController extends PayController
                     $payment_url = json_decode($response, true)['payment_url'];
                     return redirect()->away($payment_url);
                 } catch (\Exception $e) {
-                    return $this->error('支付通道异常~ ' . $e->getMessage());
+                    throw new AppException('支付通道异常~ ' . $e->getMessage());
                 }
                 break;
         }

@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Pay;
 require_once('lib/stripe/init.php');
 
+use App\Exceptions\AppException;
 use App\Models\Pays;
 use Illuminate\Http\Request;
 use GuzzleHttp\Client;
@@ -15,10 +16,7 @@ class StripeController extends PayController
     {
 
 
-        $check = $this->checkOrder($payway, $oid);
-        if ($check !== true) {
-            return $this->error($check);
-        }
+        $this->checkOrder($payway, $oid);
         //构造要请求的参数数组，无需改动
         switch ($this->payInfo['pay_check']) {
             case 'wx':
@@ -132,15 +130,15 @@ class StripeController extends PayController
   <ul class=\"am-tabs-nav am-nav am-nav-tabs\">
     <li class=\"am-active\"><a href=\"#alipay\">Alipay 支付宝</a></li>
     <li class=\"request-wechat-pay\"><a href=\"#wcpay\">微信支付</a></li>
-    
-    
+
+
 </ul>
 
   <div class=\"am-tabs-bd am-tabs-bd-ofv\" style=\"touch-action: pan-y; user-select: none; -webkit-user-drag: none; -webkit-tap-highlight-color: rgba(0, 0, 0, 0);\">
     <div class=\"am-tab-panel am-active\" id=\"alipay\">
-        
+
           <a class=\"am-btn am-btn-lg am-btn-warning am-btn-primary\" id=\"alipaybtn\" href=\"#\">进入支付宝付款</a>
-       
+
         <p></p>
     </div>
     <div class=\"am-tab-panel am-fade\" id=\"wcpay\">
@@ -150,12 +148,12 @@ class StripeController extends PayController
           </div>
          </div>
     </div>
-    
-        
 
-    
 
-    
+
+
+
+
      </div>
 </div>
 </div>
@@ -224,7 +222,7 @@ $(\".request-wechat-pay\").click(function(){
         alert(\"微信支付加载失败\");
         $(\".wcpay-qrcode\").html(\"<p class='am-alert am-alert-danger'>加载失败，请刷新页面。</p>\");
       }
-      
+
       // handle result.error or result.source
     });
   }
@@ -239,7 +237,7 @@ $(\".request-wechat-pay\").click(function(){
 
                     return $html;
                 } catch (\Exception $e) {
-                    return $this->error('支付通道异常~ ' . $e->getMessage());
+                    throw new AppException('支付通道异常~ ' . $e->getMessage());
                 }
                 break;
         }

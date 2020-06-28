@@ -7,7 +7,7 @@
 
 namespace App\Http\Controllers\Pay;
 
-
+use App\Exceptions\AppException;
 use App\Models\Pays;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Redis;
@@ -19,10 +19,7 @@ class BitpayController extends PayController
     public function gateway($payway, $oid)
     {
 
-        $check = $this->checkOrder($payway, $oid);
-        if ($check !== true) {
-            return $this->error($check);
-        }
+        $this->checkOrder($payway, $oid);
         //构造要请求的参数数组，无需改动
         try{
         $BASE_URL = 'https://www.blockonomics.co';
@@ -35,12 +32,12 @@ $orderid=$this->orderInfo['order_id'];
 $buy_amount=$this->orderInfo['buy_amount'];
 $product_name=$this->orderInfo['product_name'];
 $product_price=$this->orderInfo['product_price'];
-$options = array( 
+$options = array(
     'http' => array(
         'header'  => 'Authorization: Bearer '.$API_KEY,
         'method'  => 'POST',
         'content' => $data
-    )   
+    )
 );
 $total_cost = number_format((float)$this->orderInfo['actual_price'],2,'.','');
 $bitpays=json_decode(Redis::hget('BITPAY_LIST', $orderid),true);
@@ -56,14 +53,14 @@ if (isset($new_address->address)) {
   $new_address= $new_address->address;
 }
 //Getting price
-$options = array( 'http' => array( 'method'  => 'GET') );  
+$options = array( 'http' => array( 'method'  => 'GET') );
 $context = stream_context_create($options);
 $contents = file_get_contents($PRICE_URL, false, $context);
 $price = json_decode($contents);
 $value=intval(1.0e8*$total_cost/$price->price);
 $timestamp=time();
 if(Redis::hget('BITPAY_LIST', $value)){
-   $value=$value+1; 
+   $value=$value+1;
 }
 $bitpays=[
     'orderid'=>$orderid,
@@ -148,7 +145,7 @@ $html="<html ng-app=\"shopping-cart-demo\" class=\"ng-scope\"><head><style type=
     <style>input{text-align:center}#shopping-cart{width:20rem;flex:none;margin:0 auto}.card{display:inline-block;width:300px;margin:10px}.invoice{max-width:1000px}.status-form{text-align:center}@media (max-width:979px){.card-container{text-align:center}.invoice{width:100%}}</style>
   </head>
   <body>
-    
+
 
     <!-- ngView:  --><div class=\"section ng-scope\" ng-view=\"\"><div class=\"container invoice ng-scope\">
   <h4 class=\"title is-4 ng-binding\">订单号: $orderid</h4>
@@ -238,31 +235,31 @@ function check(){
             }
     );
 }
-        
+
 
     </script>
-    
+
   </div>
 
-  
+
 </div>
 </div>
 
-    
-    
-    
-    
-    
-    
-  
+
+
+
+
+
+
+
 
 </body></html>";
             return response($html, 200);
         }catch (\Exception $e) {
-                    return $this->error('支付通道异常~ ' . $e->getMessage());
+                    throw new AppException('支付通道异常~ ' . $e->getMessage());
                 }
 
-        
+
     }
 
 

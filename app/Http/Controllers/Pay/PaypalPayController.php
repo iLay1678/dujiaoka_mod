@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers\Pay;
 
-
+use App\Exceptions\AppException;
 use App\Models\Pays;
 use GuzzleHttp\Client;
 use Illuminate\Http\Request;
@@ -26,10 +26,8 @@ class PaypalPayController extends PayController
 
     public function gateway($payway, $oid)
     {
-        $check = $this->checkOrder($payway, $oid);
-        if($check !== true) {
-            return $this->error($check);
-        }
+        $this->checkOrder($payway, $oid);
+
         // paypal id
         $clientId = $this->payInfo['merchant_id'];
         // paypal 密钥
@@ -52,7 +50,7 @@ class PaypalPayController extends PayController
         try {
             $price = number_format($this->getUsdCurrency($this->orderInfo['actual_price']), 2,'.','');
         } catch (\Exception $exception) {
-            return $this->error($exception->getMessage());
+            throw new AppException($exception->getMessage());
         }
         $shipping = 0;
         $total = $price + $shipping;//总价
@@ -74,7 +72,7 @@ class PaypalPayController extends PayController
         try {
             $payment->create($paypal);
         } catch (PayPalConnectionException $e) {
-            return $this->error('支付通道异常~ '.$e->getData());
+            throw new AppException('支付通道异常~ '.$e->getData());
         }
         $approvalUrl = $payment->getApprovalLink();
         return redirect($approvalUrl);
@@ -116,7 +114,7 @@ class PaypalPayController extends PayController
                 return redirect(site_url().'searchOrderById?order_id='.$oid);
             }
         } catch(\Exception $e) {
-           return $this->error('paypal异常：' . $e->getMessage());
+           throw new AppException('paypal异常：' . $e->getMessage());
         }
     }
 

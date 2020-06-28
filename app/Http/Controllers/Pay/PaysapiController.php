@@ -1,7 +1,7 @@
 <?php
 namespace App\Http\Controllers\Pay;
 
-
+use App\Exceptions\AppException;
 use App\Models\Pays;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Redis;
@@ -13,10 +13,8 @@ class PaysapiController extends PayController
 
     public function gateway($payway, $oid)
     {
-        $check = $this->checkOrder($payway, $oid);
-        if($check !== true) {
-            return $this->error($check);
-        }
+        $this->checkOrder($payway, $oid);
+
         //从网页传入price:支付价格， istype:支付渠道：1-支付宝；2-微信支付
         $price = (float)$this->orderInfo['actual_price'];
         $orderuid = $this->orderInfo['account'];       //此处传入您网站用户的用户名，方便在paysapi后台查看是谁付的款，强烈建议加上。可忽略。

@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers\Pay;
 
-
+use App\Exceptions\AppException;
 use App\Models\Pays;
 use Illuminate\Http\Request;
 use Yansongda\Pay\Pay;
@@ -20,10 +20,7 @@ class AlipayController extends PayController
      */
     public function gateway($payway, $oid)
     {
-        $check = $this->checkOrder($payway, $oid);
-        if($check !== true) {
-            return $this->error($check);
-        }
+        $this->checkOrder($payway, $oid);
         $config = [
             'app_id' => $this->payInfo['merchant_id'],
             'ali_public_key' => $this->payInfo['merchant_key'],
@@ -51,7 +48,7 @@ class AlipayController extends PayController
                     $result['jump_payuri'] = $result['qr_code'];
                     return $this->view('static_pages/qrpay', $result);
                 } catch (\Exception $e) {
-                    return $this->error('支付通道异常~ '.$e->getMessage());
+                    throw new AppException('支付通道异常~ '.$e->getMessage());
                 }
                 break;
             case 'aliweb':
@@ -59,7 +56,7 @@ class AlipayController extends PayController
                     $result = Pay::alipay($config)->web($order);
                     return $result;
                 } catch (\Exception $e) {
-                    return $this->error('支付通道异常~');
+                    throw new AppException('支付通道异常~');
                 }
                 break;
 

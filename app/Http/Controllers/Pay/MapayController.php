@@ -13,10 +13,7 @@ class MapayController extends PayController
 
     public function gateway($payway, $oid)
     {
-        $check = $this->checkOrder($payway, $oid);
-        if($check !== true) {
-            return $this->error($check);
-        }
+        $this->checkOrder($payway, $oid);
         //构造要请求的参数数组，无需改动
         $parameter = array(
             "id" => (int)$this->payInfo['merchant_id'],//平台ID号

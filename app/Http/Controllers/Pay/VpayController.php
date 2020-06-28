@@ -8,7 +8,7 @@
 
 namespace App\Http\Controllers\Pay;
 
-
+use App\Exceptions\AppException;
 use App\Models\Pays;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Redis;
@@ -20,10 +20,8 @@ class VpayController extends PayController
     public function gateway($payway, $oid)
     {
 
-        $check = $this->checkOrder($payway, $oid);
-        if ($check !== true) {
-            return $this->error($check);
-        }
+        $this->checkOrder($payway, $oid);
+
         //构造要请求的参数数组，无需改动
         $parameter = array(
             "payId" => date('YmdHis') . rand(1, 65535),//平台ID号

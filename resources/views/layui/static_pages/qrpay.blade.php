@@ -1,24 +1,24 @@
 @extends('layui.layouts.default')
 @section('content')
 <script>
-    document.title = '扫码支付 - '+document.title;  
+    document.title = '{{ __('system.scan_code_to_pay') }} - '+document.title;
 </script>
     <div class="layui-row">
         <div class="layui-container">
 
             <div class="layui-card cardcon">
-                <div class="layui-card-header">扫码支付</div>
+                <div class="layui-card-header">{{ __('system.scan_code_to_pay') }}</div>
 
                 <div class="layui-card-body">
                     <div class="product-info">
-                        <p style="color: #1E9FFF;font-size: 20px;font-weight: 500; text-align: center" >支付方式：[{{ $payname }}], 请打开APP扫码支付！有效期{{ config('app.order_expire_date') }}分钟</p>
+                        <p style="color: #1E9FFF;font-size: 20px;font-weight: 500; text-align: center" >{{ __('system.payment_method') }}：[{{ $payname }}], {{ __('system.order_expiration_date') }}{{ config('app.order_expire_date') }}{{ __('system.expiration_date') }}</p>
                     </div>
                     <div style="text-align: center; width: 100%; border: #1E9FFF solid 1px;">
-                    <p class="product-pay-price">支付金额: {{ $actual_price }}</p>
+                    <p class="product-pay-price">{{ __('system.actual_payment') }}: {{ $actual_price }}</p>
                     <img  src="data:image/png;base64,{!! base64_encode(QrCode::format('png')->size(200)->generate($qr_code)) !!}">
                     </div>
                     <div class="layui-hide-md">
-                       <p class="errpanl" style="text-align: center"><a href='' id='toalipay' class="layui-btn layui-btn-warm layui-btn-sm">打开支付宝支付</a></p>
+                        <p class="errpanl" style="text-align: center"><a href="{{ $jump_payuri }}" class="layui-btn layui-btn-warm layui-btn-sm">{{ __('system.open_app_to_pay') }}</a></p>
                   <script>var schemeurl = 'alipays://platformapi/startapp?appId=20000067&url='+encodeURIComponent('{{ $jump_payuri }}');
                 document.getElementById("toalipay").href=schemeurl;</script>
                     </div>
@@ -43,7 +43,7 @@
                 success:function(res) {
                     if (res.code == 400001) {
                         window.clearTimeout(timer);
-                        layer.alert('订单已超时，为您返回首页', {
+                        layer.alert("{{ __('prompt.order_pay_timeout') }}", {
                             icon: 2
                         }, function(){
                             window.location.href = '/'
@@ -52,7 +52,7 @@
                     }
                     if (res.code == 200) {
                         window.clearTimeout(timer);
-                        layer.alert('支付成功', {
+                        layer.alert("{{ __('prompt.payment_successful') }}", {
                             icon: 1
                         }, function(){
                             window.location.href = "{{ url('searchOrderById', ['order_id' => $orderid]) }}"

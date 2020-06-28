@@ -1,6 +1,7 @@
 <?php
 namespace App\Http\Controllers\Pay;
 
+use App\Exceptions\AppException;
 use App\Models\Pays;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Redis;
@@ -8,12 +9,9 @@ class KingController extends PayController
 {
     public function fubei($payway, $oid)
     {
-        $check = $this->checkOrder($payway, $oid);
-        if ($check !== true) {
-            return $this->error($check);
-        }
+        $this->checkOrder($payway, $oid);
         //构造要请求的参数数组，无需改动
-     
+
         switch ($this->payInfo['pay_check']) {
             case 'aliqr':
                 $data = ["app_id" => '20181226104750540837', "method" => "openapi.payment.order.scan", "format" => "json", "sign_method" => "md5", "nonce" => "ilay1380"];
@@ -29,7 +27,7 @@ class KingController extends PayController
                     $result['jump_payuri'] = $result['qr_code'];
                     return $this->view('static_pages/qrpay', $result);
                 } catch (\Exception $e) {
-                    return $this->error('请重新下单');
+                    throw new AppException('请重新下单');
                 }
                 break;
             case 'wechat':
@@ -85,7 +83,7 @@ class KingController extends PayController
     {
         $check = $this->checkOrder($payway, $oid);
         if ($check !== true) {
-            return $this->error($check);
+            throw new AppException($check);
         }
         //构造要请求的参数数组，无需改动
         switch ($this->payInfo['pay_check']) {
@@ -109,16 +107,16 @@ class KingController extends PayController
                     $payment_url = json_decode($response, true)['payment_url'];
                      return redirect()->away($payment_url);
                 } catch (\Exception $e) {
-                    return $this->error('支付通道异常~ ' . $e->getMessage());
+                    throw new AppException('支付通道异常~ ' . $e->getMessage());
                 }
                 break;
         }
-       
+
     }
     public function mugglepaynotify(Request $request)
     {
         $data = json_decode(file_get_contents('php://input'),true);
-       
+
         $cacheord = json_decode(Redis::hget('PENDING_ORDERS_LIST', $data['merchant_order_id']), true);
         if (!$cacheord) {
             return 'fail';

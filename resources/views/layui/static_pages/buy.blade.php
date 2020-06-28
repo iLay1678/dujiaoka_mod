@@ -21,15 +21,15 @@
                     {{ csrf_field() }}
                     <p>{{ config('webset.title') }}</p>
                     <div class="lowin-group">
-                        <label>请输入商品密码</label>
+                        <label>{{__('system.input_product_password')}}</label>
                         <input type="password" name="pwd" class="lowin-input" required="">
                     </div>
                     <button class="lowin-btn">
-                        确认
+                        {{__('system.ok_btn')}}
                     </button>
                     <div class="text-foot">
-                        <a href="/" class="login-link">店铺首页</a>
-                    </div>                    
+                        <a href="/" class="login-link">{{__('system.home_page')}}</a>
+                    </div>
                 </form>
             </div>
         </div>
@@ -59,14 +59,14 @@ exit();
                     {{ csrf_field() }}
                     <p>{{ config('webset.title') }}</p>
                     <div class="lowin-group">
-                        <label>密码错误，请重新输入</label>
+                        <label>{{__('system.wrong_product_password')}}</label>
                         <input type="password" name="pwd" class="lowin-input" required="">
                     </div>
                     <button class="lowin-btn">
-                        确认
+                        {{__('system.ok_btn')}}
                     </button>
                     <div class="text-foot">
-                        <a href="/" class="login-link">店铺首页</a>
+                        <a href="/" class="login-link">{{__('system.home_page')}}</a>
                     </div>
                 </form>
             </div>
@@ -81,7 +81,7 @@ exit();
 @endif
 @endif
 <script>
-    document.title = '{{ $pd_name }}_购买商品 - ' + document.title;
+    document.title = '{{ $pd_name }}_{{ __('system.place_an_order') }} - ' + document.title;
 </script>
 <div class="layui-row">
     <div class="layui-container">
@@ -100,7 +100,7 @@ exit();
                                 <img
                                     src="data:image/png;base64,{!! base64_encode(QrCode::format('png')->size(200)->generate(Request::url())) !!}"
                                     width="100%" height="100%">
-                                <p style="text-align: center">手机扫码购买</p>
+                                <p style="text-align: center">{{ __('system.mobile_phone_purchase') }}</p>
 
                             </div>
                         </div>
@@ -112,9 +112,9 @@ exit();
                         <div class="layui-card">
                             <div class="layui-card-header" style="line-height: 25px;word-wrap:break-word; word-break:break-all;white-space: normal;height:auto;">
                                 @if($pd_type == 1)
-                                <span class="layui-badge layui-bg-green">自动发货</span>
+                                <span class="layui-badge layui-bg-green">{{ __('system.automatic_delivery') }}</span>
                                 @else
-                                <span class="layui-badge layui-bg-black">人工发货</span>
+                                <span class="layui-badge layui-bg-black">{{ __('system.charge') }}</span>
                                 @endif
                                 &nbsp;&nbsp;
                                 <span style="font-size: 20px;color: #3C3C3C;">{{ $pd_name }}</span>
@@ -125,20 +125,18 @@ exit();
                                       method="post">
                                     {{ csrf_field() }}
                                     <div class="product-info">
-                                        <span style="color:#6c6c6c">价格：</span>
+                                        <span style="color:#6c6c6c">{{ __('system.price') }}：</span>
                                         <span class="product-price">¥ {{ $actual_price }}</span>
                                         <span class="product-price-cost-price">¥ {{ $cost_price }}</span>
-                                        <span style="color:#6c6c6c">&nbsp;&nbsp;库存({{ $in_stock }})</span>
+                                        <span style="color:#6c6c6c">&nbsp;&nbsp;{{__('system.in_stock')}}({{ $in_stock }})</span>
                                     </div>
 
                                     @if(!empty($wholesale_price) && is_array($wholesale_price))
                                     <div class="product-info">
                                                 <span style="color:#F40;font-size: 18px;font-weight: 400"><i
-                                                        class="layui-icon layui-icon-praise"></i>批发优惠：</span>
+                                                        class="layui-icon layui-icon-praise"></i>{{ __('system.wholesale_discount') }}：</span>
                                         @foreach($wholesale_price as $ws)
-                                        <p class="ws-price">购买数量{{ $ws['number'] }} 个或以上,每个： <span
-                                                class="layui-badge layui-bg-orange">{{ $ws['price']  }}￥</span>
-                                        </p>
+                                            <p class="ws-price">{{ __('system.purchase_quantity') }}{{ $ws['number'] }} {{__('system.the_above')}},{{ __('system.each') }}： <span class="layui-badge layui-bg-orange">￥{{ $ws['price']  }}</span></p>
                                         @endforeach
 
                                     </div>
@@ -147,19 +145,19 @@ exit();
                                     <div class="layui-field-box">
                                         <div class="layui-form-item">
                                             <div class="layui-inline">
-                                                <label class="layui-form-label">邮箱</label>
+                                                <label class="layui-form-label">{{ __('system.email') }}</label>
                                                 <div class="layui-input-block">
                                                     <input type="hidden" name="pid" value="{{ $id }}">
                                                     <input type="email" name="account" value="" required
-                                                           lay-verify="required|email" placeholder="接收卡密或通知"
+                                                           lay-verify="required|email" placeholder="{{ __('system.email') }}"
                                                            autocomplete="off" class="layui-input">
                                                 </div>
                                             </div>
                                             <div class="layui-inline">
-                                                <label class="layui-form-label">查询密码</label>
+                                                <label class="layui-form-label">{{ __('system.search_password') }}</label>
                                                 <div class="layui-input-block">
                                                     <input type="password" name="search_pwd" value="" required
-                                                           lay-verify="required" placeholder="为防止撞库攻击，请设置一个查询订单的密码"
+                                                           lay-verify="required" placeholder="{{ __('prompt.set_search_password') }}"
                                                            autocomplete="off" class="layui-input">
                                                 </div>
                                             </div>
@@ -169,7 +167,7 @@ exit();
 
                                         <div class="layui-form-item">
                                             <div class="layui-inline">
-                                                <label class="layui-form-label">数量</label>
+                                                <label class="layui-form-label">{{ __('system.quantity') }}</label>
                                                 <div class="layui-input-block">
                                                     <input type="number" name="order_number" required
                                                            lay-verify="required|order_number" placeholder=""
@@ -177,9 +175,9 @@ exit();
                                                 </div>
                                             </div>
                                             <div class="layui-inline">
-                                                <label class="layui-form-label">优惠码</label>
+                                                <label class="layui-form-label">{{ __('system.promo_code') }}</label>
                                                 <div class="layui-input-block">
-                                                    <input type="text" name="coupon_code" placeholder="您有优惠码吗？"
+                                                    <input type="text" name="coupon_code" placeholder="{{ __('prompt.have_promo_code') }}"
                                                            value="" autocomplete="off" class="layui-input">
                                                 </div>
                                             </div>
@@ -187,7 +185,7 @@ exit();
 
 
                                         <div class="layui-form-item">
-                                            @if(!empty($other_ipu) && is_array($other_ipu))
+                                            @if($pd_type == 2  && is_array($other_ipu))
                                             @foreach($other_ipu as $ipu)
 
                                             <div class="layui-inline">
@@ -205,14 +203,14 @@ exit();
 
                                             @endif
                                         </div>
-                                        
+
                                         <input type="hidden" name="payway" value="14">
                                         <!-- <div class="layui-form-item">
                                              <div class="layui-inline">
-                                                 <label class="layui-form-label">支付方式</label>
+                                                 <label class="layui-form-label">{{ __('system.payment_method') }}</label>
                                                  <div class="layui-input-block">
                                                      <select lay-verify="payway" name="payway">
-                                                         <option value="">请选择支付方式</option>
+                                                         <option value="">{{ __('prompt.please_select_mode_of_payment') }}</option>
                                                          @foreach($payways as $way)
                                                              <option value="{{ $way['id'] }}">{{ $way['pay_name'] }}</option>
                                                          @endforeach
@@ -222,10 +220,10 @@ exit();
                                          </div>-->
                                         @if(config('app.shcaptcha'))
                                         <div class="layui-form-item">
-                                            <label class="layui-form-label">验证码</label>
+                                            <label class="layui-form-label">{{ __('system.verify_code') }}</label>
                                             <div class="layui-input-inline">
                                                 <input type="text" name="verify_img" value="" required
-                                                       lay-verify="required" placeholder="验证码"
+                                                       lay-verify="required" placeholder="{{ __('system.verify_code') }}"
                                                        autocomplete="off"
                                                        class="layui-input">
                                             </div>
@@ -247,11 +245,11 @@ exit();
 
                                         @if(config('app.shgeetest'))
                                         <div class="layui-form-item" style="position: relative;">
-                                            <label for="L_vercode" class="layui-form-label">行为验证</label>
+                                            <label for="L_vercode" class="layui-form-label">{{ __('system.behavior_verification') }}</label>
                                             <div class="layui-input-inline">
                                                 <input type="text" style="cursor:pointer" readonly=""
                                                        class="layui-input" id="GeetestCaptcha"
-                                                       placeholder="点击此处进行验证">
+                                                       placeholder="{{ __('system.click_to_behavior_verification') }}">
                                             </div>
                                         </div>
                                         <div class="layui-hide">{!! Geetest::render('popup') !!}</div>
@@ -271,26 +269,26 @@ exit();
                                             <div class="layui-input-block" style="margin-left: -9px !important;">
                                                 <input type="checkbox" checked="" lay-filter="tos" id="tos"
                                                        lay-skin="primary"
-                                                       title="我已阅读并同意 <a href='/pages/tos.html' target='_blank'>《下单须知》</a>">
+                                                       title="{{ __('system.read_and_agree') }} <a href='/pages/tos.html' target='_blank'>《{{ __('system.agreement') }}》</a>">
                                                 <div class="layui-unselect layui-form-checkbox layui-form-checked"
-                                                     lay-skin="primary"><span>我已阅读并同意 <a href="/pages/tos.html"
-                                                                                         target="_blank">《下单须知》</a></span><i
+                                                     lay-skin="primary"><span>{{ __('system.read_and_agree') }} <a href="/pages/tos.html"
+                                                                                         target="_blank">《{{ __('system.agreement') }}》</a></span><i
                                                         class="layui-icon layui-icon-ok"></i></div>
                                             </div>
                                         </div>
                                         <div class="layui-form-item">
                                             <button class="layui-btn layui-btn-normal" id="buy"
                                                     lay-submit
-                                                    lay-filter="postOrder">立即下单
+                                                    lay-filter="postOrder">{{ __('system.order_now') }}
                                             </button>
-                                            <button type="reset" class="layui-btn layui-btn-primary">重置</button>
+                                            <button type="reset" class="layui-btn layui-btn-primary">{{ __('system.reset_order') }}</button>
                                         </div>
                                     </div>
                                 </form>
                             </div>
                             <div class="layui-tab layui-tab-brief" lay-filter="docDemoTabBrief">
                                 <ul class="layui-tab-title">
-                                    <li class="layui-this">商品描述</li>
+                                    <li class="layui-this">{{ __('system.product_desciption') }}</li>
                                 </ul>
                                 <div class="layui-tab-content" style="">
                                     <div class="layui-tab-item layui-show">
@@ -343,15 +341,15 @@ exit();
 
         form.verify({
             order_number: function (value, item) {
-                if (value == 0) return '购买数量不能为0'
-                if (value > instock) return '购买数量大于库存'
+                if (value == 0) return '{{ __('prompt.purchase_quantity_not_null') }}'
+                if (value > instock) return "{{ __('prompt.inventory_shortage') }}"
             },
         })
 
         form.on('submit(postOrder)', function (data) {
 
             if (data.field.payway == "") {
-                layer.msg('请选择支付方式', {
+                layer.msg("{{ __('prompt.please_select_mode_of_payment') }}", {
                     icon: 5
                 })
                 return false; //阻止表单跳转。如果需要表单跳转，去掉这段即可。
@@ -384,7 +382,7 @@ exit();
             shade: false,
             skin: 'layui-layer-lan', //加上边框
             area: ['60%', '50%'], //宽高
-            title: '购买提示',
+            title:  "{{ __('prompt.purchase_tips') }}",
             content: '<div class="buy-prompt">{!! $buy_prompt !!}<div>'
         });
     @endif

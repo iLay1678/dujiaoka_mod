@@ -1,6 +1,7 @@
 <?php
 namespace App\Http\Controllers\Pay;
 
+use App\Exceptions\AppException;
 use App\Models\Pays;
 use Illuminate\Http\Request;
 use Xhat\Payjs\Facades\Payjs;
@@ -11,10 +12,7 @@ class PayjsController extends PayController
 
     public function gateway($payway, $oid)
     {
-        $check = $this->checkOrder($payway, $oid);
-        if($check !== true) {
-            return $this->error($check);
-        }
+        $this->checkOrder($payway, $oid);
         // 构造订单基础信息
         $data = [
             'body' => '在线支付 - '. $this->orderInfo['product_name'],                                // 订单标题
@@ -28,11 +26,11 @@ class PayjsController extends PayController
                 try{
                     $payres =  Payjs::native($data);
                     if ($payres['return_code'] != 1) {
-                        return $this->error($payres['return_msg']);
+                        throw new AppException($payres['return_msg']);
                     }
                     return redirect($payres['qrcode']);
                 } catch (\Exception $e) {
-                    return $this->error('支付通道异常~ '.$e->getMessage());
+                    throw new AppException('支付通道异常~ '.$e->getMessage());
                 }
                 break;
         }

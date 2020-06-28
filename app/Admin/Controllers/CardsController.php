@@ -9,7 +9,6 @@ use Encore\Admin\Controllers\AdminController;
 use Encore\Admin\Form;
 use Encore\Admin\Grid;
 use Encore\Admin\Layout\Content;
-use Encore\Admin\Show;
 use App\Admin\Actions\Copycards;
 use App\Admin\Actions\Copy;
 
@@ -67,6 +66,11 @@ class CardsController extends AdminController
         return $grid;
     }
 
+    /**
+     * 导入卡密.
+     * @param Content $content
+     * @return Content
+     */
     public function importCards(Content $content)
     {
         return $content->body(new ImportCards());

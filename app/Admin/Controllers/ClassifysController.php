@@ -28,9 +28,6 @@ class ClassifysController extends AdminController
         $grid->model()->orderBy('ord', 'desc');
         $grid->column('id', __('Id'));
         $grid->column('name', __('Class Name'));
-        /*$grid->column('icon', __('Icon'))->display(function ($icon){
-            return '<i class="fa '.$icon.'"></i>';
-        });*/
         $grid->column('ord', __('Ord'));
         $grid->column('c_status', __('C status'))->editable('select', [1=> '启用', 2=> '禁用']);
         $grid->column('created_at', __('Created at'));

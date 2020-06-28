@@ -1,12 +1,12 @@
 @extends('layui.layouts.default')
 @section('content')
 <script>
-    document.title = '文章中心 - '+document.title;  
+    document.title = '{{ __('system.article_page') }} - '+document.title;
 </script>
     <div class="layui-row ">
         <div class="layui-container">
             <div class="layui-card cardcon">
-                <div class="layui-card-header">文章中心</div>
+                <div class="layui-card-header">{{ __('system.article_page') }}</div>
                 <div class="layui-card-body">
                     <ul>
                         @foreach($pages as $page)

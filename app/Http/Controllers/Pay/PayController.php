@@ -10,7 +10,7 @@ namespace App\Http\Controllers\Pay;
 
 
 use App\Http\Controllers\Controller;
-
+use App\Exceptions\AppException;
 use App\Jobs\SendMails;
 use App\Models\Cards;
 use App\Models\Emailtpls;
@@ -39,18 +39,14 @@ class PayController extends Controller
      * @param $oid
      * @param $payway
      */
-    protected function checkOrder($payway, $oid)
+    protected function checkOrder(string $payway, string $oid) : void
     {
         // 判断订单是否存在
         $this->orderInfo = json_decode(Redis::hget('PENDING_ORDERS_LIST', $oid), true);
-        if (empty($this->orderInfo)) {
-            return '订单不存在或已支付';
-        }
+        if (empty($this->orderInfo)) throw new AppException('订单不存在或已支付');
         // 判断支付方式是否存在
         $this->payInfo = Pays::where(['id' => $payway,  'pay_status' => 1])->first();
-        if (empty($this->payInfo)) {
-            return '支付方式不存在或未启用';
-        }
+        if (empty($this->payInfo)) throw new AppException('支付方式不存在或未启用');
         return true;
     }
 
@@ -60,7 +56,7 @@ class PayController extends Controller
      * @param $trade_no
      * @param $total_amount
      */
-    protected function successOrder($out_trade_no, $trade_no, $total_amount)
+    protected function successOrder(string $out_trade_no, string $trade_no, float $total_amount)
     {
 
         // 判断缓存里是否已经没有订单了，没有说明已经处理了

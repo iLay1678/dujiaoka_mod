@@ -2,19 +2,21 @@
 
 namespace App\Http\Controllers;
 
+use App\Exceptions\AppException;
 use App\Jobs\ReleaseOrder;
 use App\Models\Classifys;
 use App\Models\Coupons;
-use App\Models\Orders;
 use App\Models\Pays;
 use App\Models\Products;
-use App\Models\Pages;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Cookie;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Redis;
 use Illuminate\Support\Str;
+use Facades\App\Services\ProductsService;
+use Facades\App\Services\OrderService;
+
 
 class HomeController extends Controller
 {
@@ -26,58 +28,23 @@ class HomeController extends Controller
     {
         $products = Classifys::with(['products' => function ($query) {
             $query->where('pd_status', 1)->orderBy('ord', 'desc');
-        }])->where('c_status', 1)->orderBy('ord', 'desc')->get()->toArray();
+        }])->where('c_status', 1)->orderBy('ord', 'desc')->get();
         return $this->view('static_pages/home', ['classifys' => $products]);
     }
 
     /**
-     * 商品详情
+     * 商品详情.
      * @param Products $product
      */
-    public function buy(Products $product,Request $request)
+    public function buy(Products $product)
     {
-        $data = $request->all();
-        $product = $product->toArray();
-        if ($product['pd_status'] != 1) {
-            return $this->error('   商品信息不存在！');
-        }
-        if (isset($data['pwd'])) {
-            $product['pwd']=$data['pwd'];
-        }
+        if ($product['pd_status'] != 1) throw new AppException('商品已经下架');
         // 格式化批发配置以及输入框配置
-        if ($product['wholesale_price']) {
-            $dityArr = explode(PHP_EOL, $product['wholesale_price']);
-            $dityList = [];
-            foreach ($dityArr as $key => $v) {
-                if ($v != "") {
-                    $dityInfo = explode('=', delete_html($v));
-                    $dityList[$key]['number'] = $dityInfo[0];
-                    $dityList[$key]['price'] = $dityInfo[1];
-                }
-            }
-            sort($dityList);
-            $product['wholesale_price'] = $dityList;
-        } else {
-            $product['wholesale_price'] = null;
-        }
+        $product['wholesale_price'] = $product['wholesale_price'] ? ProductsService::formatWholesalePrice($product['wholesale_price']) : null;
         // 如果存在其他配置输入框且为代充
-        if ($product['other_ipu'] && $product['pd_type'] == 2) {
-            $inputArr = explode(PHP_EOL, $product['other_ipu']);
-            $inputList = [];
-            foreach ($inputArr as $key => $v) {
-                if ($v != "") {
-                    $inputInfo = explode('=', delete_html($v));
-                    $inputList[$key]['field'] = $inputInfo[0];
-                    $inputList[$key]['desc'] = $inputInfo[1];
-                    $inputList[$key]['rule'] = filter_var($inputInfo[2], FILTER_VALIDATE_BOOLEAN);
-                }
-            }
-            $product['other_ipu'] = $inputList;
-        } else {
-            $product['other_ipu'] = null;
-        }
+        $product['other_ipu'] = $product['other_ipu'] ? ProductsService::formatChargeInput($product['other_ipu']) : null;
         // 加载支付方式
-        $product['payways'] = Pays::where('pay_status', 1)->get()->toArray();
+        $product['payways'] = Pays::where('pay_status', 1)->get();
         return $this->view('static_pages/buy', $product);
     }
 
@@ -89,27 +56,26 @@ class HomeController extends Controller
     public function postOrder(Request $request)
     {
         $data = $request->all();
-        if ($data['order_number'] <= 0) return $this->error('购买数量不能为0');
-        if (!is_numeric($data['order_number']) || strpos($data['order_number'], ".") !== false) return $this->error('请填正确购买数量');
-        if (empty($data['search_pwd'])) return $this->error('查询密码不能为空');
-        if(config('app.shcaptcha')){
-            if (!captcha_check($data['verify_img'])) return $this->error('验证码错误');
+        if (intval($data['order_number']) <= 0)
+            if (!is_numeric($data['order_number']) || strpos($data['order_number'], ".") !== false) throw new AppException('请填写正确购买数量');
+        if (empty($data['search_pwd'])) throw new AppException('查询密码不能为空');
+        if (config('app.shcaptcha')) {
+            if (!captcha_check($data['verify_img'])) throw new AppException('验证码错误');
         }
-        if(config('app.shgeetest')){
-            if(!$this->validate($request, [
+        if (config('app.shgeetest')) {
+            if (!$this->validate($request, [
                 'geetest_challenge' => 'geetest',
             ], [
                 'geetest' => config('geetest.server_fail_alert')
-            ])){
-                return $this->error('行为验证失败');
+            ])) {
+                throw new AppException('行为验证失败');
             }
         }
         $product = Products::find($data['pid']);
-        if (empty($product)) return $this->error('商品不存在或已下架');
-        if ($product['pd_status'] != 1 ) return $this->error('商品不存在或已下架');
-        if ($product['in_stock'] == 0 || $data['order_number'] > $product['in_stock']) return $this->error('库存不足');
-        if (!isset($data['payway'])) return $this->error('支付方式不能为空');
-        if (!filter_var($data['account'], FILTER_VALIDATE_EMAIL) || empty($data['account'])) return $this->error('请输入正确邮箱格式');
+        if (empty($product) || $product['pd_status'] != 1) throw new AppException('商品不存在或已下架');
+        if ($product['in_stock'] == 0 || $data['order_number'] > $product['in_stock']) throw new AppException('库存不足');
+        if (!isset($data['payway'])) throw new AppException('支付方式不能为空');
+        if (!filter_var($data['account'], FILTER_VALIDATE_EMAIL) || empty($data['account'])) throw new AppException('请输入正确邮箱格式');
         // 订单缓存
         $cacheOrder = [
             'product_id' => $data['pid'], // 商品id
@@ -117,7 +83,7 @@ class HomeController extends Controller
             'product_price' => $product['actual_price'],
             'pay_way' => $data['payway'],
             'pd_name' => $product['pd_name'], // 名称
-            'order_id' => date('YmdHis').uniqid(), // 订单号
+            'order_id' => date('YmdHis') . Str::random(16), // 订单号
             'pd_type' => $product['pd_type'],
             'actual_price' => $product['actual_price'],
             'buy_amount' => intval($data['order_number']), // 订单个数
@@ -128,53 +94,56 @@ class HomeController extends Controller
         ];
         // 如果存在批发价
         if (!empty($product['wholesale_price'])) {
-            $cacheOrder['actual_price'] = number_format(Orders::wholesalePrice($cacheOrder, $product, $data), 2,'.','');
+            $cacheOrder['actual_price'] = OrderService::getWholesalePrice(
+                ProductsService::formatWholesalePrice($product['wholesale_price']),
+                $cacheOrder['actual_price'],
+                $cacheOrder['buy_amount']
+            );
         } else {
-            $cacheOrder['actual_price'] = number_format(($cacheOrder['actual_price'] * $data['order_number']), 2,'.','');
+            $cacheOrder['actual_price'] = number_format(($cacheOrder['actual_price'] * $cacheOrder['buy_amount']), 2, '.', '');
         }
         /**
          * 这里是优惠券
          */
         if (!empty($data['coupon_code'])) {
-            if($data['coupon_code']==config('coupon_code_global')){
+            if ($data['coupon_code'] == config('coupon_code_global')) {
                 if ($cacheOrder['actual_price'] <= config('coupon_code_global_allow')) {
-                return $this->error("订单金额".config('coupon_code_global_allow')."元以上才可使用该优惠券");
-            }
+                    throw new AppException("订单金额" . config('coupon_code_global_allow') . "元以上才可使用该优惠券");
+                }
                 $cacheOrder['coupon_code'] = $data['coupon_code'];
-                $cacheOrder['actual_price'] = number_format(($cacheOrder['actual_price'] - config('coupon_code_global_price')), 2,'.','');
-                $cacheOrder['discount']=number_format(config('coupon_code_global_price'), 2,'.','');
-            }else{
+                $cacheOrder['actual_price'] = number_format(($cacheOrder['actual_price'] - config('coupon_code_global_price')), 2, '.', '');
+                $cacheOrder['discount'] = number_format(config('coupon_code_global_price'), 2, '.', '');
+            } else {
                 // 先查出有没有优惠券
-            $coupon = Coupons::where('card', '=', $data['coupon_code'])->where('product_id', '=', $data['pid'])->first();
-            if (empty($coupon)) return $this->error('优惠券码不存在！请检查');
-            // 判断类型  如果是一次性的话  先判断使用没有
-            if ($coupon['c_type'] == 1 && $coupon['is_status'] == 2) {
-                return $this->error('该优惠券已被使用，请勿重复使用');
-            }
-            if ($coupon['c_type'] == 2 && $coupon['ret'] <= 0) {
-                return $this->error('该优惠券已无剩余次数,请更换');
-            }
-            if ($cacheOrder['actual_price'] <= $coupon['discount']) {
-                return $this->error('优惠券金额已经大于或等于实际支付金额，无法使用该优惠券');
-            }
-            $cacheOrder['coupon_type'] = $coupon['c_type'];
-            $cacheOrder['coupon_id'] = $coupon['id'];
-            $cacheOrder['coupon_code'] = $data['coupon_code'];
-            $cacheOrder['discount'] = number_format($coupon['discount'], 2,'.','');
-            $cacheOrder['actual_price'] = number_format(($cacheOrder['actual_price'] - $coupon['discount']), 2,'.','');
+                $coupon = Coupons::where('card', '=', $data['coupon_code'])->where('product_id', '=', $data['pid'])->first();
+                if (empty($coupon)) throw new AppException('优惠券码不存在！请检查');
+                // 判断类型  如果是一次性的话  先判断使用没有
+                if ($coupon['c_type'] == 1 && $coupon['is_status'] == 2) {
+                    throw new AppException('该优惠券已被使用，请勿重复使用');
+                }
+                if ($coupon['c_type'] == 2 && $coupon['ret'] <= 0) {
+                    throw new AppException('该优惠券已无剩余次数,请更换');
+                }
+                if ($cacheOrder['actual_price'] <= $coupon['discount']) {
+                    throw new AppException('优惠券金额已经大于或等于实际支付金额，无法使用该优惠券');
+                }
+                $cacheOrder['coupon_type'] = $coupon['c_type'];
+                $cacheOrder['coupon_id'] = $coupon['id'];
+                $cacheOrder['coupon_code'] = $data['coupon_code'];
+                $cacheOrder['discount'] = number_format($coupon['discount'], 2, '.', '');
+                $cacheOrder['actual_price'] = number_format(($cacheOrder['actual_price'] - $coupon['discount']), 2, '.', '');
             }
         }
 
         if ($product['pd_type'] == 2) {
             // 如果有其他输入框 判断其他输入框内容  然后载入信息
             if (!empty($product['other_ipu'])) {
-                $otherIpuAll = explode(PHP_EOL, $product['other_ipu']);
+                $otherIpuAll = ProductsService::formatChargeInput($product['other_ipu']);
                 foreach ($otherIpuAll as $value) {
-                    $otherIpu = explode('=', delete_html($value));
-                    if ($otherIpu[2] == 'req' && empty($data[$otherIpu[0]])) {
-                        return $this->error($otherIpu[1] . '不能为空，请仔细填写');
+                    if ($value['rule'] && empty($data[$value['field']])) {
+                        throw new AppException("{$value['desc']}不能为空");
                     }
-                    $cacheOrder['other_ipu'] .= $otherIpu[1] . ':' . $data[$otherIpu[0]] . PHP_EOL;
+                    $cacheOrder['other_ipu'] .= $value['desc'] . ':' . $data[$value['field']] . PHP_EOL;
                 }
             }
         }
@@ -183,8 +152,8 @@ class HomeController extends Controller
         // 开始事务
         DB::beginTransaction();
         // 减去数据库库存
-        $deStock = Products::where('id', '=', $data['pid'])->decrement('in_stock', $data['order_number']);
-        if ($data['coupon_code']&&$data['coupon_code']!=config('coupon_code_global')) {
+        $deStock = Products::where(['id' => $data['pid'], 'in_stock' => $product['in_stock']])->decrement('in_stock', $data['order_number']);
+        if ($data['coupon_code'] && $data['coupon_code'] != config('coupon_code_global')) {
             // 将优惠券设置为已经使用 且次数-1
             $inCoupon = Coupons::where('card', '=', $data['coupon_code'])->update(['is_status' => 2]);
             $inCouponNum = Coupons::where('card', '=', $data['coupon_code'])->decrement('ret', 1);
@@ -195,7 +164,7 @@ class HomeController extends Controller
         if (!$deStock || !$inCoupon || !$inCouponNum) {
             Redis::hdel('PENDING_ORDERS_LIST', $cacheOrder['order_id']);
             DB::rollBack();
-            return $this->error('订单提交失败，过会再试吧~');
+            throw new AppException('订单提交失败，过会再试吧~');
         }
         DB::commit();
         // 设置订单cookie
@@ -219,38 +188,10 @@ class HomeController extends Controller
     public function bill($orderid)
     {
         $orderCache = Redis::hget('PENDING_ORDERS_LIST', $orderid);
-        if (empty($orderCache)) return $this->error('该订单不存在或已过期！', url('/'));
+        if (empty($orderCache)) throw new AppException('该订单不存在或已过期！');
         $orderInfo = json_decode($orderCache, true);
         return $this->view('static_pages/bill', $orderInfo);
     }
 
-    /**
-     * 文章列表
-     */
-    public function pages(Pages $pages)
-    {
-
-        $pages = Pages::where('status', 1)->get()->toArray();
-        return $this->view('static_pages/pages', ['pages' => $pages]);
-    }
-
-    /**
-     * 文章详情
-     */
-    public function page(Pages $pages, $tag)
-    {
-
-        $page = Pages::where('tag', $tag)->get()->toArray();
-        if (!$page) {
-            return $this->error('页面不存在！');
-        } else {
-            $page = $page[0];
-        }
-        if ($page['status'] != 1) {
-            return $this->error('页面不存在！');
-        } else {
-            return $this->view('static_pages/page', $page);
-        }
-    }
 
 }
