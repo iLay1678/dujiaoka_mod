@@ -90,7 +90,7 @@
 
             });
             clipboard.on('error', function(e) {
-                layer.msg('"{{ __(\'prompt.copy_failed\') }}"');
+                layer.msg('"{{ __('prompt.copy_failed') }}"');
             });
         });
 

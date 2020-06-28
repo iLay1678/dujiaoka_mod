@@ -78,7 +78,9 @@ return [
     'order_search_by_number' => '订单号查询',
     'order_search_by_email' => '邮箱查询',
     'order_search_by_ie' => '浏览器查询',
-
+    'set_order_number' => '请输入订单号',
+    
+    'back_btn'=> '返回',
 
     'query_tips' => '最多只能查询近5笔订单',
 

@@ -10,14 +10,14 @@
   <div class="layui-container">
     <hr class="layui-bg-gray">
     <fieldset class="layui-elem-field">
-      <legend>{{ __('system.product') }}</legend>
+      <legend>{{ __('system.product_filter') }}</legend>
       <div class="layui-field-box">
         <div class="layui-form layui-form-item">
           <div class="layui-inline">
             <input id="Search" type="text" placeholder="{{ __('system.search_for_products_or_categories') }}" value="" class="layui-input" autocomplete="off"></div>
           <div class="layui-inline">
             <select class="classifys " lay-filter="classifys">
-              <option value="">{{ __('system.choose_categories‘) }}</option>
+              <option value="">{{ __('system.choose_categories') }}</option>
               @foreach($classifys as $classify)
               <option value="{{ $classify['name'] }}">{{ $classify['name'] }}</option>
               @endforeach</select>

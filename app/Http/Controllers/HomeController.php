@@ -8,6 +8,7 @@ use App\Models\Classifys;
 use App\Models\Coupons;
 use App\Models\Pays;
 use App\Models\Products;
+use App\Models\Pages;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Cookie;
@@ -24,9 +25,10 @@ class HomeController extends Controller
     /**
      * 首页加载所有商品
      */
-    public function index()
+   public function index()
     {
-        $products = Classifys::with(['products' => function ($query) {
+        //dd(config('webset.layerad'));
+        $products = Classifys::with(['products' => function($query) {
             $query->where('pd_status', 1)->orderBy('ord', 'desc');
         }])->where('c_status', 1)->orderBy('ord', 'desc')->get();
         return $this->view('static_pages/home', ['classifys' => $products]);
@@ -36,8 +38,12 @@ class HomeController extends Controller
      * 商品详情.
      * @param Products $product
      */
-    public function buy(Products $product)
+    public function buy(Products $product,Request $request)
     {
+        $data = $request->all();
+        if (isset($data['pwd'])) {
+            $product['pwd']=$data['pwd'];
+        }
         if ($product['pd_status'] != 1) throw new AppException('商品已经下架');
         // 格式化批发配置以及输入框配置
         $product['wholesale_price'] = $product['wholesale_price'] ? ProductsService::formatWholesalePrice($product['wholesale_price']) : null;
@@ -191,6 +197,35 @@ class HomeController extends Controller
         if (empty($orderCache)) throw new AppException('该订单不存在或已过期！');
         $orderInfo = json_decode($orderCache, true);
         return $this->view('static_pages/bill', $orderInfo);
+    }
+    
+     /**
+     * 文章列表
+     */
+    public function pages(Pages $pages)
+    {
+
+        $pages = Pages::where('status', 1)->get()->toArray();
+        return $this->view('static_pages/pages', ['pages' => $pages]);
+    }
+
+    /**
+     * 文章详情
+     */
+    public function page(Pages $pages, $tag)
+    {
+
+        $page = Pages::where('tag', $tag)->get()->toArray();
+        if (!$page) {
+            return $this->error('页面不存在！');
+        } else {
+            $page = $page[0];
+        }
+        if ($page['status'] != 1) {
+            return $this->error('页面不存在！');
+        } else {
+            return $this->view('static_pages/page', $page);
+        }
     }
 
 
