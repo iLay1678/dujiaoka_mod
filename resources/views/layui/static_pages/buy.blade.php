@@ -205,19 +205,9 @@ exit();
 
                                             @endif
                                         </div>
-                                        <!---  <div class="layui-form-item">
-                                            <label class="layui-form-label">支付方式</label>
-                                            <div class="layui-input-block">
-                                            	<select name="payway" lay-filter="payway">
-                                            		@foreach($payways as $way)
-                                            <option value="{{ $way['id'] }}">{{ $way['pay_name'] }}</option>
-        											@endforeach
-                                                </select>
-                                                
-                                            </div>
-                                        </div>-->
-                                        <!--<input type="hidden" name="payway" value="14">-->
-                                         <div class="layui-form-item">
+                                        
+                                        <input type="hidden" name="payway" value="14">
+                                        <!-- <div class="layui-form-item">
                                              <div class="layui-inline">
                                                  <label class="layui-form-label">支付方式</label>
                                                  <div class="layui-input-block">
@@ -229,7 +219,7 @@ exit();
                                                      </select>
                                                  </div>
                                              </div>
-                                         </div>
+                                         </div>-->
                                         @if(config('app.shcaptcha'))
                                         <div class="layui-form-item">
                                             <label class="layui-form-label">验证码</label>

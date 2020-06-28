@@ -67,11 +67,11 @@
                             <td><p>{{ $other_ipu }}</p></td>
                         </tr>
                         @endif
-                        
+                        <!--
                         <tr>
                             <td>支付方式：</td>
                             <td>{{ \App\Models\Pays::find($pay_way)->pay_name }}</td>
-                        </tr>
+                        </tr>-->
                         </tbody>
                     </table>
                     <p class="errpanl" style="text-align: center"><a href="{{ url(\App\Models\Pays::find($pay_way)->pay_handleroute, ['payway' => $pay_way, 'oid' => $order_id]) }}" class="layui-btn layui-btn-sm">立即支付</a></p>
