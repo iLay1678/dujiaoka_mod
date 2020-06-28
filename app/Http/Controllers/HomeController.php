@@ -27,7 +27,6 @@ class HomeController extends Controller
      */
    public function index()
     {
-        //dd(config('webset.layerad'));
         $products = Classifys::with(['products' => function($query) {
             $query->where('pd_status', 1)->orderBy('ord', 'desc');
         }])->where('c_status', 1)->orderBy('ord', 'desc')->get();

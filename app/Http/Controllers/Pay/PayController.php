@@ -39,7 +39,7 @@ class PayController extends Controller
      * @param $oid
      * @param $payway
      */
-    protected function checkOrder(string $payway, string $oid) : void
+    protected function checkOrder(string $payway, string $oid)
     {
         // 判断订单是否存在
         $this->orderInfo = json_decode(Redis::hget('PENDING_ORDERS_LIST', $oid), true);

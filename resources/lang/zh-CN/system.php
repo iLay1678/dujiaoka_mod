@@ -55,6 +55,7 @@ return [
     'product_filter' =>'商品筛选',
     'search_for_products_or_categories' => '搜索商品或分类',
     'choose_categories' => '请选择分类',
+    'sale_price' => '单价',
     'operate' => '操作',
     'buy' => '购买',
     'product_desciption' => '商品介绍',
