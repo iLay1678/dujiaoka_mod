@@ -131,9 +131,9 @@ class HomeController extends Controller
         ];
         // 如果存在批发价
         if (!empty($product['wholesale_price'])) {
-            $cacheOrder['actual_price'] = number_format(Orders::wholesalePrice($cacheOrder, $product, $data), 2);
+            $cacheOrder['actual_price'] = number_format(Orders::wholesalePrice($cacheOrder, $product, $data), 2,'.','');
         } else {
-            $cacheOrder['actual_price'] = number_format(($cacheOrder['actual_price'] * $data['order_number']), 2);
+            $cacheOrder['actual_price'] = number_format(($cacheOrder['actual_price'] * $data['order_number']), 2,'.','');
         }
         /**
          * 这里是优惠券
@@ -144,8 +144,8 @@ class HomeController extends Controller
                 return $this->error("订单金额{$keyongjine}元以上才可使用该优惠券");
             }
                 $cacheOrder['coupon_code'] = $data['coupon_code'];
-                $cacheOrder['actual_price'] = number_format(($cacheOrder['actual_price'] - $youhuijine), 2);
-                $cacheOrder['discount']=number_format($youhuijine, 2);
+                $cacheOrder['actual_price'] = number_format(($cacheOrder['actual_price'] - $youhuijine), 2,'.','');
+                $cacheOrder['discount']=number_format($youhuijine, 2,'.','');
             }else{
                 // 先查出有没有优惠券
             $coupon = Coupons::where('card', '=', $data['coupon_code'])->where('product_id', '=', $data['pid'])->first();
@@ -163,8 +163,8 @@ class HomeController extends Controller
             $cacheOrder['coupon_type'] = $coupon['c_type'];
             $cacheOrder['coupon_id'] = $coupon['id'];
             $cacheOrder['coupon_code'] = $data['coupon_code'];
-            $cacheOrder['discount'] = number_format($coupon['discount'], 2);
-            $cacheOrder['actual_price'] = number_format(($cacheOrder['actual_price'] - $coupon['discount']), 2);
+            $cacheOrder['discount'] = number_format($coupon['discount'], 2,'.','');
+            $cacheOrder['actual_price'] = number_format(($cacheOrder['actual_price'] - $coupon['discount']), 2,'.','');
             }
         }
 

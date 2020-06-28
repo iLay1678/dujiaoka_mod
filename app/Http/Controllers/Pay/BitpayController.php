@@ -42,7 +42,7 @@ $options = array(
         'content' => $data
     )   
 );
-$total_cost = number_format((float)$this->orderInfo['actual_price'],2);
+$total_cost = number_format((float)$this->orderInfo['actual_price'],2,'.','');
 $bitpays=json_decode(Redis::hget('BITPAY_LIST', $orderid),true);
 if(!$bitpays){
     //Generate new address for this invoice
@@ -79,7 +79,7 @@ $bitpays=[
     $timestamp=$bitpays['timestamp'];
 }
 //Total Cart value in bits
-$bits =number_format($value/1.0e8,10);
+$bits =number_format($value/1.0e8,10,'.','');
 $qr_code_url='bitcoin:'.$new_address.'?amount='.$bits ;
 $money=$total_cost;
 $html="<html ng-app=\"shopping-cart-demo\" class=\"ng-scope\"><head><style type=\"text/css\">@charset \"UTF-8\";[ng\:cloak],[ng-cloak],[data-ng-cloak],[x-ng-cloak],.ng-cloak,.x-ng-cloak,.ng-hide:not(.ng-hide-animate){display:none !important;}ng\:form{display:block;}.ng-animate-shim{visibility:hidden;}.ng-anchor{position:absolute;}@-webkit-keyframes spinAround {
