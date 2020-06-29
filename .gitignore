@@ -12,5 +12,5 @@ Homestead.json
 Homestead.yaml
 npm-debug.log
 yarn-error.log
-.user.ini
-web.config
+/public/.user.ini
+/public/web.config
