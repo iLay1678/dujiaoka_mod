@@ -1,4 +1,6 @@
 SET FOREIGN_KEY_CHECKS = 0;
+ALTER TABLE `webset` ADD `langs` VARCHAR(12) NULL COMMENT '前台语言' AFTER `manage_email`, ADD `email_driver` VARCHAR(64) NULL COMMENT '邮件驱动' AFTER `langs`, ADD `mail_host` VARCHAR(64) NULL COMMENT '邮件服务器地址' AFTER `email_driver`, ADD `mail_port` VARCHAR(64) NULL COMMENT '端口号' AFTER `mail_host`, ADD `mail_username` VARCHAR(64) NULL COMMENT '发件账号' AFTER `mail_port`, ADD `mail_password` VARCHAR(64) NULL COMMENT '发件密码' AFTER `mail_username`, ADD `mail_encryption` VARCHAR(64) NULL COMMENT '加密协议',ADD `mail_name` VARCHAR(128) NULL COMMENT '发件昵称' AFTER `mail_password`;
+
 ALTER TABLE `products` ADD COLUMN `stock_alert` int(11) NOT NULL DEFAULT 0 COMMENT '库存预警' AFTER `in_stock`;
 
 INSERT INTO `emailtpls`(`tpl_name`, `tpl_content`, `tpl_token`, `created_at`, `updated_at`) VALUES

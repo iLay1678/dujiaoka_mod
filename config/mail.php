@@ -56,8 +56,8 @@ return [
     */
 
     'from' => [
-        'address' => env('MAIL_FROM_ADDRESS', 'hello@example.com'),
-        'name' => env('MAIL_FROM_NAME', 'Example'),
+        'address' => config('webset.mail_username') ?? env('MAIL_FROM_ADDRESS', 'hello@example.com'),
+        'name' => config('webset.mail_name') ?? env('MAIL_FROM_NAME', 'Example'),
     ],
 
     /*
