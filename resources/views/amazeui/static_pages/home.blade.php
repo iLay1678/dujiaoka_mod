@@ -51,5 +51,17 @@
       @endforeach
     </div>
     </div>
-    <div id="layerad" style="display: none;">{!! config('webset.layerad') !!}</div>
+    <div class="am-modal am-modal-alert" tabindex="-1" id="alert">
+  <div class="am-modal-dialog">
+    <div class="am-modal-hd" id="title">首页公告</div>
+    <div class="am-modal-bd" id="layerad">
+        {!! config('webset.layerad') !!}
+      </div>
+    <div class="am-modal-footer">
+      <span class="am-modal-btn" id="btn_go">确定</span>
+    </div>
+  </div>
+</div>
+    
+    
 @stop

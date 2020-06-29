@@ -23,20 +23,8 @@
         var layer = layui.layer //获得layer模块
         var layerad = $("#layerad").html();
         if (typeof (layerad) != "undefined" && !getQueryVariable('search_word')) {
-            if (layerad.length > 0) {
-                layer.open({
-                    type: 1
-                    , title: ['温馨提示', 'text-align:center;padding: 0 ;']
-                    , closeBtn: false
-                    , area: '300px;'
-                    , shade: 0.8
-                    , id: 'AD'
-                    , btn: ['朕知道了']
-                    , btnAlign: 'c'
-                    , moveType: 1 //拖拽模式，0或者1
-                    , content: '<div style="margin-top:15px;">' + layerad + '</div>'
-                });
-            }
+           $("#title").text("首页公告");
+    $("#alert").modal();
         }
         if(getQueryVariable('search_word')){
             $(".classifys").val("");
