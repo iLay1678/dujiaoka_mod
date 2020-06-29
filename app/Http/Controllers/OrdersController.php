@@ -15,9 +15,15 @@ class OrdersController extends Controller
      * 查询订单首页
      * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
      */
-    public function searchOrder()
+    public function searchOrder(Request $request)
     {
-        return $this->view('static_pages/searchOrder');
+        $data = $request->all();
+        if (isset($data['tpl'])) {
+            $tpl=$data['tpl'];
+        }else{
+           $tpl= config('app.shtemplate');
+        }
+        return $this->view('static_pages/searchOrder',[],$tpl);
     }
 
     /**
@@ -41,12 +47,18 @@ class OrdersController extends Controller
      * @param Request $request
      * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
      */
-    public function searchOrderById($oid = "")
+    public function searchOrderById($oid = "",Request $request)
     {
+        $data = $request->only(['tpl']);
+        if (isset($data['tpl'])) {
+            $tpl=$data['tpl'];
+        }else{
+           $tpl= config('app.shtemplate');
+        }
         $orderId =  \request()->input('order_id') ? \request()->input('order_id') : $oid;
         $order = Orders::where('order_id', $orderId)->get();
         if (empty($orderId) || $order->isEmpty()) throw new AppException('订单信息不存在！');
-        return $this->view('static_pages/orderinfo', ['orders' => $order]);
+        return $this->view('static_pages/orderinfo', ['orders' => $order],$tpl);
     }
 
     /**
@@ -55,20 +67,31 @@ class OrdersController extends Controller
     public function searchOrderByAccount(Request $request)
     {
 
-        $data = $request->only(['account', 'search_pwd']);
+        $data = $request->only(['account', 'search_pwd','tpl']);
+        if (isset($data['tpl'])) {
+            $tpl=$data['tpl'];
+        }else{
+           $tpl= config('app.shtemplate');
+        }
         if (empty($data['account']) || empty($data['search_pwd']))  throw new AppException('必填项不能为空');
         $orders = Orders::where(['account' => $data['account'], 'search_pwd' => $data['search_pwd']])
             ->orderBy('created_at', 'desc')
             ->get();
         if ($orders->isEmpty()) throw new AppException('未找到相关订单！');
-        return $this->view('static_pages/orderinfo', ['orders' => $orders]);
+        return $this->view('static_pages/orderinfo', ['orders' => $orders],$tpl);
     }
 
     /**
      * 根据浏览器缓存查询订单
      */
-    public function searchOrderByBrowser()
+    public function searchOrderByBrowser(Request $request)
     {
+        $data = $request->only(['tpl']);
+        if (isset($data['tpl'])) {
+            $tpl=$data['tpl'];
+        }else{
+           $tpl= config('app.shtemplate');
+        }
         $cookies = Cookie::get('orders');
         if (empty($cookies)) throw new AppException('未找到相关订单缓存');
         $orderIds = json_decode($cookies, true);
@@ -78,7 +101,7 @@ class OrdersController extends Controller
             ->get()
             ->toArray();
         if (empty($orders)) throw new AppException('未找到相关订单！');
-        return $this->view('static_pages/orderinfo', ['orders' => $orders]);
+        return $this->view('static_pages/orderinfo', ['orders' => $orders],$tpl);
 
     }
 

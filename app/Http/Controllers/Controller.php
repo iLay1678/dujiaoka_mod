@@ -17,9 +17,12 @@ class Controller extends BaseController
      * @param array $data
      * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\View\View
      */
-    protected function view($tpl = "", $data = [])
+    protected function view($tpl = "", $data = [],$template='')
     {
-        $tpl = config('app.shtemplate') . '/' . $tpl;
+        if($template==''){
+            $template=config('app.shtemplate');
+        }
+        $tpl = $template . '/' . $tpl;
         return view($tpl, $data);
     }
 

@@ -5,7 +5,7 @@
 
             <div class="footer-wrap">
                 <div style="text-align: center">{!! config('webset.footer') !!} </div>
-                <p>Copyright @ <?php echo date('Y');?> {{ config('webset.text_logo') }} . Powered by <a href="https://github.com/zlkbdotnet/zfaka/" target="_blank">ZFAKA 1.4.3</a>
+                <p>Copyright @ <?php echo date('Y');?> {{ config('webset.text_logo') }} . Powered by <a href="https://github.com/assimon/dujiaoka" target="_blank">独角数卡</a>
                 </p><br>
             </div>
 

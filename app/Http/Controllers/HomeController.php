@@ -25,12 +25,19 @@ class HomeController extends Controller
     /**
      * 首页加载所有商品
      */
-   public function index()
+   public function index(Request $request)
     {
+        $data = $request->all();
+        if (isset($data['tpl'])) {
+            $tpl=$data['tpl'];
+        }else{
+           $tpl= config('app.shtemplate');
+        }
+        
         $products = Classifys::with(['products' => function($query) {
             $query->where('pd_status', 1)->orderBy('ord', 'desc');
         }])->where('c_status', 1)->orderBy('ord', 'desc')->get();
-        return $this->view('static_pages/home', ['classifys' => $products]);
+        return $this->view('static_pages/home', ['classifys' => $products],$tpl);
     }
 
     /**
@@ -43,6 +50,11 @@ class HomeController extends Controller
         if (isset($data['pwd'])) {
             $product['pwd']=$data['pwd'];
         }
+        if (isset($data['tpl'])) {
+            $tpl=$data['tpl'];
+        }else{
+           $tpl= config('app.shtemplate');
+        }
         if ($product['pd_status'] != 1) throw new AppException(__('prompt.product_off_the_shelf'));
         // 格式化批发配置以及输入框配置
         $product['wholesale_price'] = $product['wholesale_price'] ? ProductsService::formatWholesalePrice($product['wholesale_price']) : null;
@@ -50,7 +62,7 @@ class HomeController extends Controller
         $product['other_ipu'] = $product['other_ipu'] ? ProductsService::formatChargeInput($product['other_ipu']) : null;
         // 加载支付方式
         $product['payways'] = Pays::where('pay_status', 1)->get();
-        return $this->view('static_pages/buy', $product);
+        return $this->view('static_pages/buy', $product,$tpl);
     }
 
     /**
@@ -190,31 +202,48 @@ class HomeController extends Controller
      * 结账
      * @param $orderid
      */
-    public function bill($orderid)
+    public function bill($orderid,Request $request)
     {
+        $data = $request->all();
+        if (isset($data['tpl'])) {
+            $tpl=$data['tpl'];
+        }else{
+           $tpl= config('app.shtemplate');
+        }
         $orderCache = Redis::hget('PENDING_ORDERS_LIST', $orderid);
         if (empty($orderCache)) throw new AppException(__('prompt.order_does_not_exist'));
         $orderInfo = json_decode($orderCache, true);
-        return $this->view('static_pages/bill', $orderInfo);
+        return $this->view('static_pages/bill', $orderInfo,$tpl);
     }
     
      /**
      * 文章列表
      */
-    public function pages(Pages $pages)
+    public function pages(Pages $pages,Request $request)
     {
-
+        $data = $request->all();
+        if (isset($data['tpl'])) {
+            $tpl=$data['tpl'];
+        }else{
+           $tpl= config('app.shtemplate');
+        }
         $pages = Pages::where('status', 1)->get()->toArray();
-        return $this->view('static_pages/pages', ['pages' => $pages]);
+        return $this->view('static_pages/pages', ['pages' => $pages],$tpl);
     }
 
     /**
      * 文章详情
      */
-    public function page(Pages $pages, $tag)
+    public function page(Pages $pages, $tag,Request $request)
     {
 
         $page = Pages::where('tag', $tag)->get()->toArray();
+        $data = $request->all();
+        if (isset($data['tpl'])) {
+            $tpl=$data['tpl'];
+        }else{
+           $tpl= config('app.shtemplate');
+        }
         if (!$page) {
             throw new AppException(__('system.page_not_exit'));
         } else {
@@ -223,7 +252,7 @@ class HomeController extends Controller
         if ($page['status'] != 1) {
             throw new AppException(__('system.page_not_exit'));
         } else {
-            return $this->view('static_pages/page', $page);
+            return $this->view('static_pages/page', $page,$tpl);
         }
     }
 
