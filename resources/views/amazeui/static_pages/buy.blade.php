@@ -111,7 +111,7 @@ exit();
                                            <span style="color:#6C6C6C">{{__('system.in_stock')}}：{{ $in_stock }}</span>
 
                                         </span><br>
-                                         <span class="am-badge am-badge-danger query-pifa">{{ __('system.wholesale_discount') }}</span>
+                                         <span class="am-badge am-badge-danger query-pifa">{{ __('system.see_wholesale_discount') }}</span>
                                          <br>
                                           <span style="color:#6C6C6C">{{ __('system.sales') }}:<span id="salesvolume">{{ $sales_volume }}</span></span><br>
 
@@ -127,7 +127,7 @@ exit();
                                             <div class="pifa layui-hide">{{ __('system.purchase_quantity') }}{{ $ws['number'] }} {{__('system.the_above')}},{{ __('system.each') }}¥{{ $ws['price']  }}</div>
                                         @endforeach
                                     @else
-                                    <div class="pifa layui-hide">当前商品无批发价格</div>
+                                    <div class="pifa layui-hide">{{ __('system.no_wholesale_discount') }}</div>
                                     @endif
                                             <div class="am-form-group">
                                                 <label class="">{{ __('system.quantity') }}</label>

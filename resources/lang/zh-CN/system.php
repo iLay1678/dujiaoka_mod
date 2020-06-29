@@ -41,8 +41,9 @@ return [
     'sales' => '销量',
     'price' => '价格',
     'wholesale_discount' => '批发优惠',
-
-    'the_above' => '数量或以上',
+    'see_wholesale_discount' => '查看批发价格',
+    'no_wholesale_discount' => '当前商品无批发价格',
+    'the_above' => '或以上',
     'each' => '每个',
     'verify_code' => '验证码',
     'behavior_verification' => '行为验证',
