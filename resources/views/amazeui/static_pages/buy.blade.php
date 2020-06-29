@@ -169,7 +169,7 @@ exit();
                                         
                                             @if($pd_type == 2  && is_array($other_ipu))
                                             @foreach($other_ipu as $ipu)
-                                            <br>
+                                            
                                             <div class="am-form-group">
                                                 <label class="">{{ $ipu['desc'] }}</label>
                                                 <div class="">
@@ -180,7 +180,7 @@ exit();
                                                     autocomplete="off" class="layui-input">
                                                 </div>
                                             </div>
-                                            <br>
+                                            
                                             @endforeach
 
                                             @endif
