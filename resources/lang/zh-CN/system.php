@@ -89,5 +89,7 @@ return [
     'search_now' => '立即查询',
 
     'update_time' => '更新于',
+    
+    'page_not_exit' => '页面不存在',
 
 ];

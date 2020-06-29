@@ -39,7 +39,7 @@ class PayController extends Controller
      * @param $oid
      * @param $payway
      */
-    protected function checkOrder(string $payway, string $oid)
+    protected function checkOrder(string $payway, string $oid) : void
     {
         // 判断订单是否存在
         $this->orderInfo = json_decode(Redis::hget('PENDING_ORDERS_LIST', $oid), true);
@@ -47,7 +47,6 @@ class PayController extends Controller
         // 判断支付方式是否存在
         $this->payInfo = Pays::where(['id' => $payway,  'pay_status' => 1])->first();
         if (empty($this->payInfo)) throw new AppException('支付方式不存在或未启用');
-        return true;
     }
 
     /**

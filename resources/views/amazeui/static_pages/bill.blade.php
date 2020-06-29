@@ -13,10 +13,11 @@
                     <div class="product-info">
                         <p style="color: #1E9FFF;font-size: 20px;font-weight: 500; text-align: center" >{{ __('system.note') }}：{{ config('app.order_expire_date') }} {{ __('system.prompt_to_cancel_order') }}！</p>
                     </div>
-                    <table class="am-table" lay-skin="" >
+                    <div class="am-scrollable-horizontal">
+                    <table class="am-table am-table-bordered am-table-striped am-table-compact am-text-nowrap" >
                         <colgroup>
-                            <col width="100">
-                            <col width="150">
+                            <col width="30">
+                            <col width="60">
                         </colgroup>
                         <tbody>
                         <tr>
@@ -74,6 +75,7 @@
                         </tr>-->
                         </tbody>
                     </table>
+                    </div>
                     <p class="errpanl" style="text-align: center"><a href="{{ url(\App\Models\Pays::find($pay_way)->pay_handleroute, ['payway' => $pay_way, 'oid' => $order_id]) }}" class="layui-btn layui-btn-sm">{{ __('system.pay_immediately') }}</a></p>
 
                 </div>

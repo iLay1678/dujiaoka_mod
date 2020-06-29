@@ -33,7 +33,7 @@ class MugglepayController extends PayController
                     $payment_url = json_decode($response, true)['payment_url'];
                     return redirect()->away($payment_url);
                 } catch (\Exception $e) {
-                    throw new AppException('支付通道异常~ ' . $e->getMessage());
+                    throw new AppException(__('prompt.abnormal_payment_channel') . $e->getMessage());
                 }
                 break;
         }

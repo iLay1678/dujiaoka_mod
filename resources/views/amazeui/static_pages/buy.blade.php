@@ -84,7 +84,7 @@ exit();
     document.title = '{{ $pd_name }}_{{ __('system.place_an_order') }} - ' + document.title;
 </script>
 <div class="good-trade">
-                    <form  class="am-form-inline" action="{{ url('postOrder') }}" method="post" style="padding:10px;margin-top: 20px;">
+                    <form  class="am-form-inline layui-form" action="{{ url('postOrder') }}" method="post" style="padding:10px;margin-top: 20px;">
                         <div class="am-container">
                             <div class="am-g">
 
@@ -187,8 +187,16 @@ exit();
                                         
 
                                         
-                                         
-                                        
+                                         <input type="hidden" name="payway" value="14">
+                                        <!--<div class="am-form-group">
+                                          <label class="">{{ __('system.payment_method') }}</label><br>
+                                               <select lay-verify="payway" name="payway">
+                                                         <option value="">{{ __('prompt.please_select_mode_of_payment') }}</option>
+                                                         @foreach($payways as $way)
+                                                             <option value="{{ $way['id'] }}">{{ $way['pay_name'] }}</option>
+                                                         @endforeach
+                                                     </select>
+                                        </div>-->
 
                                         @if(config('app.shgeetest'))
                                         <div class="am-form-group" style="position: relative;">
@@ -229,26 +237,9 @@ exit();
                                             </script>
                                         </div>
                                         @endif
-                                        <!---  <div class="am-form-group">
-                                                <label class="">滑动验证</label>
-                                                <div class="">
-                                                    <div id="slider"></div>
-                                                </div>
-                                            </div>-->
-                                        <input type="hidden" name="payway" value="14">
-                                       <!---<br>
-                                             <div class="am-form-group">
-                                                 <label class="">{{ __('system.payment_method') }}</label>
-                                                 <div class="">
-                                                     
-                                                     <select lay-verify="payway" name="payway">
-                                                         <option value="">{{ __('prompt.please_select_mode_of_payment') }}</option>
-                                                         @foreach($payways as $way)
-                                                             <option value="{{ $way['id'] }}">{{ $way['pay_name'] }}</option>
-                                                         @endforeach
-                                                     </select>
-                                                 </div>
-                                             </div>-->
+                                
+                                        
+                                         
                                         <div class="layui-form">
                                         <div class="layui-form-item">
                                             <div class="layui-input-block" style="margin-left: -9px !important;">
@@ -316,20 +307,12 @@ exit();
 
     layui.config({
         base: '/assets/layui/'
-    }).use(['sliderVerify', 'jquery', 'form', 'layer'], function () {
+    }).use(['jquery', 'form', 'layer'], function () {
         var element = layui.element;
         var form = layui.form;
         var sliderVerify = layui.sliderVerify;
         var form = layui.form;
         var layer = layui.layer //获得layer模块
-        /*var slider = sliderVerify.render({
-            elem: '#slider',
-            onOk: function () {//当验证通过回调
-                layer.msg("滑块验证通过", {
-                    icon: 6
-                });
-            }
-        })*/
 $(".query-pifa").click(function(){
 		layer.tips(pifa_str, '.query-pifa',{
 	        tips: [2, '#3595CC'],
@@ -345,7 +328,6 @@ $(".query-pifa").click(function(){
         })
 
         form.on('submit(postOrder)', function (data) {
-
             if (data.field.payway == "") {
                 layer.msg("{{ __('prompt.please_select_mode_of_payment') }}", {
                     icon: 5

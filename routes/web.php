@@ -61,12 +61,9 @@ Route::group(['prefix' => 'pay', 'namespace' => 'Pay'], function () {
     Route::get('paypal/{payway}/{oid}', 'PaypalPayController@gateway');
     Route::get('paypal/return_url', 'PaypalPayController@returnUrl');
     Route::post('paypal/notify_url', 'PaypalPayController@notifyUrl');
-    // 付呗
-    Route::get('fubei/{payway}/{oid}','KingController@fubei');
-    Route::post('fubei/notify_url','KingController@fubeinotify');
     // Mugglepay
-    Route::get('mugglepay/{payway}/{oid}','KingController@mugglepay');
-    Route::post('mugglepay/notify_url','KingController@mugglepaynotify');
+    Route::get('mugglepay/{payway}/{oid}','MugglepayController@gateway');
+    Route::post('mugglepay/notify_url','MugglepayController@notifyUrl');
     // V免签
     Route::get('vpay/{payway}/{oid}','VpayController@gateway');
     Route::get('vpay/notify_url','VpayController@notifyUrl');
