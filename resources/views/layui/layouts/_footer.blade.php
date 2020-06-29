@@ -5,10 +5,7 @@
 
             <div class="footer-wrap">
                 <div style="text-align: center">{!! config('webset.footer') !!} </div>
-                <p>Copyright @ <?php echo date('Y');?> {{ config('webset.text_logo') }} . Powered By <a
-                            href="https://github.com/iLay1678/dujiaoka-mod-pub" target="_blank"
-                            rel="nofollow noopener noreferrer">独角数卡-Mod</a> .
-                    Modified By <a href="https://ifking.cn/p/315.html" target="_blank">iLay1678</a>
+                <p>Copyright @ <?php echo date('Y');?> {{ config('webset.text_logo') }} . Powered by <a href="https://github.com/zlkbdotnet/zfaka/" target="_blank">ZFAKA 1.4.3</a>
                 </p><br>
             </div>
 

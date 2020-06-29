@@ -112,8 +112,8 @@ class HomeController extends Controller
          */
         if (!empty($data['coupon_code'])) {
             if ($data['coupon_code'] == config('coupon_code_global')) {
-                if ($cacheOrder['actual_price'] <= config('coupon_code_global_allow')) {
-                    throw new AppException("订单金额" . config('coupon_code_global_allow') . "元以上才可使用该优惠券");
+                if ($cacheOrder['actual_price'] < config('coupon_code_global_allow')) {
+                    throw new AppException("订单金额满" . config('coupon_code_global_allow') . "元才可使用该优惠券");
                 }
                 $cacheOrder['coupon_code'] = $data['coupon_code'];
                 $cacheOrder['actual_price'] = number_format(($cacheOrder['actual_price'] - config('coupon_code_global_price')), 2, '.', '');

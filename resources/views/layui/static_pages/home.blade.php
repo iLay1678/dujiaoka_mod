@@ -48,7 +48,7 @@
                                                 <div class="layui-hide">{{ $classify['name'] }}
                                                     -{{ $product['pd_name'] }}</div>
                                                 <div class="goodsdetail-mobile-text">
-                                                    <div class="title"><strong>{{ $product['pd_name'] }}</strong></div>
+                                                    <div class="title">{{ $product['pd_name'] }}</div>
                                                     <span class="price"><b>￥{{ $product['actual_price'] }}</b></span>&nbsp
                                                     @if($product['pd_type'] == 1)
                                                             <span class="layui-badge layui-bg-green">{{ __('system.automatic_delivery') }}</span>

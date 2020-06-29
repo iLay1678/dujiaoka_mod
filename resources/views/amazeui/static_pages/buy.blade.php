@@ -1,6 +1,6 @@
-@extends('layui.layouts.default')
+@extends('amazeui.layouts.default')
 @section('notice')
-@include('layui.layouts._notice')
+@include('amazeui.layouts._notice')
 @endsection
 @section('content')
 @if($passwd!=null&&empty($pwd))
@@ -83,114 +83,96 @@ exit();
 <script>
     document.title = '{{ $pd_name }}_{{ __('system.place_an_order') }} - ' + document.title;
 </script>
-<div class="layui-row">
-    <div class="layui-container">
+<div class="good-trade">
+                    <form  class="am-form-inline" action="{{ url('postOrder') }}" method="post" style="padding:10px;margin-top: 20px;">
+                        <div class="am-container">
+                            <div class="am-g">
 
-        <div class="layui-card cardcon">
+                                <div class="am-u-sm-12 am-u-md-4 am-u-lg-4 trade-goodimg am-u-end" style="padding:10px">
 
-            <div class="layui-card-body">
-                <div class="layui-row">
-                    <div class="layui-col-md4 layui-hide-xs">
-                        <div class="layui-card">
-                            <div class="layui-card-body">
-                                <img  style="border-radius:3px;box-shadow:rgba(0,0,0,0.15) 0 0 8px;background:#FBFBFB;border:1px solid #ddd;padding:5px;" src="{{ \Illuminate\Support\Facades\Storage::disk('admin')->url($pd_picture) }}"
-                                     width="100%" height="100%">
-                            </div>
-                            <div class="layui-card-body">
-                                <img
-                                    src="data:image/png;base64,{!! base64_encode(QrCode::format('png')->size(200)->generate(Request::url())) !!}"
-                                    width="100%" height="100%">
-                                <p style="text-align: center">{{ __('system.mobile_phone_purchase') }}</p>
-
-                            </div>
-                        </div>
-                    </div>
+<img style="border-radius:3px;box-shadow:rgba(0,0,0,0.15) 0 0 8px;background:#FBFBFB;border:1px solid #ddd;padding:5px;" src="{{ \Illuminate\Support\Facades\Storage::disk('admin')->url($pd_picture) }}" width="100%" height="100%">
 
 
-                    <!-- 商品详细区 -->
-                    <div class="layui-col-md8  layui-col-xs12">
-                        <div class="layui-card">
-                            <div class="layui-card-header" style="line-height: 25px;word-wrap:break-word; word-break:break-all;white-space: normal;height:auto;">
+                                </div>
+                                <div class="am-u-sm-12 am-u-md-8 am-u-lg-8  am-u-end" style="padding:10px">
+                                    <!-- 网格开始 -->
+                                    <span id="goodsname">{{ $pd_name }}</span>
+
+                                <br><small class="attributelist">
                                 @if($pd_type == 1)
-                                <span class="layui-badge layui-bg-green">{{ __('system.automatic_delivery') }}</span>
+                                <span class="am-badge am-badge-success"><i class="am-success am-icon-shield"></i>{{ __('system.automatic_delivery') }}</span>
                                 @else
-                                <span class="layui-badge layui-bg-black">{{ __('system.charge') }}</span>
-                                @endif
-                                &nbsp;&nbsp;
-                                <span style="font-size: 20px;color: #3C3C3C;">{{ $pd_name }}</span>
-                                &nbsp;&nbsp;
-                            </div>
-                            <div class="layui-card-body">
-                                <form class="layui-form layui-form-pane" action="{{ url('postOrder') }}"
-                                      method="post">
-                                    {{ csrf_field() }}
-                                    <div class="product-info">
+                                <span class="am-badge am-badge-success"><i class="am-success am-icon-shield"></i>{{ __('system.charge') }}</span>
+                                @endif</small>                                    <p class="trade-goodinfo">
                                         <span style="color:#6c6c6c">{{ __('system.price') }}：</span>
-                                        <span class="product-price">¥ {{ $actual_price }}</span>
-                                        <span class="product-price-cost-price">¥ {{ $cost_price }}</span>
-                                        <span style="color:#6c6c6c">&nbsp;&nbsp;{{__('system.in_stock')}}({{ $in_stock }})</span>
-                                    </div>
+                                        <span class="trade-price">¥<span id="price">{{ $actual_price }}</span></span>
+                                        <del>¥ {{ $cost_price }}</del>
+                                        <span style="float:right;">
+                                           <span style="color:#6C6C6C">{{__('system.in_stock')}}：{{ $in_stock }}</span>
 
-                                    @if(!empty($wholesale_price) && is_array($wholesale_price))
-                                    <div class="product-info">
-                                                <span style="color:#F40;font-size: 18px;font-weight: 400"><i
-                                                        class="layui-icon layui-icon-praise"></i>{{ __('system.wholesale_discount') }}：</span>
+                                        </span><br>
+                                         <span class="am-badge am-badge-danger query-pifa">{{ __('system.wholesale_discount') }}</span>
+                                         <br>
+                                          <span style="color:#6C6C6C">{{ __('system.sales') }}:<span id="salesvolume">{{ $sales_volume }}</span></span><br>
+
+
+
+                                    </p>
+
+<div class="am-tab-panel am-fade am-in am-active">
+     {{ csrf_field() }}
+                                @if(!empty($wholesale_price) && is_array($wholesale_price))
+                                    
                                         @foreach($wholesale_price as $ws)
-                                            <p class="ws-price">{{ __('system.purchase_quantity') }}{{ $ws['number'] }} {{__('system.the_above')}},{{ __('system.each') }}： <span class="layui-badge layui-bg-orange">￥{{ $ws['price']  }}</span></p>
+                                            <div class="pifa layui-hide">{{ __('system.purchase_quantity') }}{{ $ws['number'] }} {{__('system.the_above')}},{{ __('system.each') }}¥{{ $ws['price']  }}</div>
                                         @endforeach
-
-                                    </div>
-
+                                    @else
+                                    <div class="pifa layui-hide">当前商品无批发价格</div>
                                     @endif
-                                    <div class="layui-field-box">
-                                        <div class="layui-form-item">
-                                            <div class="layui-inline">
-                                                <label class="layui-form-label">{{ __('system.email') }}</label>
-                                                <div class="layui-input-block">
+                                            <div class="am-form-group">
+                                                <label class="">{{ __('system.quantity') }}</label>
+                                                <div class="">
+                                                    <input type="number" name="order_number" required
+                                                           lay-verify="required|order_number" placeholder=""
+                                                           value="1" autocomplete="off" class="layui-input" min="1" max="{{ $in_stock }}">
+                                                </div>
+                                            </div>
+                                            <div class="am-form-group">
+                                                <label class="">{{ __('system.email') }}</label>
+                                                
                                                     <input type="hidden" name="pid" value="{{ $id }}">
                                                     <input type="email" name="account" value="" required
                                                            lay-verify="required|email" placeholder="{{ __('system.email') }}"
                                                            autocomplete="off" class="layui-input">
-                                                </div>
+                                               
                                             </div>
-                                            <div class="layui-inline">
-                                                <label class="layui-form-label">{{ __('system.search_password') }}</label>
-                                                <div class="layui-input-block">
+                                            
+                                            <div class="am-form-group">
+                                                <label class="">{{ __('system.search_password') }}</label>
+                                                <div class="">
                                                     <input type="password" name="search_pwd" value="" required
                                                            lay-verify="required" placeholder="{{ __('prompt.set_search_password') }}"
                                                            autocomplete="off" class="layui-input">
                                                 </div>
                                             </div>
-
-                                        </div>
-
-
-                                        <div class="layui-form-item">
-                                            <div class="layui-inline">
-                                                <label class="layui-form-label">{{ __('system.quantity') }}</label>
-                                                <div class="layui-input-block">
-                                                    <input type="number" name="order_number" required
-                                                           lay-verify="required|order_number" placeholder=""
-                                                           value="1" autocomplete="off" class="layui-input">
-                                                </div>
-                                            </div>
-                                            <div class="layui-inline">
-                                                <label class="layui-form-label">{{ __('system.promo_code') }}</label>
-                                                <div class="layui-input-block">
+                                            
+                                            <div class="am-form-group">
+                                                <label class="">{{ __('system.promo_code') }}</label>
+                                                <div class="">
                                                     <input type="text" name="coupon_code" placeholder="{{ __('prompt.have_promo_code') }}"
                                                            value="" autocomplete="off" class="layui-input">
                                                 </div>
                                             </div>
-                                        </div>
+                                       
 
 
-                                        <div class="layui-form-item">
+                                        
                                             @if($pd_type == 2  && is_array($other_ipu))
                                             @foreach($other_ipu as $ipu)
-
-                                            <div class="layui-inline">
-                                                <label class="layui-form-label">{{ $ipu['desc'] }}</label>
-                                                <div class="layui-input-block">
+                                            <br>
+                                            <div class="am-form-group">
+                                                <label class="">{{ $ipu['desc'] }}</label>
+                                                <div class="">
                                                     <input type="text" name="{{ $ipu['field'] }}"
                                                            @if($ipu['rule'] !== false) required
                                                     lay-verify="required"
@@ -198,30 +180,35 @@ exit();
                                                     autocomplete="off" class="layui-input">
                                                 </div>
                                             </div>
-
+                                            <br>
                                             @endforeach
 
                                             @endif
-                                        </div>
+                                        
 
-                                        <input type="hidden" name="payway" value="14">
-                                        <!-- <div class="layui-form-item">
-                                             <div class="layui-inline">
-                                                 <label class="layui-form-label">{{ __('system.payment_method') }}</label>
-                                                 <div class="layui-input-block">
-                                                     <select lay-verify="payway" name="payway">
-                                                         <option value="">{{ __('prompt.please_select_mode_of_payment') }}</option>
-                                                         @foreach($payways as $way)
-                                                             <option value="{{ $way['id'] }}">{{ $way['pay_name'] }}</option>
-                                                         @endforeach
-                                                     </select>
-                                                 </div>
-                                             </div>
-                                         </div>-->
+                                        
+                                         
+                                        
+
+                                        @if(config('app.shgeetest'))
+                                        <div class="am-form-group" style="position: relative;">
+                                            <label for="L_vercode" class="">{{ __('system.behavior_verification') }}</label>
+                                            <div class="">
+                                                <input type="text" style="cursor:pointer" readonly=""
+                                                       class="layui-input" id="GeetestCaptcha"
+                                                       placeholder="{{ __('system.click_to_behavior_verification') }}">
+                                            </div>
+                                        </div>
+                                        <div class="layui-hide">{!! Geetest::render('popup') !!}</div>
+                                        <script>$('#GeetestCaptcha').click(function () {
+                                                $('.geetest_radar_btn').click();
+                                            })</script>
+                                        @endif
                                         @if(config('app.shcaptcha'))
-                                        <div class="layui-form-item">
-                                            <label class="layui-form-label">{{ __('system.verify_code') }}</label>
-                                            <div class="layui-input-inline">
+                                        <br>
+                                        <div class="am-form-group">
+                                            <label class="">{{ __('system.verify_code') }}</label>
+                                            <div class="">
                                                 <input type="text" name="verify_img" value="" required
                                                        lay-verify="required" placeholder="{{ __('system.verify_code') }}"
                                                        autocomplete="off"
@@ -242,29 +229,27 @@ exit();
                                             </script>
                                         </div>
                                         @endif
-
-                                        @if(config('app.shgeetest'))
-                                        <div class="layui-form-item" style="position: relative;">
-                                            <label for="L_vercode" class="layui-form-label">{{ __('system.behavior_verification') }}</label>
-                                            <div class="layui-input-inline">
-                                                <input type="text" style="cursor:pointer" readonly=""
-                                                       class="layui-input" id="GeetestCaptcha"
-                                                       placeholder="{{ __('system.click_to_behavior_verification') }}">
-                                            </div>
-                                        </div>
-                                        <div class="layui-hide">{!! Geetest::render('popup') !!}</div>
-                                        <script>$('#GeetestCaptcha').click(function () {
-                                                $('.geetest_radar_btn').click();
-                                            })</script>
-                                        @endif
-                                        <!---  <div class="layui-form-item">
-                                                <label class="layui-form-label">滑动验证</label>
-                                                <div class="layui-input-inline">
+                                        <!---  <div class="am-form-group">
+                                                <label class="">滑动验证</label>
+                                                <div class="">
                                                     <div id="slider"></div>
                                                 </div>
                                             </div>-->
-
-
+                                        <input type="hidden" name="payway" value="14">
+                                       <!---<br>
+                                             <div class="am-form-group">
+                                                 <label class="">{{ __('system.payment_method') }}</label>
+                                                 <div class="">
+                                                     
+                                                     <select lay-verify="payway" name="payway">
+                                                         <option value="">{{ __('prompt.please_select_mode_of_payment') }}</option>
+                                                         @foreach($payways as $way)
+                                                             <option value="{{ $way['id'] }}">{{ $way['pay_name'] }}</option>
+                                                         @endforeach
+                                                     </select>
+                                                 </div>
+                                             </div>-->
+                                        <div class="layui-form">
                                         <div class="layui-form-item">
                                             <div class="layui-input-block" style="margin-left: -9px !important;">
                                                 <input type="checkbox" checked="" lay-filter="tos" id="tos"
@@ -276,44 +261,52 @@ exit();
                                                         class="layui-icon layui-icon-ok"></i></div>
                                             </div>
                                         </div>
-                                        <div class="layui-form-item">
-                                            <button class="layui-btn layui-btn-normal" id="buy"
+                                        </div>
+                                        
+                                        <div class="am-form-group">
+                                            
+                                            <button class="layui-btn layui-btn-danger" id="buy"
                                                     lay-submit
-                                                    lay-filter="postOrder">{{ __('system.order_now') }}
+                                                    lay-filter="postOrder"><span class="am-icon-shopping-cart"></span>{{ __('system.order_now') }}
                                             </button>
                                             <button type="reset" class="layui-btn layui-btn-primary">{{ __('system.reset_order') }}</button>
                                         </div>
-                                    </div>
-                                </form>
-                            </div>
-                            <div class="layui-tab layui-tab-brief" lay-filter="docDemoTabBrief">
-                                <ul class="layui-tab-title">
-                                    <li class="layui-this">{{ __('system.product_desciption') }}</li>
-                                </ul>
-                                <div class="layui-tab-content" style="">
-                                    <div class="layui-tab-item layui-show">
-                                        {!! $pd_info !!}
-                                    </div>
+
+
+                                    <!-- 网格结束 -->
+
+
                                 </div>
                             </div>
                         </div>
-                    </div>
-                </div>
 
+                    
+              </div></form>
+                <div class="am-panel am-panel-default" style="border-radius:0px;border:0px;">
+                        <div class="am-tabs" data-am-tabs="{noSwipe: 1}" id="doc-tab-demo-1">
+  <ul class="am-tabs-nav am-nav am-nav-tabs">
+    <li class="am-active"><a href="javascript: void(0)">{{ __('system.product_desciption') }}</a></li>
+    
+    
+  </ul>
 
-            </div>
-
-
-        </div>
-
-    </div>
+  <div class="am-tabs-bd">
+    <div id="product_desc" class="am-tab-panel am-active">
+     {!! $pd_info !!}   </div>
+    
+    
+  </div>
 </div>
+                    </div>
+
+</div>
+
 
 @stop
 
 @section('tpljs')
 <script>
-
+    var pifa_str = $(".pifa").html();
     var instock = {{$in_stock}}
     if (instock < 1) {
         $('#buy').attr('disabled', true);
@@ -337,7 +330,12 @@ exit();
                 });
             }
         })*/
-
+$(".query-pifa").click(function(){
+		layer.tips(pifa_str, '.query-pifa',{
+	        tips: [2, '#3595CC'],
+	        time: 3500
+	      });
+	})
 
         form.verify({
             order_number: function (value, item) {

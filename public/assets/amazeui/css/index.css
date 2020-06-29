@@ -1,0 +1,186 @@
+footer{
+  margin-top: 10px;
+}
+.am-container{
+                max-width: 1200px;
+}
+.class_name{
+	font-size: 20px;
+	color:	#242424;
+	height: 30px;
+	font-weight: bold;
+	text-align: center;
+	border-bottom: 1px solid #545454;
+	line-height: 30px;
+	margin-top: 10px;
+	margin-bottom: 5px;
+	overflow: hidden;
+}
+.class_gengduo{
+	margin-top: 5px;
+}
+.number,.query-pifa{
+	cursor: pointer;
+}
+.attributelist{
+	display: inline-block;
+	margin-bottom: 10px;
+	margin-top: 10px;
+}
+#frm-inputdata{
+  max-width: 80%;
+  margin:0 auto;
+  padding-top: 30px;
+}
+#frm-inputdata .am-input-group{
+  margin-top: -15px;
+}
+.paytypelist img{
+  width: 25px;
+  height: 25px;
+}
+#page{
+	text-align: center;
+	margin:0 auto; 
+}
+#goodsname{
+	font-size: 20px;
+}
+ .gonggao{
+       margin-top: 5px;
+       text-align: center;
+   }
+   .goods{
+       margin-top: 10px;
+   }
+   .good-trade{
+       background-color: #fff;
+   }
+   .good-trade p{
+        font-size: 15px;
+         line-height: 30px;  
+   }
+  
+   @media screen and (max-width:550px){
+            .searchdiv{
+                display:none;
+            }
+            .searchdiv2{
+                display:inline
+            }
+            .index-goodimg{
+             height:170px;
+            }
+            
+        }
+    @media screen and (min-width:550px){
+        .searchdiv{
+            display:inline;
+        }
+        .searchdiv2{
+            display:none;
+        }
+        .index-goodimg{
+             height:250px;
+         }
+         .trade-goodimg{
+            display:inline
+        }
+    }
+    
+    .index-good{
+        padding:10px;background-color:#fff
+    }
+    .price{
+       font-size: 18px;
+       color: #F40;
+       font-weight: 700;
+       /* text-align:left */
+    }
+    .pr-info{
+        margin-top: 10px
+    }
+    .pr-xl{
+       color:#888;
+       float: right;
+    }
+    .index-goodname{
+    text-align:center;
+    font-size:15px;
+    text-overflow: ellipsis;
+    overflow: hidden;
+    white-space: nowrap;
+    }
+    .index-goodname-xq{
+    font-weight: 400;
+    margin-top: 5px;
+    font-size:15px;
+    word-wrap:break-word;  
+    word-break:break-all;  
+    overflow: hidden;
+    height:40px
+    }
+   
+    .trade-goodname{
+        font-size:20px;color:#3C3C3C;
+    }
+    .trade-goodinfo{
+        background-color:#FFF2E8;padding:10px;
+        margin-bottom: 5px;
+    }
+    .trade-price{
+        color:#F40;;font-size: 26px;font-weight: 700;
+    }
+    .trade-input{
+        text-align:center;height:20px;width:50px;border: 1px solid #e6e6e6;border-radius: 2px;padding:5px
+    }
+    .trade-email{
+        height:20px;width:150px;border: 1px solid #e6e6e6;border-radius: 2px;padding:5px
+    }
+    .tongji{
+        text-align:center;
+        font-size: 15px;
+        padding:20px;
+      }
+      .tongji a{
+       color: #3C3C3C;
+      }
+    .icon {
+            width: 1em;
+            height: 1em;
+            vertical-align: -0.15em;
+            fill: currentColor;
+            overflow: hidden;
+            font-size: 25px
+    }
+ .text-area-star {
+        overflow: hidden;
+        text-align: center;
+    }
+    .text-area-star label {
+        float: left;
+        line-height: 50x;
+        height: 50px;
+        width:100%;
+        font-size: 12px;
+        margin: 0px 10px 10px 0px;
+        padding: 0px 5px 0px 5px;
+        cursor: pointer;
+        border: 1px solid #ebebeb;
+        background-repeat:no-repeat;
+        background-position:center;
+    }
+    .red {
+        color: red;
+        border: 2px solid red !important;
+    }
+    .text-area-star label input {
+        filter: alpha(opacity=0);
+        -moz-opacity: 0;
+        opacity: 0;
+        position: absolute;
+    }
+    .text-area-star label span {
+        padding: 10px 10px 10px 10px;
+        position: relative;
+    }
