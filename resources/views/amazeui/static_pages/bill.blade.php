@@ -13,7 +13,7 @@
                     <div class="product-info">
                         <p style="color: #1E9FFF;font-size: 20px;font-weight: 500; text-align: center" >{{ __('system.note') }}：{{ config('app.order_expire_date') }} {{ __('system.prompt_to_cancel_order') }}！</p>
                     </div>
-                    <table class="layui-table" lay-skin="" >
+                    <table class="am-table" lay-skin="" >
                         <colgroup>
                             <col width="100">
                             <col width="150">

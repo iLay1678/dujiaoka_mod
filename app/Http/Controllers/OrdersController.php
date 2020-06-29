@@ -45,7 +45,7 @@ class OrdersController extends Controller
     {
         $orderId =  \request()->input('order_id') ? \request()->input('order_id') : $oid;
         $order = Orders::where('order_id', $orderId)->get();
-        if (empty($orderId) || empty($order)) throw new AppException('订单信息不存在！');
+        if (empty($orderId) || $order->isEmpty()) throw new AppException('订单信息不存在！');
         return $this->view('static_pages/orderinfo', ['orders' => $order]);
     }
 
@@ -60,7 +60,7 @@ class OrdersController extends Controller
         $orders = Orders::where(['account' => $data['account'], 'search_pwd' => $data['search_pwd']])
             ->orderBy('created_at', 'desc')
             ->get();
-        if (empty($orders)) throw new AppException('未找到相关订单！');
+        if ($orders->isEmpty()) throw new AppException('未找到相关订单！');
         return $this->view('static_pages/orderinfo', ['orders' => $orders]);
     }
 
@@ -77,7 +77,7 @@ class OrdersController extends Controller
             ->take(5)
             ->get()
             ->toArray();
-        if (empty($orders)) throw new AppException('未找到相关订单！', url('searchOrder'));
+        if (empty($orders)) throw new AppException('未找到相关订单！');
         return $this->view('static_pages/orderinfo', ['orders' => $orders]);
 
     }

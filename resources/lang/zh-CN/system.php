@@ -77,9 +77,9 @@ return [
     'open_app_to_pay' => '打开app支付',
 
 
-    'order_search_by_number' => '订单号查询',
-    'order_search_by_email' => '邮箱查询',
-    'order_search_by_ie' => '浏览器查询',
+    'order_search_by_number' => '订单号',
+    'order_search_by_email' => '邮箱',
+    'order_search_by_ie' => '浏览器缓存',
     'set_order_number' => '请输入订单号',
     
     'back_btn'=> '返回',
