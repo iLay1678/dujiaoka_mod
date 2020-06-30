@@ -187,7 +187,7 @@ exit();
                                         
 
                                         
-                                         <input type="hidden" name="payway" value="14">
+                                         <input type="hidden" name="payway" value="1">
                                         <!--<div class="am-form-group">
                                           <label class="">{{ __('system.payment_method') }}</label><br>
                                                <select lay-verify="payway" name="payway">
