@@ -187,8 +187,8 @@ exit();
                                         
 
                                         
-                                         <input type="hidden" name="payway" value="1">
-                                        <!--<div class="am-form-group">
+                                         
+                                        <div class="am-form-group">
                                           <label class="">{{ __('system.payment_method') }}</label><br>
                                                <select lay-verify="payway" name="payway">
                                                          <option value="">{{ __('prompt.please_select_mode_of_payment') }}</option>
@@ -196,7 +196,7 @@ exit();
                                                              <option value="{{ $way['id'] }}">{{ $way['pay_name'] }}</option>
                                                          @endforeach
                                                      </select>
-                                        </div>-->
+                                        </div>
 
                                         @if(config('app.shgeetest'))
                                         <div class="am-form-group" style="position: relative;">

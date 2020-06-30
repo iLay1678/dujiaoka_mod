@@ -68,11 +68,11 @@
                             <td><p>{{ $other_ipu }}</p></td>
                         </tr>
                         @endif
-                        <!--
+                        
                         <tr>
                             <td>{{ __('system.payment_method') }}：</td>
                             <td>{{ \App\Models\Pays::find($pay_way)->pay_name }}</td>
-                        </tr>-->
+                        </tr>
                         </tbody>
                     </table>
                     </div>

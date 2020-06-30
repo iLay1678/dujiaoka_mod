@@ -204,8 +204,8 @@ exit();
                                             @endif
                                         </div>
 
-                                        <input type="hidden" name="payway" value="14">
-                                        <!-- <div class="layui-form-item">
+                                        
+                                         <div class="layui-form-item">
                                              <div class="layui-inline">
                                                  <label class="layui-form-label">{{ __('system.payment_method') }}</label>
                                                  <div class="layui-input-block">
@@ -217,7 +217,7 @@ exit();
                                                      </select>
                                                  </div>
                                              </div>
-                                         </div>-->
+                                         </div>
                                         @if(config('app.shcaptcha'))
                                         <div class="layui-form-item">
                                             <label class="layui-form-label">{{ __('system.verify_code') }}</label>
