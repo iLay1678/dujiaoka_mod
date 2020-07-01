@@ -106,7 +106,9 @@ exit();
                                 @endif</small>                                    <p class="trade-goodinfo">
                                         <span style="color:#6c6c6c">{{ __('system.price') }}：</span>
                                         <span class="trade-price">¥<span id="price">{{ $actual_price }}</span></span>
+                                        @if($actual_price < $cost_price )
                                         <del>¥ {{ $cost_price }}</del>
+                                        @endif
                                         <span style="float:right;">
                                            <span style="color:#6C6C6C">{{__('system.in_stock')}}：{{ $in_stock }}</span>
 

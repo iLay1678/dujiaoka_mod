@@ -104,28 +104,6 @@ class OrdersController extends AdminController
             $tools->disableView();
         });
 
-        //保存后回调
-        $form->saved(function (Form $form) {
-            //订单处理完成，发送通知邮件
-            if ($form->model()->ord_status == 3) {
-                $order['ord_title'] = $form->model()->ord_title;
-                $order['order_id'] = $form->model()->order_id;
-                $order['buy_amount'] = $form->model()->buy_amount;
-                $order['ord_price'] = $form->model()->ord_price;
-                $order['created_at'] = $form->model()->updated_at;
-                $order['product_name'] = $form->model()->product['pd_name'];
-                $order['webname'] = config('webset.text_logo');
-                $order['weburl'] = getenv('APP_URL');
-                // 这里格式化一下把换行改成<br/>方便邮件
-                $order['ord_info'] = str_replace(PHP_EOL, '<br/>', $form->model()->ord_info);
-
-                $mailtpl = Emailtpls::where('tpl_token', 'finish_send_user_email')->first()->toArray();
-                $to = $form->model()->account;
-                $mailtipsInfo = replace_mail_tpl($mailtpl, $order);
-                if (!empty($to)) SendMails::dispatch($to, $mailtipsInfo['tpl_content'], $mailtipsInfo['tpl_name']);
-            }
-
-        });
 
         return $form;
     }

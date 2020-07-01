@@ -127,7 +127,9 @@ exit();
                                     <div class="product-info">
                                         <span style="color:#6c6c6c">{{ __('system.price') }}：</span>
                                         <span class="product-price">¥ {{ $actual_price }}</span>
+                                        @if($actual_price < $cost_price )
                                         <span class="product-price-cost-price">¥ {{ $cost_price }}</span>
+                                        @endif
                                         <span style="color:#6c6c6c">&nbsp;&nbsp;{{__('system.in_stock')}}({{ $in_stock }})</span>
                                     </div>
 

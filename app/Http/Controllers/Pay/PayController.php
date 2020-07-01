@@ -55,17 +55,17 @@ class PayController extends Controller
      * @param $trade_no
      * @param $total_amount
      */
-    protected function successOrder(string $out_trade_no, string $trade_no, float $total_amount)
+    protected function successOrder(string $out_trade_no, string $trade_no, float $total_amount) : void
     {
 
         // 判断缓存里是否已经没有订单了，没有说明已经处理了
         $orderInfo = json_decode(Redis::hget('PENDING_ORDERS_LIST', $out_trade_no), true);
-        if (empty($orderInfo)) return true;
+        if (empty($orderInfo)) throw new AppException("订单不存在:{$out_trade_no}");
         // 判断金额是否一致
         $cacheTamount = (float)$orderInfo['actual_price'];
         if ($cacheTamount != $total_amount) {
             Log::debug('异常订单！实际付款与订单总金额不一致！'.$out_trade_no);
-            return false;
+            if (empty($orderInfo)) throw new AppException("异常订单！实际付款与订单总金额不一致！:{$out_trade_no}");
         }
         $order = [
             'order_id' => $orderInfo['order_id'],
@@ -108,14 +108,14 @@ class PayController extends Controller
         $order['created_at'] = date('Y-m-d H:i:s');
         $order['product_name'] = $orderInfo['product_name'];
         $order['webname'] = config('webset.text_logo');
-        $order['weburl'] = getenv('APP_URL');
+        $order['weburl'] = env('APP_URL');
         // 这里格式化一下把换行改成<br/>方便邮件
         $order['ord_info'] = str_replace(PHP_EOL, '<br/>', $order['ord_info']);
         //库存预警
         $pd=Products::where('id',$orderInfo['product_id'])->get()->first();
         if($pd['stock_alert'] != 0 && $pd['in_stock'] < $pd['stock_alert']){
             $product['webname'] = config('webset.text_logo');
-            $product['weburl'] = getenv('APP_URL');
+            $product['weburl'] = env('APP_URL');
             $product['product_name']=$orderInfo['product_name'];
             $product['stock_alert']=$pd['stock_alert'];
             $product['in_stock']=$pd['in_stock'];
@@ -129,16 +129,10 @@ class PayController extends Controller
             // 发送邮箱给用户
             $mailtpl = Emailtpls::where('tpl_token', 'card_send_user_email')->first()->toArray();
             $to = $orderInfo['account'];
-        }elseif ($orderInfo['pd_type'] == 2) {
-            // 发送邮箱给用户
-            $mailtpl = Emailtpls::where('tpl_token', 'wait_send_user_email')->first()->toArray();
-            $to = $orderInfo['account'];
-            //发邮件给管理员
-            $mailtpl1 = Emailtpls::where('tpl_token', 'manual_send_manage_mail')->first()->toArray();
-            $to1 = config('webset.manage_email');
-            $mailtipsInfo1 = replace_mail_tpl($mailtpl1, $order);
-            if (!empty($to1)) SendMails::dispatch($to1, $mailtipsInfo1['tpl_content'], $mailtipsInfo1['tpl_name']);
-         }
+        } else {
+            $mailtpl = Emailtpls::where('tpl_token', 'manual_send_manage_mail')->first()->toArray();
+            $to = config('webset.manage_email');
+        }
         $mailtipsInfo = replace_mail_tpl($mailtpl, $order);
         if (!empty($to)) SendMails::dispatch($to, $mailtipsInfo['tpl_content'], $mailtipsInfo['tpl_name']);
         // 商品销量+
