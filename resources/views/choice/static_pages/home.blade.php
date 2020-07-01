@@ -1,24 +1,12 @@
 @extends('choice.layouts.default')
+@section('notice')
+    @include('layui.layouts._notice')
+@endsection
 @section('content')
-    <div class="sh-notice layui-hide-md">
-
-        <div class="layui-row ">
-            <!-- PC -->
-            <div class="layui-col-md8 layui-col-md-offset2 layui-col-sm12">
-                <div class="layui-card cardcon">
-                    <div class="layui-card-header">店铺公告：</div>
-                    <div class="layui-card-body">
-                        {!! config('webset.notice') !!}
-                    </div>
-                </div>
-            </div>
-        </div>
-
-    </div>
-
+    
     <div id="layerad" style="display: none;">{!! config('webset.layerad') !!}</div>
     <div class="layui-row">
-        <div class="layui-col-md8 layui-col-md-offset2 layui-col-sm12">
+        <div class="layui-container">
             <div class="layui-row layui-col-space20">
                 <div class="layui-col-md7  layui-col-xs12">
                     <div class="layui-card cardcon">
@@ -133,7 +121,18 @@
                                     </div>
                                 @endif
                                 @if(config('app.shgeetest'))
-                                   {!! Geetest::render() !!}
+                                        <div class="layui-form-item" style="position: relative;">
+                                            <label for="L_vercode" class="layui-form-label">{{ __('system.behavior_verification') }}</label>
+                                            <div class="layui-input-inline">
+                                                <input type="text" style="cursor:pointer" readonly=""
+                                                       class="layui-input" id="GeetestCaptcha"
+                                                       placeholder="{{ __('system.click_to_behavior_verification') }}">
+                                            </div>
+                                        </div>
+                                        <div class="layui-hide">{!! Geetest::render('popup') !!}</div>
+                                        <script>$('#GeetestCaptcha').click(function () {
+                                                $('.geetest_radar_btn').click();
+                                            })</script>
                                 @endif
                                 <div class="layui-form-item">
                                     <div class="layui-input-block">
@@ -147,13 +146,6 @@
                     </div>
                 </div>
                 <div class="layui-col-md5  layui-col-xs12">
-                    <div class="layui-card cardcon layui-hide-xs" id="notice">
-                        <div class="layui-card-header">店铺公告：<i class="layui-icon layui-hide-xs" id="qrcode">&#xe678;</i>
-                        </div>
-                        <div class="layui-card-body">
-                            {!! config('webset.notice') !!}
-                        </div>
-                    </div>
                     <div class="layui-card cardcon">
                         <div class="layui-card-header">
                             商品介绍
@@ -620,30 +612,21 @@
             })
             var layerad = $("#layerad").html();
             if (typeof (layerad) != "undefined") {
-                if (layerad.length > 0) {
-                    layer.open({
-                        type: 1
-                        ,
-                        title: false
-                        ,
-                        closeBtn: false
-                        ,
-                        area: '300px;'
-                        ,
-                        shade: 0.8
-                        ,
-                        id: 'AD'
-                        ,
-                        btn: ['关闭']
-                        ,
-                        btnAlign: 'c'
-                        ,
-                        moveType: 1 //拖拽模式，0或者1
-                        ,
-                        content: '<div style="padding: 50px; line-height: 22px; background-color: #393D49; color: #fff; font-weight: 300;">' + layerad + '</div>'
-                    });
-                }
+            if (layerad.length > 0) {
+                layer.open({
+                    type: 1
+                    , title: ['温馨提示', 'text-align:center;padding: 0 ;']
+                    , closeBtn: false
+                    , area: '300px;'
+                    , shade: 0.8
+                    , id: 'AD'
+                    , btn: ['朕知道了']
+                    , btnAlign: 'c'
+                    , moveType: 1 //拖拽模式，0或者1
+                    , content: '<div style="margin-top:15px;">' + layerad + '</div>'
+                });
             }
+        }
             form.on('submit(postOrder)', function (data) {
 
                 if (data.field.tid == '') {

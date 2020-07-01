@@ -29,7 +29,33 @@
 if(device.weixin||device.android||device.ios){
   //$('.product-img').addClass('layui-hide');
 }
+//手机设备的简单适配
 
+    var shadeMobile = $('.site-mobile-shade')
+    shadeMobile.on('click', function () {
+        $('body').removeClass('site-mobile');
+        $('html,body').removeClass('ovfHiden');
+    });
+    $('#main-menu-mobile-switch').on('click', function () {
+        $("#main-menu-mobile-switch").toggleClass('layui-icon-spread-left');
+        $("#main-menu-mobile-switch").toggleClass('layui-icon-close');
+        if ($("#main-menu-mobile").is(":hidden")) {
+            $('body').addClass('main-menu-mobile_body');
+            $('html,body').addClass('ovfHiden');
+            var body_width = parseInt($('body').width());
+            $("#main-menu-mobile").css("width", body_width);
+            $('#main-menu-mobile').show();
+        } else {
+            $('body').removeClass('main-menu-mobile_body');
+            $('html,body').removeClass('ovfHiden');
+            $('#main-menu-mobile').hide();
+        }
+    });
+    $('.site-mobile-shade').on('click', function () {
+        $('body').removeClass('main-menu-mobile_body');
+        $('html,body').removeClass('ovfHiden');
+        $('#main-menu-mobile').hide();
+    });
     });
 </script>
 
