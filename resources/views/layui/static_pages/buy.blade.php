@@ -220,7 +220,7 @@ exit();
                                                  </div>
                                              </div>
                                          </div>
-                                        @if(config('app.shcaptcha'))
+                                        @if(config('webset.verify_code') == 1)
                                         <div class="layui-form-item">
                                             <label class="layui-form-label">{{ __('system.verify_code') }}</label>
                                             <div class="layui-input-inline">

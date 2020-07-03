@@ -76,9 +76,7 @@ class HomeController extends Controller
         if (intval($data['order_number']) <= 0)
         if(!is_numeric($data['order_number']) || strpos($data['order_number'],".") !== false) throw new AppException(__('prompt.buy_order_number'));
         if (empty($data['search_pwd'])) throw new AppException(__('prompt.search_password_not_null'));
-        if (config('app.shcaptcha')) {
-           if (!captcha_check($data['verify_img'])) throw new AppException(__('prompt.verify_code_error'));
-        }
+        if (config('webset.verify_code') == 1 && !captcha_check($data['verify_img'])) throw new AppException(__('prompt.verify_code_error'));
         if (config('app.shgeetest')) {
             if (!$this->validate($request, [
                 'geetest_challenge' => 'geetest',

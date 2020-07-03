@@ -8,7 +8,7 @@
     <div class="layui-row">
         <div class="layui-container">
             <div class="layui-row layui-col-space20">
-                <div class="layui-col-md7  layui-col-xs12">
+                <div class="layui-col-md5  layui-col-xs12">
                     <div class="layui-card cardcon">
                         <div class="layui-card-header">
                             <span style="font-size: 16px;" id='pd_name'>商品选购</span>
@@ -34,8 +34,7 @@
                                 <div class="layui-form-item">
                                     <label class="layui-form-label">商品分类</label>
                                     <div class="layui-input-block">
-                                        <select name="tid" id="tid" lay-filter="tid" required lay-verify='required'
-                                                lay-search>
+                                        <select name="tid" id="tid" lay-filter="tid" required lay-verify='required'>
                                             <option value=''>请选择分类</option>
 
                                         </select>
@@ -45,7 +44,7 @@
                                     <label class="layui-form-label">商品</label>
                                     <div class="layui-input-block">
                                         <select name="pid" id="productlist" lay-filter="productlist" required
-                                                lay-verify='required' lay-search>
+                                                lay-verify='required'>
 
                                         </select>
                                     </div>
@@ -99,7 +98,7 @@
                                     </div>
 
                                 </div>
-                                @if(config('app.shcaptcha'))
+                                @if(config('webset.verify_code') == 1)
                                     <div class="layui-form-item">
                                         <label class="layui-form-label">验证码</label>
                                         <div>
@@ -145,7 +144,7 @@
                         </div>
                     </div>
                 </div>
-                <div class="layui-col-md5  layui-col-xs12">
+                <div class="layui-col-md7  layui-col-xs12">
                     <div class="layui-card cardcon">
                         <div class="layui-card-header">
                             商品介绍

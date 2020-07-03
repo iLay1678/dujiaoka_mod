@@ -214,7 +214,7 @@ exit();
                                                 $('.geetest_radar_btn').click();
                                             })</script>
                                         @endif
-                                        @if(config('app.shcaptcha'))
+                                        @if(config('webset.verify_code') == 1)
                                         <br>
                                         <div class="am-form-group">
                                             <label class="">{{ __('system.verify_code') }}</label>

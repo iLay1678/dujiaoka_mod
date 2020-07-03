@@ -2,12 +2,12 @@
 
 <p align="center">
 <a href="https://opensource.org/licenses/MIT"><img src="https://img.shields.io/badge/license-MIT-blue" alt="license MIT"></a>
-<a href="https://github.com/assimon/dujiaoka/releases/tag/v1.5"><img src="https://img.shields.io/badge/pod-v1.5-red" alt="version v1.5"></a>
+<a href="https://github.com/assimon/dujiaoka/releases/tag/v1.6"><img src="https://img.shields.io/badge/pod-v1.6-red" alt="version v1.6"></a>
 <a href="https://shang.qq.com/wpa/qunwpa?idkey=37b6b06f7c941dae20dcd5784088905d6461064d7f33478692f0c4215546cee0"><img src="https://img.shields.io/badge/QQ%E7%BE%A4-568679748-green" alt="QQ群：568679748"></a>
 </p>
 
 ## 从原版更换为魔改版
-将本项目所有文件直接覆盖原有文件，在网站根目录下执行`php artisan dujiao update` 即可无缝切换到修改版
+将本项目所有文件直接覆盖原有文件，在网站根目录下执行`php artisan dujiao update 1.6m` 即可无缝切换到修改版
 
 ## 魔改说明
 - [x] 增加choice模板,该模板具有以下特色功能：
@@ -35,7 +35,15 @@ demo地址：[http://dujiaoka.com](http://dujiaoka.com)
 核心贡献者：
 - [iLay1678](https://github.com/iLay1678)
 
-鸣谢以上开源项目及贡献者，排名不分先后.
+鸣谢以上开源项目及贡献者，排名不分先后.    
+
+## 系统优势 
+
+采用业界流行的`laravel`框架，安全及稳定性提升。    
+支持`自定义前端模板`功能 
+支持`国际化多语言包`（需自行翻译）
+代码全部开源，所有扩展包采用composer加载，代码所有内容可溯源！ 
+长期技术更新支持！ 
 
 ## 界面尝鲜
 
@@ -59,7 +67,7 @@ demo地址：[http://dujiaoka.com](http://dujiaoka.com)
 
 ## 基本环境要求
 
-- (PHP + PHPCLI) version >= 7.0
+- (PHP + PHPCLI) version >= 7.2
 - Nginx version >= 1.16
 - MYSQL version >= 5.6
 - Redis (高性能缓存服务)
@@ -83,6 +91,7 @@ demo地址：[http://dujiaoka.com](http://dujiaoka.com)
 - [Linux环境安装](/wikis/linux_install.md)   
 - [宝塔环境安装](/wikis/bt_install.md)
 - [常见问题锦集](/wikis/problems.md)
+- [系统升级](/wikis/update.md)
 
 ## 默认后台
 

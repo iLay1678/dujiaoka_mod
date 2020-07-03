@@ -84,14 +84,15 @@
     "Mail password" : "发件密码",
     "Mail encryption" : "加密协议",
     "Mail nickname" : "发信昵称",
-    "Sys Langs" : "前台语言",
 
     "Page title": "标题",
     "Page content": "内容",
     "Page tag": "标识",
     "Page status": "状态",
-    "Page link": "链接"
-
+    "Page link": "链接",
+    
+    "Sys Langs" : "前台语言",
+    "Verify Code": "下单验证码"
 
 
 }
