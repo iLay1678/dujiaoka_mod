@@ -14,13 +14,11 @@
 ## 从原版更换为魔改版
 ### 注意：魔改版不适合纯小白，如切换到魔改版失败本人不负任何责任，请谨慎切换
 
-将本项目所有文件直接覆盖原有文件，在网站根目录下执行`composer install`重新安装依赖包，然后执行`php artisan dujiao update 1.6m` 
-
-按照.env.example文件重新编辑.env文件
-
-升级完成后请重启supervisor监听进程，以免出现数据兼容冲突。
-
-
+ - 将本项目所有文件直接覆盖原有文件
+ - 在网站根目录下执行`composer install`重新安装依赖包
+ - 执行`php artisan dujiao update 1.6m` 
+ - 按照.env.example文件重新编辑.env文件
+ - 升级完成后请重启supervisor监听进程，以免出现数据兼容冲突。
 
 ## 魔改说明
 - [x] 增加choice模板,该模板具有以下特色功能：
