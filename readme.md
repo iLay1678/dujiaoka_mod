@@ -24,6 +24,11 @@
 - [x] 对接[v免签](https://github.com/szvone/vmqphp)
 - [x] 易支付增加同步回调
 
+## 模板预览
+[layui](https://iq.ci?tpl=layui)
+[amazeui](https://iq.ci?tpl=amazeui)
+[choice](https://iq.ci?tpl=choice)
+
 ## 独角数卡
 
 开源式站长自动化售货解决方案、高效、稳定、快速！
