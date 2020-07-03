@@ -6,6 +6,11 @@
 <a href="https://shang.qq.com/wpa/qunwpa?idkey=37b6b06f7c941dae20dcd5784088905d6461064d7f33478692f0c4215546cee0"><img src="https://img.shields.io/badge/QQ%E7%BE%A4-568679748-green" alt="QQ群：568679748"></a>
 </p>
 
+## 模板预览
+- [x] [layui](https://iq.ci?tpl=layui)
+- [x] [amazeui](https://iq.ci?tpl=amazeui)
+- [x] [choice](https://iq.ci?tpl=choice)
+
 ## 从原版更换为魔改版
 将本项目所有文件直接覆盖原有文件，在网站根目录下执行`composer update`更新依赖包，然后执行`php artisan dujiao update 1.6m` 即可无缝切换到修改版
 
@@ -23,11 +28,6 @@
 - [x] 文章中心
 - [x] 对接[v免签](https://github.com/szvone/vmqphp)
 - [x] 易支付增加同步回调
-
-## 模板预览
-[layui](https://iq.ci?tpl=layui)
-[amazeui](https://iq.ci?tpl=amazeui)
-[choice](https://iq.ci?tpl=choice)
 
 ## 独角数卡
 
