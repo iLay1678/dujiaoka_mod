@@ -234,14 +234,10 @@ exit();
                                                      onclick="refresh()">
                                             </div>
                                             <script>
-                                                function refresh() {
-                                                    $('img[class="captcha-img"]').attr('src', '{{ captcha_src('
-                                                    buy
-                                                    ') }}' + Math.random()
-                                                )
-                                                    ;
-                                                }
-                                            </script>
+                                            function refresh() {
+                                                $('img[class="captcha-img"]').attr('src', '{{ captcha_src('buy') }}' + Math.random());
+                                            }
+                                        </script>
                                         </div>
                                         @endif
 
