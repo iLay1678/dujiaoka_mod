@@ -16,6 +16,8 @@
 
 将本项目所有文件直接覆盖原有文件，在网站根目录下执行`composer install`重新安装依赖包，然后执行`php artisan dujiao update 1.6m` 即可无缝切换到修改版
 
+升级完成后请重启supervisor监听进程，以免出现数据兼容冲突。
+
 
 
 ## 魔改说明
