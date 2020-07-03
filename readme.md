@@ -7,7 +7,7 @@
 </p>
 
 ## 从原版更换为魔改版
-将本项目所有文件直接覆盖原有文件，在网站根目录下执行`php artisan dujiao update 1.6m` 即可无缝切换到修改版
+将本项目所有文件直接覆盖原有文件，在网站根目录下执行`composer update`更新依赖包，然后执行`php artisan dujiao update 1.6m` 即可无缝切换到修改版
 
 ## 魔改说明
 - [x] 增加choice模板,该模板具有以下特色功能：
