@@ -12,7 +12,10 @@
 - [x] [choice](https://iq.ci?tpl=choice)
 
 ## 从原版更换为魔改版
-将本项目所有文件直接覆盖原有文件，在网站根目录下执行`composer update`更新依赖包，然后执行`php artisan dujiao update 1.6m` 即可无缝切换到修改版
+注意：魔改版不适合纯小白，如切换到魔改版失败本人不负任何责任，请谨慎切换
+将本项目所有文件直接覆盖原有文件，在网站根目录下执行`composer install`重新安装依赖包，然后执行`php artisan dujiao update 1.6m` 即可无缝切换到修改版
+
+
 
 ## 魔改说明
 - [x] 增加choice模板,该模板具有以下特色功能：
