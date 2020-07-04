@@ -216,15 +216,17 @@ exit();
                                         @endif
                                         @if(config('webset.verify_code') == 1)
                                         <br>
+                                        
                                         <div class="am-form-group">
                                             <label class="">{{ __('system.verify_code') }}</label>
-                                            <div class="">
+                                            <div class="am-form-inline">
+                                            <div class="am-form-group">
                                                 <input type="text" name="verify_img" value="" required
                                                        lay-verify="required" placeholder="{{ __('system.verify_code') }}"
                                                        autocomplete="off"
                                                        class="layui-input">
                                             </div>
-                                            <div class="buy-captcha">
+                                            <div class="buy-captcha am-form-group">
                                                 <img class="captcha-img" src="{{ captcha_src('buy') }}"
                                                      onclick="refresh()">
                                             </div>
@@ -233,6 +235,7 @@ exit();
                                                 $('img[class="captcha-img"]').attr('src', '{{ captcha_src('buy') }}' + Math.random());
                                             }
                                         </script>
+                                        </div>
                                         </div>
                                         @endif
                                 
