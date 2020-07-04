@@ -16,7 +16,7 @@
 
  - 将本项目所有文件直接覆盖原有文件
  - 在网站根目录下执行`composer install`重新安装依赖包
- - 从原版1.5、魔改版1.5升级执行`php artisan dujiao update 1.6`,从原版1.6升级执行执行`php artisan dujiao update 1.6` 
+ - 从原版1.5、魔改版1.5升级执行`php artisan dujiao update 1.6`，从原版1.6升级执行执行`php artisan dujiao update 1.6` 
  - 按照.env.example文件重新编辑.env文件
  - 升级完成后请重启supervisor监听进程，以免出现数据兼容冲突。
 
