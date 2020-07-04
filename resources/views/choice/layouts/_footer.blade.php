@@ -1,7 +1,7 @@
 <div class="sh-footer">
 
     <div class="layui-row">
-        <div class="layui-col-md8 layui-col-md-offset2 layui-col-sm12">
+        <div class="layui-container">
 <div class="layui-card cardcon">
 <div class="layui-card-body">
                     <div class="footer-wrap">
