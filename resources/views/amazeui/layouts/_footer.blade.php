@@ -22,7 +22,8 @@
         var form = layui.form;
         var layer = layui.layer //获得layer模块
         var layerad = $("#layerad").html();
-        if (typeof (layerad) != "undefined" && !getQueryVariable('search_word')) {
+        console.log(typeof (layerad))
+        if (layerad != "" && !getQueryVariable('search_word')) {
            $("#title").text("首页公告");
     $("#alert").modal();
         }
