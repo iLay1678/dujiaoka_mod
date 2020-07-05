@@ -472,6 +472,6 @@ CREATE TABLE `webset`  (
 -- ----------------------------
 -- Records of webset
 -- ----------------------------
-INSERT INTO `webset` VALUES (1, '独角数卡 - 一站式自动售货方案', '独角数卡', '独角数卡', '独角数卡', '', '我是首页弹窗', NULL, 1, 'admin@admin.com', NULL, '2020-04-28 17:18:51');
+INSERT INTO `webset` VALUES (1, '独角数卡 - 一站式自动售货方案', '独角数卡', '独角数卡', '独角数卡', '', '我是首页弹窗', NULL, 1, 'admin@admin.com', NULL,1, '2020-04-28 17:18:51', '2020-04-28 17:18:51');
 
 SET FOREIGN_KEY_CHECKS = 1;
