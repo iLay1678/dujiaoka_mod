@@ -292,7 +292,15 @@ exit();
                     </div>
 
 </div>
-
+<div class="am-modal am-modal-alert" tabindex="-1" id="buy_alert">
+  <div class="am-modal-dialog">
+    <div class="am-modal-hd" id="buy_alert_title">{{ __('prompt.purchase_tips') }}</div>
+    <div class="am-modal-bd" id="buy_prompt">{!! $buy_prompt !!}</div>
+    <div class="am-modal-footer">
+      <span class="am-modal-btn" id="btn_go">确定</span>
+    </div>
+  </div>
+</div>
 
 @stop
 
@@ -357,16 +365,11 @@ $(".query-pifa").click(function(){
                 $('#buy').addClass('layui-btn-disabled');
             }
         });
-    @if(!empty($buy_prompt))
-        layer.open({
-            type: 1,
-            shade: false,
-            skin: 'layui-layer-lan', //加上边框
-            area: ['60%', '50%'], //宽高
-            title:  "{{ __('prompt.purchase_tips') }}",
-            content: '<div class="buy-prompt">{!! $buy_prompt !!}<div>'
-        });
-    @endif
+    var buy_prompt = $("#buy_prompt").html();
+        if (buy_prompt != "") {
+           $("#buy_alert_title").text("{{ __('prompt.purchase_tips') }}");
+    $("#buy_alert").modal();
+        }
     })
 
 </script>
