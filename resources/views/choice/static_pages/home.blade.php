@@ -60,7 +60,7 @@
 
                                 </div>
 
-
+                                @if(config('webset.isopen_searchpwd') == 1)
                                 <div class="layui-form-item">
                                     <label class="layui-form-label">查询密码</label>
                                     <div class="layui-input-block">
@@ -69,8 +69,8 @@
                                                class="layui-input">
                                     </div>
                                 </div>
-
-
+                                @endif
+                                @if(config('webset.isopen_coupon') == 1)
                                 <div class="layui-form-item">
                                     <label class="layui-form-label">优惠码</label>
                                     <div class="layui-input-block">
@@ -78,7 +78,7 @@
                                                autocomplete="off" class="layui-input">
                                     </div>
                                 </div>
-
+                                @endif
                                 <div class="layui-form-item">
                                     <label class="layui-form-label">支付方式</label>
                                     <div class="layui-input-block">

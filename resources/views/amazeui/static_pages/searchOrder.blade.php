@@ -50,12 +50,14 @@
                                             <input type="email" name="account" required  lay-verify="required" placeholder="{{ __('prompt.set_email') }}" autocomplete="off" class="layui-input">
                                         </div>
                                     </div>
+                                    @if(config('webset.isopen_searchpwd') == 1)
                                     <div class="am-form-group">
                                         <label class="">{{ __('system.search_password') }}</label>
                                         <div class="">
                                             <input type="password" name="search_pwd" required  lay-verify="required" placeholder="{{ __('prompt.get_search_password') }}" autocomplete="off" class="layui-input">
                                         </div>
                                     </div>
+                                    @endif
                                     <div class="am-form-group">
                                         <div class="">
                                             <button class="layui-btn" lay-submit lay-filter="orderByAccount">{{ __('system.search_now') }}</button>

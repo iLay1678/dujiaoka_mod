@@ -68,16 +68,18 @@ class OrdersController extends Controller
     {
 
         $data = $request->only(['account', 'search_pwd','tpl']);
+        $data['search_pwd'] = $data['search_pwd'] ?? 'dujiaoka';
         if (isset($data['tpl'])) {
             $tpl=$data['tpl'];
         }else{
            $tpl= config('app.shtemplate');
         }
-        if (empty($data['account']) || empty($data['search_pwd']))  throw new AppException('必填项不能为空');
+        if (empty($data['account']) || (config('webset.isopen_searchpwd') == 1 && empty($data['search_pwd']))) throw new AppException(__('prompt.required_fields_cannot_be_empty'));
         $orders = Orders::where(['account' => $data['account'], 'search_pwd' => $data['search_pwd']])
             ->orderBy('created_at', 'desc')
+            ->take(5)
             ->get();
-        if ($orders->isEmpty()) throw new AppException('未找到相关订单！');
+        if (empty($orders)) throw new AppException('未找到相关订单！');
         return $this->view('static_pages/orderinfo', ['orders' => $orders],$tpl);
     }
 

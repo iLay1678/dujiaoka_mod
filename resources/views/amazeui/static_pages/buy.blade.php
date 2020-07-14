@@ -148,7 +148,7 @@ exit();
                                                            autocomplete="off" class="layui-input">
                                                
                                             </div>
-                                            
+                                            @if(config('webset.isopen_searchpwd') == 1)
                                             <div class="am-form-group">
                                                 <label class="">{{ __('system.search_password') }}</label>
                                                 <div class="">
@@ -157,7 +157,8 @@ exit();
                                                            autocomplete="off" class="layui-input">
                                                 </div>
                                             </div>
-                                            
+                                            @endif
+                                            @if(config('webset.isopen_coupon') == 1)
                                             <div class="am-form-group">
                                                 <label class="">{{ __('system.promo_code') }}</label>
                                                 <div class="">
@@ -165,7 +166,7 @@ exit();
                                                            value="" autocomplete="off" class="layui-input">
                                                 </div>
                                             </div>
-                                       
+                                            @endif
 
 
                                         

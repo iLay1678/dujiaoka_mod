@@ -48,12 +48,14 @@
                                             <input type="email" name="account" required  lay-verify="required" placeholder="请输入邮箱" autocomplete="off" class="layui-input">
                                         </div>
                                     </div>
+                                    @if(config('webset.isopen_searchpwd') == 1)
                                     <div class="layui-form-item">
                                         <label class="layui-form-label">查询密码</label>
                                         <div class="layui-input-block">
                                             <input type="password" name="search_pwd" required  lay-verify="required" placeholder="请输入查询密码" autocomplete="off" class="layui-input">
                                         </div>
                                     </div>
+                                    @endif
                                     <div class="layui-form-item">
                                         <div class="layui-input-block">
                                             <button class="layui-btn" lay-submit lay-filter="orderByAccount">立即查询</button>

@@ -155,6 +155,7 @@ exit();
                                                            autocomplete="off" class="layui-input">
                                                 </div>
                                             </div>
+                                            @if(config('webset.isopen_searchpwd') == 1)
                                             <div class="layui-inline">
                                                 <label class="layui-form-label">{{ __('system.search_password') }}</label>
                                                 <div class="layui-input-block">
@@ -163,6 +164,7 @@ exit();
                                                            autocomplete="off" class="layui-input">
                                                 </div>
                                             </div>
+                                            @endif
 
                                         </div>
 
@@ -176,6 +178,7 @@ exit();
                                                            value="1" autocomplete="off" class="layui-input">
                                                 </div>
                                             </div>
+                                            @if(config('webset.isopen_coupon') == 1)
                                             <div class="layui-inline">
                                                 <label class="layui-form-label">{{ __('system.promo_code') }}</label>
                                                 <div class="layui-input-block">
@@ -183,6 +186,7 @@ exit();
                                                            value="" autocomplete="off" class="layui-input">
                                                 </div>
                                             </div>
+                                            @endif
                                         </div>
 
 

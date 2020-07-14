@@ -75,7 +75,7 @@ class HomeController extends Controller
         $data = $request->all();
         if (intval($data['order_number']) <= 0)
         if(!is_numeric($data['order_number']) || strpos($data['order_number'],".") !== false) throw new AppException(__('prompt.buy_order_number'));
-        if (empty($data['search_pwd'])) throw new AppException(__('prompt.search_password_not_null'));
+        if (config('webset.isopen_searchpwd') == 1 && empty($data['search_pwd'])) throw new AppException(__('prompt.search_password_not_null'));
         if (config('webset.verify_code') == 1 && !captcha_check($data['verify_img'])) throw new AppException(__('prompt.verify_code_error'));
         if (config('app.shgeetest')) {
             if (!$this->validate($request, [
@@ -103,7 +103,7 @@ class HomeController extends Controller
             'actual_price' => $product['actual_price'],
             'buy_amount' => intval($data['order_number']), // 订单个数
             'account' => $data['account'], // 充值账号
-            'search_pwd' => $data['search_pwd'],
+            'search_pwd' => $data['search_pwd'] ?? 'dujiaoka',
             'buy_ip' => $request->getClientIp(),
             'other_ipu' => ''
         ];
@@ -120,7 +120,7 @@ class HomeController extends Controller
         /**
          * 这里是优惠券
          */
-        if (!empty($data['coupon_code'])) {
+        if (isset($data['coupon_code'])) {
             if ($data['coupon_code'] == config('coupon_code_global')) {
                 if ($cacheOrder['actual_price'] < config('coupon_code_global_allow')) {
                     throw new AppException("订单金额满" . config('coupon_code_global_allow') . "元才可使用该优惠券");
@@ -168,7 +168,7 @@ class HomeController extends Controller
         DB::beginTransaction();
         // 减去数据库库存
         $deStock = Products::where(['id' => $data['pid'], 'in_stock' => $product['in_stock']])->decrement('in_stock', $data['order_number']);
-        if ($data['coupon_code'] && $data['coupon_code'] != config('coupon_code_global')) {
+        if (isset($data['coupon_code']) && $data['coupon_code'] != config('coupon_code_global')) {
             // 将优惠券设置为已经使用 且次数-1
             $inCoupon = Coupons::where('card', '=', $data['coupon_code'])->update(['is_status' => 2]);
             $inCouponNum = Coupons::where('card', '=', $data['coupon_code'])->decrement('ret', 1);

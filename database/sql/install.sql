@@ -464,6 +464,8 @@ CREATE TABLE `webset`  (
   `manage_email` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL,
   `langs` varchar(50) DEFAULT NULL,
   `verify_code` int(1) DEFAULT NULL,
+  `isopen_coupon` int(1) NOT NULL DEFAULT '1',
+  `isopen_searchpwd` int(1) NOT NULL DEFAULT '1',
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL,
   PRIMARY KEY (`id`) USING BTREE
@@ -472,6 +474,6 @@ CREATE TABLE `webset`  (
 -- ----------------------------
 -- Records of webset
 -- ----------------------------
-INSERT INTO `webset` VALUES (1, '独角数卡 - 一站式自动售货方案', '独角数卡', '独角数卡', '独角数卡', '', '我是首页弹窗', NULL, 1, 'admin@admin.com', NULL,1, '2020-04-28 17:18:51', '2020-04-28 17:18:51');
+INSERT INTO `webset` VALUES (1, '独角数卡 - 一站式自动售货方案', '独角数卡', '独角数卡', '独角数卡', '', '我是首页弹窗', NULL, 1, 'admin@admin.com', NULL,1, 1, 1,'2020-04-28 17:18:51', '2020-04-28 17:18:51');
 
 SET FOREIGN_KEY_CHECKS = 1;
