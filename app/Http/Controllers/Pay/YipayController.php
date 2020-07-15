@@ -10,7 +10,7 @@ use Illuminate\Support\Facades\Redis;
 class YipayController extends PayController
 {
     // 这里自己配置请求网关
-    const PAY_URI = 'https://pay.iq.ci/';
+    const PAY_URI = 'https://pay.newzj.xyz/';
 
     public function gateway($payway, $oid)
     {

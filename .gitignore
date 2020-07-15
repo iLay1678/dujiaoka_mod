@@ -2,7 +2,7 @@
 /public/hot
 /public/storage
 /public/uploads
-!noimg.png
+noimg.png
 /storage/*.key
 /vendor
 /storage/logs
