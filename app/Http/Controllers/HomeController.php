@@ -73,8 +73,7 @@ class HomeController extends Controller
     public function postOrder(Request $request)
     {
         $data = $request->all();
-        if (intval($data['order_number']) <= 0)
-        if(!is_numeric($data['order_number']) || strpos($data['order_number'],".") !== false) throw new AppException(__('prompt.buy_order_number'));
+        if(intval($data['order_number']) <= 0 || !is_numeric($data['order_number']) || strpos($data['order_number'],".") !== false) throw new AppException(__('prompt.buy_order_number'));
         if (config('webset.isopen_searchpwd') == 1 && empty($data['search_pwd'])) throw new AppException(__('prompt.search_password_not_null'));
         if (config('webset.verify_code') == 1 && !captcha_check($data['verify_img'])) throw new AppException(__('prompt.verify_code_error'));
         if (config('app.shgeetest')) {
@@ -118,9 +117,9 @@ class HomeController extends Controller
             $cacheOrder['actual_price'] = number_format(($cacheOrder['actual_price'] * $cacheOrder['buy_amount']), 2, '.', '');
         }
         /**
-         * 这里是优惠券
+         * 这里是优惠券处理逻辑.
          */
-        if (isset($data['coupon_code'])) {
+        if (isset($data['coupon_code']) && $product['isopen_coupon'] == 1) {
             if ($data['coupon_code'] == config('coupon_code_global')) {
                 if ($cacheOrder['actual_price'] < config('coupon_code_global_allow')) {
                     throw new AppException("订单金额满" . config('coupon_code_global_allow') . "元才可使用该优惠券");
@@ -128,26 +127,11 @@ class HomeController extends Controller
                 $cacheOrder['coupon_code'] = $data['coupon_code'];
                 $cacheOrder['actual_price'] = number_format(($cacheOrder['actual_price'] - config('coupon_code_global_price')), 2, '.', '');
                 $cacheOrder['discount'] = number_format(config('coupon_code_global_price'), 2, '.', '');
-            } else {
-                // 先查出有没有优惠券
-                $coupon = Coupons::where('card', '=', $data['coupon_code'])->where('product_id', '=', $data['pid'])->first();
-                if (empty($coupon)) throw new AppException(__('prompt.coupon_does_not_exist'));
-                // 判断类型  如果是一次性的话  先判断使用没有
-                if ($coupon['c_type'] == 1 && $coupon['is_status'] == 2) {
-                    throw new AppException(__('prompt.coupon_already_used'));
-                }
-                if ($coupon['c_type'] == 2 && $coupon['ret'] <= 0) {
-                    throw new AppException(__('prompt.coupon_no_more'));
-                }
-                if ($cacheOrder['actual_price'] <= $coupon['discount']) {
-                    throw new AppException(__('prompt.coupon_price_error'));
-                }
-                $cacheOrder['coupon_type'] = $coupon['c_type'];
-                $cacheOrder['coupon_id'] = $coupon['id'];
-                $cacheOrder['coupon_code'] = $data['coupon_code'];
-                $cacheOrder['discount'] = number_format($coupon['discount'], 2, '.', '');
-                $cacheOrder['actual_price'] = number_format(($cacheOrder['actual_price'] - $coupon['discount']), 2, '.', '');
-            }
+            } else{
+            // 先查出有没有优惠券
+            $coupon = Coupons::where(['card' => $data['coupon_code'], 'product_id' => $data['pid']])->first();
+            if (empty($coupon)) throw new AppException(__('prompt.coupon_does_not_exist'));
+            $cacheOrder = OrderService::processCoupon($coupon, $data['pid'], $cacheOrder);}
         }
 
         if ($product['pd_type'] == 2) {
@@ -168,7 +152,7 @@ class HomeController extends Controller
         DB::beginTransaction();
         // 减去数据库库存
         $deStock = Products::where(['id' => $data['pid'], 'in_stock' => $product['in_stock']])->decrement('in_stock', $data['order_number']);
-        if (isset($data['coupon_code']) && $data['coupon_code'] != config('coupon_code_global')) {
+        if (isset($data['coupon_code']) && $product['isopen_coupon'] == 1 && $data['coupon_code'] != config('coupon_code_global')) {
             // 将优惠券设置为已经使用 且次数-1
             $inCoupon = Coupons::where('card', '=', $data['coupon_code'])->update(['is_status' => 2]);
             $inCouponNum = Coupons::where('card', '=', $data['coupon_code'])->decrement('ret', 1);
@@ -183,14 +167,7 @@ class HomeController extends Controller
         }
         DB::commit();
         // 设置订单cookie
-        $cookies = Cookie::get('orders');
-        if (empty($cookies)) {
-            Cookie::queue('orders', json_encode([$cacheOrder['order_id']]));
-        } else {
-            $cookies = json_decode($cookies, true);
-            array_push($cookies, $cacheOrder['order_id']);
-            Cookie::queue('orders', json_encode($cookies));
-        }
+        OrderService::queueCookie($cacheOrder['order_id']);
         // 将过期释放的订单载入队列 x分钟后释放
         ReleaseOrder::dispatch($cacheOrder['order_id'], $data['order_number'], $data['pid'])->delay(Carbon::now()->addMinutes(config('app.order_expire_date')));
         return redirect(url('/bill', ['orderid' => $cacheOrder['order_id']]));

@@ -158,7 +158,7 @@ exit();
                                                 </div>
                                             </div>
                                             @endif
-                                            @if(config('webset.isopen_coupon') == 1)
+                                            @if($isopen_coupon == 1)
                                             <div class="am-form-group">
                                                 <label class="">{{ __('system.promo_code') }}</label>
                                                 <div class="">

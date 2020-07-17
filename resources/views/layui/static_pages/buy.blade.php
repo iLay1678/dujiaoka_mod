@@ -178,7 +178,7 @@ exit();
                                                            value="1" autocomplete="off" class="layui-input">
                                                 </div>
                                             </div>
-                                            @if(config('webset.isopen_coupon') == 1)
+                                            @if($isopen_coupon == 1)
                                             <div class="layui-inline">
                                                 <label class="layui-form-label">{{ __('system.promo_code') }}</label>
                                                 <div class="layui-input-block">

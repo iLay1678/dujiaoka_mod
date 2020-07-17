@@ -30,5 +30,5 @@
 </div>
 <div class="links">
     <a href="https://github.com/iLay1678/dujiaoka-mod" target="_blank">GITHUB</a>
-    <a href="http://dujiaoka.com"  target="_blank">当前系统版本：V1.7m</a>
+    <a href="http://dujiaoka.com"  target="_blank">当前系统版本：V1.7.1m</a>
 </div>
