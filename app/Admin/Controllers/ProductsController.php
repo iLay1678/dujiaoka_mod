@@ -53,7 +53,7 @@ class ProductsController extends AdminController
             $filter->like('pd_name', __('Pd name'));
             $filter->equal('pd_class', '商品分类')->select($dataArr);
             // 范围过滤器，调用模型的`onlyTrashed`方法，查询出被软删除的数据。
-            $filter->scope('trashed', '回收站')->onlyTrashed();
+            //$filter->scope('trashed', '回收站')->onlyTrashed();
         });
         $grid->actions(function ($actions) {
             $actions->disableView();

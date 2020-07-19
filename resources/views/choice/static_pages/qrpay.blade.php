@@ -15,10 +15,8 @@
                     <p class="product-pay-price">支付金额: {{ $actual_price }}</p>
                     <img  src="data:image/png;base64,{!! base64_encode(QrCode::format('png')->size(200)->generate($qr_code)) !!}">
                     </div>
-                    @if(Agent::isMobile() && strstr($jump_payuri, 'qr.alipay.com'))
-                       <p class="errpanl" style="text-align: center"><a href='' id='toalipay' class="layui-btn layui-btn-warm layui-btn-sm">打开支付宝支付</a></p>
-                  <script>var schemeurl = 'alipays://platformapi/startapp?appId=20000067&url='+encodeURIComponent('{{ $jump_payuri }}');
-                document.getElementById("toalipay").href=schemeurl;</script>
+                    @if(Agent::isMobile() && isset($jump_payuri))
+                        <p class="errpanl" style="text-align: center"><a href="{{ $jump_payuri }}" class="layui-btn layui-btn-warm layui-btn-sm">{{ __('system.open_app_to_pay') }}</a></p>
                     @endif
                 </div>
 

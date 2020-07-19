@@ -17,13 +17,8 @@
                     <p style="margin-top: 10px;color: #F40;font-size: 20px;font-weight: 500;">{{ __('system.actual_payment') }}: {{ $actual_price }}</p>
                     <img  src="data:image/png;base64,{!! base64_encode(QrCode::format('png')->size(200)->generate($qr_code)) !!}">
                     </div>
-                    @if(strpos($payname,'支付宝')!== false)
-                    <br>
-                    <div class="layui-hide-md">
+                    @if(Agent::isMobile() && isset($jump_payuri))
                         <p class="errpanl" style="text-align: center"><a href="{{ $jump_payuri }}" class="layui-btn layui-btn-warm layui-btn-sm">{{ __('system.open_app_to_pay') }}</a></p>
-                  <script>var schemeurl = 'alipays://platformapi/startapp?appId=20000067&url='+encodeURIComponent('{{ $jump_payuri }}');
-                document.getElementById("toalipay").href=schemeurl;</script>
-                    </div>
                     @endif
                 </div>
 

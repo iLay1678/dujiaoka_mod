@@ -9,7 +9,7 @@ use Illuminate\Support\Facades\Storage;
 class Products extends Model
 {
 
-    use SoftDeletes;
+    //use SoftDeletes;
 
     /**
      * 关联分类表
