@@ -10,7 +10,10 @@ use Encore\Admin\Grid;
 use Encore\Admin\Show;
 use App\Jobs\SendMails;
 use App\Models\Emailtpls;
-
+use App\Models\Pays;
+use Illuminate\Support\Facades\Redis;
+use Encore\Admin\Widgets\Table;
+use Encore\Admin\Widgets\Box;
 class OrdersController extends AdminController
 {
     /**
@@ -106,5 +109,27 @@ class OrdersController extends AdminController
 
 
         return $form;
+    }
+    
+    public function pending_orders()
+    {
+        $pendinglist=Redis::hgetall('PENDING_ORDERS_LIST');
+
+            $headers = ['订单号', '商品名', '商品价格', '支付方式','发货方式','实际支付','邮箱','购买者ip','自定义输入'];
+        $rows = [];
+        foreach ($pendinglist as $k=>$v){
+                $data=json_decode($v,true);
+                if($data['pd_type']==1){
+                    $type='自动发货';
+                }else{
+                    $type='代充';
+                }
+                $row = [$data['order_id'],$data['product_name'],$data['product_price'],Pays::where('id', $data['pay_way'])->get()->toArray()[0]['pay_name'],$type,$data['actual_price'],$data['account'],$data['buy_ip'],$data['other_ipu']];
+                array_push($rows,$row);
+                
+            }
+        $table = new Table($headers, $rows);
+        $box = new Box('待支付订单', $table->render());
+        return $box->render();
     }
 }

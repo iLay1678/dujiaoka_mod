@@ -13,6 +13,7 @@ Route::group([
     $router->resource('classifys', ClassifysController::class);
     $router->resource('products', ProductsController::class);
     $router->resource('orders', OrdersController::class);
+    $router->get('pending_orders', 'OrdersController@pending_orders');
     $router->resource('coupons', CouponsController::class);
     $router->resource('pays', PaysController::class);
     $router->resource('emailtpls', EmailtplsController::class);
