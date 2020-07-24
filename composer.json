@@ -18,7 +18,7 @@
         "james.xue/login-captcha": "^2.0",
         "jenssegers/agent": "^2.6",
         "laravel-admin-ext/config": "^1.1",
-        "laravel/framework": "5.8.*",
+        "laravel/framework": "^6.0",
         "laravel-admin-ext/cropper": "^1.0",
         "laravel/tinker": "^1.0",
         "paypal/rest-api-sdk-php": "^1.14",

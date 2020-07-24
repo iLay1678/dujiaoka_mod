@@ -83,7 +83,7 @@ demo地址：[http://dujiaoka.com](http://dujiaoka.com)
 
 ## 基本环境要求
 
-- (PHP + PHPCLI) version >= 7.2
+- (PHP + PHPCLI) version >= 7.3
 - Nginx version >= 1.16
 - MYSQL version >= 5.6
 - Redis (高性能缓存服务)
