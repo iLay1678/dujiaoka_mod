@@ -1,3 +1,4 @@
+ALTER TABLE `products` ADD `isopen_coupon` INT(1) NOT NULL DEFAULT '1' AFTER `pd_class`;
 INSERT INTO `admin_menu` (`id`, `parent_id`, `order`, `title`, `icon`, `uri`, `permission`, `created_at`, `updated_at`) VALUES
 (26, 8, 10, '待支付订单', 'fa-map-signs', 'pending_orders', NULL, '2020-07-23 09:50:10', '2020-07-23 09:50:29');
 ALTER TABLE `products` ADD COLUMN `stock_alert` int(11) NOT NULL DEFAULT 0 COMMENT '库存预警' AFTER `in_stock`;

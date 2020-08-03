@@ -20,7 +20,7 @@
             captchaObj.onReady(function() {
                 $("#wait-{{ $captchaid }}")[0].className = "hide";
             });
-            captchaObj.onSuccess(function () {$('#GeetestCaptcha').attr("placeholder",'已完成行为验证')})
+            captchaObj.onSuccess(function () {$('#GeetestCaptcha').attr("placeholder",'{{ __('system.success_behavior_verification') }}')})
             if ('{{ $product }}' == 'popup') {
                 //captchaObj.bindOn($('#{{ $captchaid }}').closest('form').find(':submit'));
                 captchaObj.appendTo("#{{ $captchaid }}");

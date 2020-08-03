@@ -17,6 +17,9 @@
                     <p class="product-pay-price">{{ __('system.actual_payment') }}: {{ $actual_price }}</p>
                     <img  src="data:image/png;base64,{!! base64_encode(QrCode::format('png')->size(200)->generate($qr_code)) !!}">
                     </div>
+                     @if(isset($tips))
+                        <p class="" style="text-align: center">{{ $tips }}</p>
+                    @endif
                     @if(Agent::isMobile() && isset($jump_payuri))
                         <p class="errpanl" style="text-align: center"><a href="{{ $jump_payuri }}" class="layui-btn layui-btn-warm layui-btn-sm">{{ __('system.open_app_to_pay') }}</a></p>
                     @endif
@@ -50,7 +53,7 @@
                     }
                     if (res.code == 200) {
                         window.clearTimeout(timer);
-                        layer.alert("{{ __('prompt.payment_successful') }}", {
+                        layer.msg("{{ __('prompt.payment_successful') }}", {
                             icon: 1
                         }, function(){
                             window.location.href = "{{ url('searchOrderById', ['order_id' => $orderid]) }}"
