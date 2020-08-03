@@ -44,25 +44,13 @@ class YipayController extends PayController
 
         $sign = md5($sign . $this->payInfo['merchant_pem']);//密码追加进入开始MD5签名
         $parameter['sign'] = $sign;
-        try{
-            $data=json_decode($this->post(self::PAY_URI . "qrcode.php?",$parameter),true);
-            $result['qr_code']=$data['code_url'];
-            $result['payname'] = $this->payInfo['pay_name'];
-            $result['actual_price'] = $this->orderInfo['actual_price'];
-            $result['orderid'] = $this->orderInfo['order_id'];
-            if($this->payInfo['pay_check']=='wxpay'){
-                $result['tips']='支持保存到相册识别并支付';
-            }
-            if($this->payInfo['pay_check']=='alipay'){
-                $result['jump_payuri'] = $result['qr_code'];
-            }
-            //$result['jump_payuri'] = $result['qr_code'];
-            return $this->view('static_pages/qrpay', $result);
-           // return redirect()->away($result['jump_payuri']);
-            
-        } catch (\Exception $e) {
-                    throw new AppException('支付通道异常~ '.$e->getMessage().$this->get(self::PAY_URI . "qrcode.php?".http_build_query($parameter)));
-                }
+        $result['qr_code']=self::PAY_URI . "submit.php?".http_build_query($parameter);
+        $result['payname'] = $this->payInfo['pay_name'];
+        $result['actual_price'] = $this->orderInfo['actual_price'];
+        $result['orderid'] = $this->orderInfo['order_id'];
+        $result['jump_payuri'] = $result['qr_code'];
+        //return $this->view('static_pages/qrpay', $result);
+        return redirect()->away($result['jump_payuri']);
         //return $sHtml;
     }
 
@@ -138,20 +126,5 @@ class YipayController extends PayController
 
 
         return $output;
-    }
-    public function post($url="" ,$requestData=array()){
-                
-        $curl = curl_init();
-
-        curl_setopt($curl, CURLOPT_URL, $url);
-        curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
-       
-        //普通数据
-        curl_setopt($curl, CURLOPT_POSTFIELDS, http_build_query($requestData));
-        $res = curl_exec($curl);
-
-        //$info = curl_getinfo($ch);
-        curl_close($curl);
-        return $res;
     }
 }
