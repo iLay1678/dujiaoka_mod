@@ -49,7 +49,8 @@
                     if (res.code == 200) {
                         window.clearTimeout(timer);
                         layer.alert('支付成功', {
-                            icon: 1
+                            icon: 1,
+                            closeBtn:0
                         }, function(){
                             window.location.href = "{{ url('searchOrderById', ['order_id' => $orderid]) }}"
                         });
