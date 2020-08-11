@@ -14,6 +14,7 @@ use App\Models\Pays;
 use Illuminate\Support\Facades\Redis;
 use Encore\Admin\Widgets\Table;
 use Encore\Admin\Widgets\Box;
+use Encore\Admin\Layout\Content;
 class OrdersController extends AdminController
 {
     /**
@@ -111,7 +112,7 @@ class OrdersController extends AdminController
         return $form;
     }
     
-    public function pending_orders()
+    public function pending_orders(Content $content)
     {
         $pendinglist=Redis::hgetall('PENDING_ORDERS_LIST');
 
@@ -130,6 +131,6 @@ class OrdersController extends AdminController
             }
         $table = new Table($headers, $rows);
         $box = new Box('待支付订单', $table->render());
-        return $box->render();
+        return $content->body($box->render());
     }
 }

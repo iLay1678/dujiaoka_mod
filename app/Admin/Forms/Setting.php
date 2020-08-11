@@ -46,7 +46,7 @@ class Setting extends Form
         $this->UEditor('layerad',__('Sys pop notice'));
         $this->UEditor('notice', __('Sys notice'));
         $this->textarea('footer', __('Sys footer'))->help('可以填写一些统计代码或者icp备案信息');
-        //$this->radio('instock', __('Sys in stock monitor'))->options([1 => '开启', 2 => '关闭'])->default(1);
+        #$this->number('stock_alert', '单ip限购')->help('(ip地址每小时内下单最大次数,0为不限制)')->default(0);
 
     }
 

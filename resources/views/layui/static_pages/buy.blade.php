@@ -93,7 +93,7 @@ exit();
                     <div class="layui-col-md4 layui-hide-xs">
                         <div class="layui-card">
                             <div class="layui-card-body">
-                                <img  style="border-radius:3px;box-shadow:rgba(0,0,0,0.15) 0 0 8px;background:#FBFBFB;border:1px solid #ddd;padding:5px;" src="{{ \Illuminate\Support\Facades\Storage::disk('admin')->url($pd_picture) }}"
+                                <img  style="border-radius:3px;box-shadow:rgba(0,0,0,0.15) 0 0 8px;background:#FBFBFB;border:1px solid #ddd;padding:5px;" src="{{ \Illuminate\Support\Facades\Storage::disk('admin')->url($pd_picture ?? 'images/noimg.png') }}"
                                      width="100%" height="100%">
                             </div>
                             <div class="layui-card-body">

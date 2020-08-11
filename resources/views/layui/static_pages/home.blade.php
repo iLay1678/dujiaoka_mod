@@ -43,7 +43,7 @@
                                         <div class="layui-col-md3 layui-col-sm4 goodsdetail">
                                             <div class="goodsdetail-mobile">
                                                <div class="goodsdetail-mobile-img">
-                                                    <img src="{{ \Illuminate\Support\Facades\Storage::disk('admin')->url($product['pd_picture']) }}">
+                                                    <img src="{{ \Illuminate\Support\Facades\Storage::disk('admin')->url($product['pd_picture'] ?? 'images/noimg.png') }}">
                                                 </div>
                                                 <div class="layui-hide">{{ $classify['name'] }}
                                                     -{{ $product['pd_name'] }}</div>

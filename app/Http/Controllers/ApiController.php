@@ -159,7 +159,7 @@ class ApiController extends Controller
         unset($product['pd_status']);
         unset($product['ord']);
         unset($product['sales_volume']);
-        $product['pd_picture'] = \Illuminate\Support\Facades\Storage::disk('admin')->url($product['pd_picture']);
+        $product['pd_picture'] = \Illuminate\Support\Facades\Storage::disk('admin')->url($product['pd_picture'] ?? 'images/noimg.png');
         $productinfo = [
             'code' => 1,
             'data' => $product,

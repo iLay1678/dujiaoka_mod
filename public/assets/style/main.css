@@ -719,4 +719,7 @@ body .fly-user-main{width: auto;}
 .trade-price-ori{text-decoration: line-through;padding-left: 10px;}
 input#TencentCaptcha {cursor: pointer;}
 
-
+.layui-card-body img {
+    max-width: 100%;
+    height: auto;
+}

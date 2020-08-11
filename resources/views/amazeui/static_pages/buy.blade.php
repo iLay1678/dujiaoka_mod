@@ -90,7 +90,7 @@ exit();
 
                                 <div class="am-u-sm-12 am-u-md-4 am-u-lg-4 trade-goodimg am-u-end" style="padding:10px">
 
-<img style="border-radius:3px;box-shadow:rgba(0,0,0,0.15) 0 0 8px;background:#FBFBFB;border:1px solid #ddd;padding:5px;" src="{{ \Illuminate\Support\Facades\Storage::disk('admin')->url($pd_picture) }}" width="100%" height="100%">
+<img style="border-radius:3px;box-shadow:rgba(0,0,0,0.15) 0 0 8px;background:#FBFBFB;border:1px solid #ddd;padding:5px;" src="{{ \Illuminate\Support\Facades\Storage::disk('admin')->url($pd_picture ?? 'images/noimg.png') }}" width="100%" height="100%">
 
 
                                 </div>

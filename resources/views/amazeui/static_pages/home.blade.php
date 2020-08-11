@@ -29,7 +29,7 @@
             <div style="background-color:#fff;padding:8px">
                 <a href="{{ url("/buy/{$product['id']}") }}">
                     <div class="index-goodimg">
-                        <img src="{{ \Illuminate\Support\Facades\Storage::disk('admin')->url($product['pd_picture']) }}" alt="" height="100%" width="100%" style="float:left">
+                        <img src="{{ \Illuminate\Support\Facades\Storage::disk('admin')->url($product['pd_picture'] ?? 'images/noimg.png') }}" alt="" height="100%" width="100%" style="float:left">
                         @if($product['pd_type'] == 1)
                         <div style="position:absolute; z-index:2;right:10px;color:#fff;padding:5px;background-color:#1E90FF">{{ __('system.automatic_delivery') }}</div>
                         @else
