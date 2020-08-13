@@ -88,6 +88,7 @@ class HomeController extends Controller
         $product = Products::find($data['pid']);
         if (empty($product) || $product['pd_status'] != 1) throw new AppException(__('prompt.please_select_mode_of_payment'));
         if ($product['in_stock'] == 0 || $data['order_number'] > $product['in_stock']) throw new AppException(__('prompt.inventory_shortage'));
+        if($data['order_number'] > $product['buy_limit']) throw new AppException(__('prompt.buy_limit').$product['buy_limit']);
         if (!isset($data['payway'])) throw new AppException(__('prompt.please_select_mode_of_payment'));
         if (!filter_var($data['account'],FILTER_VALIDATE_EMAIL) || empty($data['account'])) throw new AppException(__('prompt.check_email_format'));
         // 订单缓存

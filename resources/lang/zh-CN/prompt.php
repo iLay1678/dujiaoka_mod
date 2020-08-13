@@ -44,7 +44,8 @@ return [
 
     'abnormal_payment_channel' => '支付通道异常~',
     
-    'behavior_verification_fail' => '行为验证失败'
+    'behavior_verification_fail' => '行为验证失败',
+    'buy_limit' => '购买数量超过限购数量,该商品每单限购',
 
 
 ];

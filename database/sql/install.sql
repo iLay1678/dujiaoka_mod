@@ -431,6 +431,7 @@ CREATE TABLE `products`  (
   `actual_price` decimal(10, 2) NOT NULL COMMENT '实际售价',
   `wholesale_price` text CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL,
   `in_stock` int(50) NULL DEFAULT 0,
+  `buy_limit` int(11) NOT NULL DEFAULT 0 COMMENT '单次限购',
   `stock_alert` int(11) NOT NULL DEFAULT 0 COMMENT '库存预警',
   `sales_volume` int(50) NULL DEFAULT 0,
   `pd_picture` varchar(200) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '商品图片',
