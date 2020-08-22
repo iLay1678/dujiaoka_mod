@@ -31,7 +31,7 @@ class HomeController extends Controller
         if (isset($data['tpl'])) {
             $tpl=$data['tpl'];
         }else{
-           $tpl= config('app.shtemplate');
+           $tpl= '';
         }
         
         $products = Classifys::with(['products' => function($query) {
@@ -53,7 +53,7 @@ class HomeController extends Controller
         if (isset($data['tpl'])) {
             $tpl=$data['tpl'];
         }else{
-           $tpl= config('app.shtemplate');
+           $tpl= '';
         }
         if ($product['pd_status'] != 1) throw new AppException(__('prompt.product_off_the_shelf'));
         // 格式化批发配置以及输入框配置
@@ -72,6 +72,19 @@ class HomeController extends Controller
      */
     public function postOrder(Request $request)
     {
+        if(Cookie::get('orders')){
+                    $n=0;
+                    $pending='<br>';
+                foreach (json_decode(Cookie::get('orders'),true) as $key=>$value){
+                    if(json_decode(Redis::hget('PENDING_ORDERS_LIST', $value), true)){
+                        $n=$n+1;
+                        $pending .='<a href="'.config('app.url').'/bill/'.$value.'">'.$value.'</a><br>';
+                    }
+                }
+                if(config('app.limit_postorder')!=0 && $n >= config('app.limit_postorder')){
+                        throw new AppException(__('prompt.have_pending_order').$pending);
+                }
+            }
         $data = $request->all();
         if(intval($data['order_number']) <= 0 || !is_numeric($data['order_number']) || strpos($data['order_number'],".") !== false) throw new AppException(__('prompt.buy_order_number'));
         if (config('webset.isopen_searchpwd') == 1 && empty($data['search_pwd'])) throw new AppException(__('prompt.search_password_not_null'));
@@ -88,7 +101,7 @@ class HomeController extends Controller
         $product = Products::find($data['pid']);
         if (empty($product) || $product['pd_status'] != 1) throw new AppException(__('prompt.please_select_mode_of_payment'));
         if ($product['in_stock'] == 0 || $data['order_number'] > $product['in_stock']) throw new AppException(__('prompt.inventory_shortage'));
-        if($data['order_number'] > $product['buy_limit']) throw new AppException(__('prompt.buy_limit').$product['buy_limit']);
+        if($product['buy_limit'] !=0 &&  $data['order_number'] > $product['buy_limit']) throw new AppException(__('prompt.buy_limit').$product['buy_limit']);
         if (!isset($data['payway'])) throw new AppException(__('prompt.please_select_mode_of_payment'));
         if (!filter_var($data['account'],FILTER_VALIDATE_EMAIL) || empty($data['account'])) throw new AppException(__('prompt.check_email_format'));
         // 订单缓存
@@ -184,7 +197,7 @@ class HomeController extends Controller
         if (isset($data['tpl'])) {
             $tpl=$data['tpl'];
         }else{
-           $tpl= config('app.shtemplate');
+           $tpl= '';
         }
         $orderCache = Redis::hget('PENDING_ORDERS_LIST', $orderid);
         if (empty($orderCache)) throw new AppException(__('prompt.order_does_not_exist'));
@@ -201,7 +214,7 @@ class HomeController extends Controller
         if (isset($data['tpl'])) {
             $tpl=$data['tpl'];
         }else{
-           $tpl= config('app.shtemplate');
+           $tpl= '';
         }
         $pages = Pages::where('status', 1)->get()->toArray();
         return $this->view('static_pages/pages', ['pages' => $pages],$tpl);
@@ -218,7 +231,7 @@ class HomeController extends Controller
         if (isset($data['tpl'])) {
             $tpl=$data['tpl'];
         }else{
-           $tpl= config('app.shtemplate');
+           $tpl= '';
         }
         if (!$page) {
             throw new AppException(__('system.page_not_exit'));
@@ -231,6 +244,6 @@ class HomeController extends Controller
             return $this->view('static_pages/page', $page,$tpl);
         }
     }
-
+    
 
 }

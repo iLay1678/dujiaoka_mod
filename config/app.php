@@ -235,7 +235,9 @@ return [
     ],
 
     'shtemplate' => env('SH_TEMPLATE', 'layui'),
+    'shmtemplate' => env('SH_MOBILE_TEMPLATE', ''),
     'paypal_sandebox' => env('PAYPAL_SANDBOX', true),
     'order_expire_date' => env('ORDER_EXPIRE_DATE', 3),
     'shgeetest' => env('SH_GEETEST', false),
+    'limit_postorder' => env('limit_postorder', 0),
 ];

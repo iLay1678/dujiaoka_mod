@@ -46,6 +46,7 @@ return [
     
     'behavior_verification_fail' => '行为验证失败',
     'buy_limit' => '购买数量超过限购数量,该商品每单限购',
+    'have_pending_order' => '您的未支付订单数量超过限制，请支付或等待订单过期后下单。点击订单号可查看订单详情'
 
 
 ];

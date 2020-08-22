@@ -4,7 +4,7 @@
 <div class="am-panel am-panel-default" style="margin-top:20px;">
     <div class="am-panel-bd">{{ $title }}：<hr>
     <p class="product-info" style="text-align: center">
-                            <span class="product-price">{{ $content }}</span>
+                            <span class="product-price">{!! $content !!}</span>
                         </p>
                         <p class="errpanl" style="text-align: center">
                             @if(!$url)

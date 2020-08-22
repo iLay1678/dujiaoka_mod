@@ -21,7 +21,7 @@ class OrdersController extends Controller
         if (isset($data['tpl'])) {
             $tpl=$data['tpl'];
         }else{
-           $tpl= config('app.shtemplate');
+           $tpl= '';
         }
         return $this->view('static_pages/searchOrder',[],$tpl);
     }
@@ -53,7 +53,7 @@ class OrdersController extends Controller
         if (isset($data['tpl'])) {
             $tpl=$data['tpl'];
         }else{
-           $tpl= config('app.shtemplate');
+           $tpl= '';
         }
         $orderId =  \request()->input('order_id') ? \request()->input('order_id') : $oid;
         $order = Orders::where('order_id', $orderId)->get();
@@ -72,7 +72,7 @@ class OrdersController extends Controller
         if (isset($data['tpl'])) {
             $tpl=$data['tpl'];
         }else{
-           $tpl= config('app.shtemplate');
+           $tpl= '';
         }
         if (empty($data['account']) || (config('webset.isopen_searchpwd') == 1 && empty($data['search_pwd']))) throw new AppException(__('prompt.required_fields_cannot_be_empty'));
         $orders = Orders::where(['account' => $data['account'], 'search_pwd' => $data['search_pwd']])
@@ -92,7 +92,7 @@ class OrdersController extends Controller
         if (isset($data['tpl'])) {
             $tpl=$data['tpl'];
         }else{
-           $tpl= config('app.shtemplate');
+           $tpl= '';
         }
         $cookies = Cookie::get('orders');
         if (empty($cookies)) throw new AppException('未找到相关订单缓存');

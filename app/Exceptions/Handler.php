@@ -5,7 +5,7 @@ namespace App\Exceptions;
 use Exception;
 use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
 use PayPal\Exception\PayPalConnectionException;
-
+use Jenssegers\Agent\Agent;
 class Handler extends ExceptionHandler
 {
     /**
@@ -47,12 +47,18 @@ class Handler extends ExceptionHandler
      */
     public function render($request, Exception $exception)
     {
+        $agent = new Agent();
+        if($agent->isMobile()){
+                $template=config('app.shmtemplate')?config('app.shmtemplate'):config('app.shtemplate');
+            }else{
+                $template=config('app.shtemplate');
+            }
         if ($exception instanceof AppException) {
-            $tpl = config('app.shtemplate') . '/errors/error';
+            $tpl = $template . '/errors/error';
             return response()->view($tpl, ['title' => '(╥╯^╰╥)出错啦~', 'content' => $exception->getMessage(), 'url' => ""]);
         }
         if ($exception instanceof PayPalConnectionException) {
-            $tpl = config('app.shtemplate') . '/errors/error';
+            $tpl = $template . '/errors/error';
             return response()->view($tpl, ['title' => '(╥╯^╰╥)出错啦~', 'content' => 'paypal回调参数异常', 'url' => ""]);
         }
         return parent::render($request, $exception);

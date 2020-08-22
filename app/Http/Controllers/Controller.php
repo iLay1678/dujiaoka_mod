@@ -6,7 +6,7 @@ use Illuminate\Foundation\Bus\DispatchesJobs;
 use Illuminate\Routing\Controller as BaseController;
 use Illuminate\Foundation\Validation\ValidatesRequests;
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
-
+use Jenssegers\Agent\Agent;
 class Controller extends BaseController
 {
     use AuthorizesRequests, DispatchesJobs, ValidatesRequests;
@@ -19,8 +19,13 @@ class Controller extends BaseController
      */
     protected function view($tpl = "", $data = [],$template='')
     {
-        if($template==''){
-            $template=config('app.shtemplate');
+        $agent = new Agent();
+        if(!$template){
+            if($agent->isMobile()){
+                $template=config('app.shmtemplate')?config('app.shmtemplate'):config('app.shtemplate');
+            }else{
+                $template=config('app.shtemplate');
+            }
         }
         $tpl = $template . '/' . $tpl;
         return view($tpl, $data);
@@ -34,7 +39,13 @@ class Controller extends BaseController
      */
     protected function error($content = "content", $url = "")
     {
-        $tpl = config('app.shtemplate') . '/errors/error';
+        $agent = new Agent();
+        if($agent->isMobile()){
+                $template=config('app.shmtemplate')?config('app.shmtemplate'):config('app.shtemplate');
+            }else{
+                $template=config('app.shtemplate');
+            }
+        $tpl = $template . '/errors/error';
         return view($tpl, ['title' => '(╥╯^╰╥)出错啦~', 'content' => $content, 'url' => $url]);
     }
 }

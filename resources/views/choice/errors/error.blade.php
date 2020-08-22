@@ -8,7 +8,7 @@
                     <div class="layui-card-header"><span style="color: red">{{ $title }}：</span></div>
                     <div class="layui-card-body">
                         <p class="product-info" style="text-align: center">
-                            <span class="product-price">{{ $content }}</span>
+                            <span class="product-price">{!! $content !!}</span>
                         </p>
                         <p class="errpanl" style="text-align: center">
                             @if(!$url)
