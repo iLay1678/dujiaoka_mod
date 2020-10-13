@@ -1,3 +1,7 @@
+<script src="/assets/layui/layui.js"></script>
+<script src="/assets/style/js/jquery-3.4.1.min.js"></script>
+<script src="/assets/amazeui/js/amazeui.min.js"></script>
+<script src="/assets/style/js/clipboard/clipboard.min.js"></script>
 <footer data-am-widget="footer" class="am-footer am-footer-default am-no-layout" data-am-footer="{  }">
     <div class="am-footer-miscs ">
   <div style="text-align: center">{!! config('webset.footer') !!} </div>
@@ -6,11 +10,6 @@
   </footer>
 </body>
 </html>
-<script src="/assets/layui/layui.js"></script>
-<script src="/assets/style/js/jquery-3.4.1.min.js"></script>
-<script src="/assets/amazeui/js/amazeui.min.js"></script>
-<script src="/assets/style/js/clipboard/clipboard.min.js"></script>
-
 <script>
     //注意：导航 依赖 element 模块，否则无法进行功能性操作
     layui.config({

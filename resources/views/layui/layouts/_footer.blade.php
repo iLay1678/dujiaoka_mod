@@ -1,3 +1,6 @@
+<script src="/assets/layui/layui.js"></script>
+<script src="/assets/style/js/jquery-3.4.1.min.js"></script>
+<script src="/assets/style/js/clipboard/clipboard.min.js"></script>
 <div class="sh-footer">
 
     <div class="layui-row">
@@ -16,9 +19,6 @@
 
 </body>
 </html>
-<script src="/assets/layui/layui.js"></script>
-<script src="/assets/style/js/jquery-3.4.1.min.js"></script>
-<script src="/assets/style/js/clipboard/clipboard.min.js"></script>
 
 <script>
     //注意：导航 依赖 element 模块，否则无法进行功能性操作

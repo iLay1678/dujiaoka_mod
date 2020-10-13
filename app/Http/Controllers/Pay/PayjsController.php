@@ -19,19 +19,17 @@ class PayjsController extends PayController
             'total_fee' => (float)$this->orderInfo['actual_price'] * 100,                                   // 订单金额
             'out_trade_no' => $this->orderInfo['order_id'],                           // 订单号
             'notify_url' => site_url().$this->payInfo['pay_handleroute'].'/notify_url',
+            'logo' => 'https://www.ifking.cn/favicon.png' //LOGO
         ];
         config(['payjs.mchid' => $this->payInfo['merchant_id'], 'payjs.key' => $this->payInfo['merchant_pem']]);
         switch ($this->payInfo['pay_check']){
             case 'payjswescan':
                 try{
-                    $payres =  Payjs::native($data);
-                    if ($payres['return_code'] != 1) {
-                        throw new AppException($payres['return_msg']);
-                    }
+                    $url =  Payjs::cashier($data);
                     $result['payname'] = $this->payInfo['pay_name'];
                     $result['actual_price'] = $this->orderInfo['actual_price'];
                     $result['orderid'] = $this->orderInfo['order_id'];
-                    $result['qr_code'] = $payres['code_url'];
+                    $result['qr_code'] = $url;
                     return $this->view('static_pages/qrpay', $result);
                 } catch (\Exception $e) {
                     throw new AppException('支付通道异常~ '.$e->getMessage());

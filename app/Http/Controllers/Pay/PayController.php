@@ -12,6 +12,7 @@ namespace App\Http\Controllers\Pay;
 use App\Http\Controllers\Controller;
 use App\Exceptions\AppException;
 use App\Jobs\SendMails;
+use App\Jobs\ServerJiang;
 use App\Models\Cards;
 use App\Models\Emailtpls;
 use App\Models\Orders;
@@ -135,6 +136,10 @@ class PayController extends Controller
         }
         $mailtipsInfo = replace_mail_tpl($mailtpl, $order);
         if (!empty($to)) SendMails::dispatch($to, $mailtipsInfo['tpl_content'], $mailtipsInfo['tpl_name']);
+         // 如果开启了server酱推送
+        if (config('webset.isopen_serverj') == 1) {
+            ServerJiang::dispatch($order);
+        }
         // 商品销量+
         Products::where('id', $order['product_id'])->increment('sales_volume', $order['buy_amount']);
         Redis::hdel('PENDING_ORDERS_LIST', $out_trade_no);

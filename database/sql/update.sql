@@ -1,3 +1,5 @@
+ALTER TABLE `webset` ADD `isopen_serverj` INT(1) NOT NULL DEFAULT '0' AFTER `isopen_searchpwd`, ADD `serverj_token` VARCHAR(100) NULL DEFAULT '' AFTER `isopen_serverj`;
+
 ALTER TABLE `products` ADD `buy_limit` INT NULL DEFAULT '0' COMMENT '单次限购' AFTER `in_stock`;
 
 ALTER TABLE `products` ADD `isopen_coupon` INT(1) NOT NULL DEFAULT '1' AFTER `pd_class`;
