@@ -47,7 +47,7 @@ return [
     'each' => '每个',
     'verify_code' => '验证码',
     'behavior_verification' => '行为验证',
-    'click_to_behavior_verification' => '点击进行此处行为验证',
+    'click_to_behavior_verification' => '点击此处进行行为验证',
     'success_behavior_verification' => '已完成行为验证',
     'read_and_agree' => '我已阅读并同意',
     'agreement' => '下单须知',
