@@ -1,5 +1,5 @@
 <?php
-
+require_once('WxqqJump/WxqqJump.php');
 /**
  * Laravel - A PHP Framework For Web Artisans
  *
