@@ -72,6 +72,7 @@ Route::group(['prefix' => 'pay', 'namespace' => 'Pay'], function () {
     Route::get('stripe/{payway}/{oid}','StripeController@gateway');
     Route::get('stripe/return_url','StripeController@returnUrl');
     Route::get('stripe/check','StripeController@check');
+    Route::get('stripe/charge','StripeController@charge');
     // Bitpay
     Route::get('bitpay/{payway}/{oid}','BitpayController@gateway');
     Route::get('bitpay/callback','BitpayController@callback');
