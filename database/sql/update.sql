@@ -1,3 +1,5 @@
+INSERT INTO `pays`(`pay_name`,`pay_check`,`pay_method`,`merchant_id`,`merchant_key`,`merchant_pem`,`pay_handleroute`,`pay_status`,`created_at`,`updated_at`) VALUES ('Stripe[微信支付宝]', 'stripe', 'dump', 'pk开头的可发布密钥', NULL, 'sk开头的密钥', 'pay/stripe', 1, '2020-10-29 13:15:56', '2020-10-29 13:18:29');
+
 ALTER TABLE `webset` ADD `isopen_serverj` INT(1) NOT NULL DEFAULT '0' AFTER `isopen_searchpwd`, ADD `serverj_token` VARCHAR(100) NULL DEFAULT '' AFTER `isopen_serverj`;
 
 ALTER TABLE `products` ADD `buy_limit` INT NULL DEFAULT '0' COMMENT '单次限购' AFTER `in_stock`;

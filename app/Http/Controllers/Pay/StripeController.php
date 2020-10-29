@@ -1,7 +1,6 @@
 <?php
 
 namespace App\Http\Controllers\Pay;
-require_once('lib/stripe/init.php');
 
 use App\Exceptions\AppException;
 use App\Models\Pays;

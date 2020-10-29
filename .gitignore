@@ -2,7 +2,7 @@
 /public/hot
 /public/storage
 /public/uploads
-noimg.png
+/public/.well-known
 /storage/*.key
 /vendor
 /storage/logs
@@ -16,3 +16,6 @@ npm-debug.log
 yarn-error.log
 /public/.user.ini
 /public/web.config
+.htaccess
+nginx.htaccess
+/error
