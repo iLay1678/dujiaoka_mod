@@ -2,14 +2,10 @@
 
 <p align="center">
 <a href="https://opensource.org/licenses/MIT"><img src="https://img.shields.io/badge/license-MIT-blue" alt="license MIT"></a>
-<a href="https://github.com/assimon/dujiaoka/releases/tag/v1.7.1"><img src="https://img.shields.io/badge/pod-v1.7.1-red" alt="version v1.7.1"></a>
+<a href="https://github.com/assimon/dujiaoka/releases/tag/v1.8.1"><img src="https://img.shields.io/badge/pod-v1.8.1-red" alt="version v1.8.1"></a>
 <a href="https://shang.qq.com/wpa/qunwpa?idkey=37b6b06f7c941dae20dcd5784088905d6461064d7f33478692f0c4215546cee0"><img src="https://img.shields.io/badge/QQ%E7%BE%A4-568679748-green" alt="QQ群：568679748"></a>
 </p>
 
-## 模板预览
-- [x] [layui](https://iq.ci?tpl=layui)
-- [x] [amazeui](https://iq.ci?tpl=amazeui)
-- [x] [choice](https://iq.ci?tpl=choice)
 
 ## 从原版更换为魔改版
 ### 注意：魔改版不适合纯小白，如切换到魔改版失败本人不负任何责任，请谨慎切换
@@ -87,7 +83,8 @@ demo地址：[http://dujiaoka.com](http://dujiaoka.com)
 - [x] [码支付(QQ/支付宝/微信)](https://codepay.fateqq.com/)
 - [x] 微信企业扫码支付 
 - [x] Paypal支付(默认美元) 
-- [x] 麻瓜宝数字货币支付     
+- [x] 麻瓜宝数字货币支付
+- [x] V免签支付     
 - [x] 全网易支付支持(针对彩虹版) 
  
 

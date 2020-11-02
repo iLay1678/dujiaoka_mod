@@ -54,7 +54,7 @@ class VpayController extends PayController
         if (!$cacheord) {
             return 'fail';
         }
-        $payInfo = Pays::where('id', $cacheord['pay_way'])->first();
+        $payInfo = Pays::query()->where('id', $cacheord['pay_way'])->first();
         $key = $payInfo['merchant_id'];//通讯密钥
         $payId = $data['payId'];//商户订单号
         $param = $data['param'];//创建订单的时候传入的参数
@@ -70,7 +70,7 @@ class VpayController extends PayController
             return 'fail';  //返回失败 继续补单
         } else { //合法的数据
             //业务处理
-            $this->successOrder($param, $payId, $price);
+            $this->orderService->successOrder($param, $payId, $price);
             return 'success';
         }
 

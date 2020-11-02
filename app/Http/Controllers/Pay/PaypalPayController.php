@@ -90,7 +90,7 @@ class PaypalPayController extends PayController
         if (!$cacheord) {
             return 'error';
         }
-        $payInfo = Pays::where('id', $cacheord['pay_way'])->first()->toArray();
+        $payInfo = Pays::query()->where('id', $cacheord['pay_way'])->first();
         $paypal = new ApiContext(
             new OAuthTokenCredential(
                 $payInfo['merchant_id'],
@@ -110,7 +110,7 @@ class PaypalPayController extends PayController
             $result = $payment->execute($execute, $paypal);
             $payData = $result->toArray();
             if ($payData['payer']['status'] == "VERIFIED" && $payData['transactions'][0]['amount']['currency'] == "USD") {
-                $this->successOrder($oid, $paymentId, $cacheord['actual_price']);
+                $this->orderService->successOrder($oid, $paymentId, $cacheord['actual_price']);
                 return redirect(site_url().'searchOrderById?order_id='.$oid);
             }
         } catch(\Exception $e) {
@@ -133,7 +133,7 @@ class PaypalPayController extends PayController
         if (!$cacheord) {
             return 'error';
         }
-        $payInfo = Pays::where('id', $cacheord['pay_way'])->first()->toArray();
+        $payInfo = Pays::query()->where('id', $cacheord['pay_way'])->first();
         $paypal = new ApiContext(
             new OAuthTokenCredential(
                 $payInfo['merchant_id'],
@@ -153,7 +153,7 @@ class PaypalPayController extends PayController
             $result = $payment->execute($execute, $paypal);
             $payData = $result->toArray();
             if ($payData['payer']['status'] == "VERIFIED" && $payData['transactions'][0]['amount']['currency'] == "USD") {
-                $this->successOrder($oid, $paymentId, $cacheord['actual_price']);
+                $this->orderService->successOrder($oid, $paymentId, $cacheord['actual_price']);
             }
         } catch(\Exception $e) {
            Log::info('paypal异常：' . $e->getMessage());

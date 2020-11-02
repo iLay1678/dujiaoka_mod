@@ -45,10 +45,10 @@ class PayjsController extends PayController
         if (!$cacheord) {
             return 'error';
         }
-        $payInfo = Pays::where('id', $cacheord['pay_way'])->first();
+        $payInfo = Pays::query()->where('id', $cacheord['pay_way'])->first();
         config(['payjs.mchid' => $payInfo['merchant_id'], 'payjs.key' => $payInfo['merchant_pem']]);
         $notify_info = Payjs::notify();
-        $this->successOrder($notify_info['out_trade_no'], $notify_info['payjs_order_id'], $notify_info['total_fee'] / 100);
+        $this->orderService->successOrder($notify_info['out_trade_no'], $notify_info['payjs_order_id'], $notify_info['total_fee'] / 100);
         return 'success';
     }
 

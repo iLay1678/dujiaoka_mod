@@ -18,9 +18,10 @@ use App\Models\Emailtpls;
 use App\Models\Orders;
 use App\Models\Pays;
 use App\Models\Products;
+use App\Services\OrderService;
+use App\Services\PaysService;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Redis;
-
 
 class PayController extends Controller
 {
@@ -29,6 +30,23 @@ class PayController extends Controller
      * @var 订单详情
      */
     protected $orderInfo;
+    /**
+     * 支付服务层
+     * @var
+     */
+    protected $paysService;
+
+    /**
+     * 订单服务层
+     * @var OrderService
+     */
+    protected $orderService;
+
+    public function __construct(PaysService $paysService, OrderService $orderService)
+    {
+        $this->paysService = $paysService;
+        $this->orderService = $orderService;
+    }
 
     /**
      * @var 支付详情

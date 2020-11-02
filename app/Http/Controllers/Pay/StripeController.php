@@ -353,7 +353,7 @@ class StripeController extends PayController
             }
         });
     }
-   
+
     (function () {
         stripe.createSource({
             type: 'alipay',
@@ -435,7 +435,7 @@ class StripeController extends PayController
         if (!$cacheord) {
             return redirect(site_url() . 'searchOrderById?order_id=' . $data['orderid']);
         }
-        $payInfo = Pays::where('id', $cacheord['pay_way'])->first()->toArray();
+        $payInfo = Pays::query()->where('id', $cacheord['pay_way'])->first();
         \Stripe\Stripe::setApiKey($payInfo['merchant_pem']);
         $source_object = \Stripe\Source::retrieve($data['source']);
         //die($source_object);
@@ -446,7 +446,7 @@ class StripeController extends PayController
                 'source' => $data['source'],
             ]);
             if ($source_object->owner->name == $data['orderid']) {
-                $this->successOrder($data['orderid'], $source_object->id, $source_object->amount / 100);
+                $this->orderService->successOrder($data['orderid'], $source_object->id, $source_object->amount / 100);
             }
         }
         return redirect(site_url() . 'searchOrderById?order_id=' . $data['orderid']);
@@ -461,7 +461,7 @@ class StripeController extends PayController
             //可能已异步回调成功，跳转
             return 'fail';
         } else {
-            $payInfo = Pays::where('id', $cacheord['pay_way'])->first()->toArray();
+            $payInfo = Pays::query()->where('id', $cacheord['pay_way'])->first();
             \Stripe\Stripe::setApiKey($payInfo['merchant_pem']);
             $source_object = \Stripe\Source::retrieve($data['source']);
             if ($source_object->status == 'chargeable') {
@@ -472,7 +472,7 @@ class StripeController extends PayController
                 ]);
             }
             if ($source_object->status == 'consumed' && $source_object->owner->name == $data['orderid']) {
-                $this->successOrder($data['orderid'], $source_object->id, $cacheord['actual_price']);
+                $this->orderService->successOrder($data['orderid'], $source_object->id, $cacheord['actual_price']);
                 return 'success';
             } else {
                 return 'fail';
@@ -490,7 +490,7 @@ class StripeController extends PayController
             return 'fail';
         } else {
             try {
-                $payInfo = Pays::where('id', $cacheord['pay_way'])->first()->toArray();
+                $payInfo = Pays::query()->where('id', $cacheord['pay_way'])->first();
                 \Stripe\Stripe::setApiKey($payInfo['merchant_pem']);
                 $result = \Stripe\Charge::create([
                     'amount' => number_format($this->getUsdCurrency($cacheord['actual_price']), 2, '.', '') * 100,
@@ -498,7 +498,7 @@ class StripeController extends PayController
                     'source' => $data['stripeToken'],
                 ]);
                 if ($result->status == 'succeeded') {
-                    $this->successOrder($data['orderid'], $data['stripeToken'], $cacheord['actual_price']);
+                    $this->orderService->successOrder($data['orderid'], $data['stripeToken'], $cacheord['actual_price']);
                     return 'success';
                 }
                 return $result;

@@ -46,7 +46,7 @@ class MugglepayController extends PayController
         if (!$cacheord) {
             return 'fail';
         }
-        $payInfo = Pays::where('id', $cacheord['pay_way'])->first();
+        $payInfo = Pays::query()->where('id', $cacheord['pay_way'])->first();
         if (!$data['token'] || $data['token'] != md5($data['merchant_order_id']. 'CNY'.$payInfo['merchant_id'])) {
             //不合法的数据
             return 'fail';
@@ -54,7 +54,7 @@ class MugglepayController extends PayController
         } else {
             //合法的数据
             //业务处理
-            $this->successOrder($data['merchant_order_id'], $data['order_id'], $data['pay_amount']);
+            $this->orderService->successOrder($data['merchant_order_id'], $data['order_id'], $data['pay_amount']);
             return "{\"status\": 200}";
         }
     }

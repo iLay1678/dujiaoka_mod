@@ -278,13 +278,13 @@ function check(){
         if (!$cacheord) {
             return response('order does not exit,the order may be solved',400);
         }
-        $payInfo = Pays::where('id', $cacheord['pay_way'])->first();
+        $payInfo = Pays::query()->where('id', $cacheord['pay_way'])->first();
         if ($data['secret']!=$payInfo['merchant_pem']||$data['status']<1||$data['value']!=$bitpays['value']) {
             return 'fail';
         }
         else { //合法的数据
             //业务处理
-            $this->successOrder($orderid, $data['txid'], $cacheord['actual_price']);
+            $this->orderService->successOrder($orderid, $data['txid'], $cacheord['actual_price']);
             Redis::hdel('BITPAY_LIST', $data['value']);
             Redis::hdel('BITPAY_LIST', $orderid);
             return 'success';

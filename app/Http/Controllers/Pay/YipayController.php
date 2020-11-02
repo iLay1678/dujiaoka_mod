@@ -61,7 +61,7 @@ class YipayController extends PayController
         if (!$cacheord) {
             return 'fail';
         }
-        $payInfo = Pays::where('id', $cacheord['pay_way'])->first()->toArray();
+        $payInfo = Pays::query()->where('id', $cacheord['pay_way'])->first();
         ksort($data); //重新排序$data数组
         reset($data); //内部指针指向数组中的第一个元素
         $sign = '';
@@ -79,7 +79,7 @@ class YipayController extends PayController
             return 'fail';  //返回失败 继续补单
         } else { //合法的数据
             //业务处理
-            $this->successOrder($data['out_trade_no'], $data['trade_no'], $data['money']);
+            $this->orderService->successOrder($data['out_trade_no'], $data['trade_no'], $data['money']);
             return 'success';
         }
     }
@@ -92,11 +92,11 @@ class YipayController extends PayController
             //可能已异步回调成功，跳转
             return redirect(site_url() . 'searchOrderById?order_id=' . $oid);
         } else {
-            $payInfo = Pays::where('id', $cacheord['pay_way'])->first()->toArray();
+            $payInfo = Pays::query()->where('id', $cacheord['pay_way'])->first();
             $data = json_decode($this->get(self::PAY_URI . "api.php?act=order&pid=" . $payInfo['merchant_id'] . "&key=" . $payInfo['merchant_pem'] . "&out_trade_no=" . $oid), true);
             try {
                 if ($data['status'] == 1 && $data['trade_no']) {
-                    $this->successOrder($oid, $data['trade_no'], $data['money']);
+                    $this->orderService->successOrder($oid, $data['trade_no'], $data['money']);
                     return redirect(site_url() . 'searchOrderById?order_id=' . $oid);
                 }
 

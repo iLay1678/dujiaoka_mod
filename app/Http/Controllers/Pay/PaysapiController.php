@@ -82,14 +82,14 @@ class PaysapiController extends PayController
         if (!$cacheord) {
             return 'fail';
         }
-        $payInfo = Pays::where('id', $cacheord['pay_way'])->first();
+        $payInfo = Pays::query()->where('id', $cacheord['pay_way'])->first();
         $temps = md5($data['orderid'] . $data['orderuid'] . $data['paysapi_id'] . $data['price'] . $data['realprice'] . $payInfo['merchant_pem']);
         if ($temps != $data['key']){
             return 'fail';
         }else{
             //校验key成功，是自己人。执行自己的业务逻辑：加余额，订单付款成功，装备购买成功等等。
             //业务处理
-            $this->successOrder($data['orderid'], $data['paysapi_id'], $data['price']);
+            $this->orderService->successOrder($data['orderid'], $data['paysapi_id'], $data['price']);
             return 'success';
         }
     }

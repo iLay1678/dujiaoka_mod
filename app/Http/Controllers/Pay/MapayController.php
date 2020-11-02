@@ -55,13 +55,13 @@ class MapayController extends PayController
         if (!$cacheord) {
             return 'fail';
         }
-        $payInfo = Pays::where('id', $cacheord['pay_way'])->first();
+        $payInfo = Pays::query()->where('id', $cacheord['pay_way'])->first();
         $query = create_link_string($data);
         if (!$data['pay_no'] || md5($query.$payInfo['merchant_pem']) != $data['sign']) { //不合法的数据
             return 'fail';  //返回失败 继续补单
         } else { //合法的数据
             //业务处理
-            $this->successOrder($data['pay_id'], $data['pay_no'], $data['money']);
+            $this->orderService->successOrder($data['pay_id'], $data['pay_no'], $data['money']);
             return 'success';
         }
 
