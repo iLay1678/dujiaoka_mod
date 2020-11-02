@@ -192,15 +192,13 @@ class StripeController extends PayController
             padding: 0 14px;
             box-shadow: 0 4px 6px rgba(50, 50, 93, .11), 0 1px 3px rgba(0, 0, 0, .08);
             border-radius: 4px;
-            font-size: 15px;
+            font-size: 16px;
             font-weight: 600;
             letter-spacing: 0.025em;
             text-decoration: none;
             -webkit-transition: all 150ms ease;
             transition: all 150ms ease;
-            float: left;
-            margin-left: 12px;
-            margin-top: 28px;
+            margin-top: 10px;
         }
     </style>
 </head>
@@ -236,12 +234,13 @@ class StripeController extends PayController
                 </div>
             </div>
             <div class=\"am-tab-panel am-fade\" id=\"cardpay\">
-                <div class=\"wrapper cardpay_content\">
+                <div class=\"text-align:center; margin:0 auto; width:60%\">
+                <div class=\"wrapper cardpay_content\" style=\"max-width:500px\">
                 <div class=\"am-alert am-alert-danger\" style=\"display:none\">支付失败，请更换卡片或检查输入信息</div>
                     <form action=\"/pay/stripe/charge\" method=\"post\" id=\"payment-form\">
                         <div class=\"form-row\">
                             <label for=\"card-element\">
-                                借记卡或信用卡
+                                <p class='am-alert am-alert-secondary'>借记卡或信用卡</p>
                             </label>
                             <div id=\"card-element\">
                                 <!-- A Stripe Element will be inserted here. -->
@@ -249,10 +248,13 @@ class StripeController extends PayController
                             <!-- Used to display form errors. -->
                             <div id=\"card-errors\" role=\"alert\"></div>
                         </div>
+                            <div class=\"form-row\">
+                            <button class=\"button\">支付</button>
+                        </div>
 
-                        <button class=\"button\">支付</button>
                     </form>
                 </div>
+                 </div>
             </div>
         </div>
     </div>
@@ -435,7 +437,7 @@ class StripeController extends PayController
         if (!$cacheord) {
             return redirect(site_url() . 'searchOrderById?order_id=' . $data['orderid']);
         }
-        $payInfo = Pays::query()->where('id', $cacheord['pay_way'])->first();
+        $payInfo = Pays::where('id', $cacheord['pay_way'])->first()->toArray();
         \Stripe\Stripe::setApiKey($payInfo['merchant_pem']);
         $source_object = \Stripe\Source::retrieve($data['source']);
         //die($source_object);
@@ -446,7 +448,7 @@ class StripeController extends PayController
                 'source' => $data['source'],
             ]);
             if ($source_object->owner->name == $data['orderid']) {
-                $this->orderService->successOrder($data['orderid'], $source_object->id, $source_object->amount / 100);
+                $this->successOrder($data['orderid'], $source_object->id, $source_object->amount / 100);
             }
         }
         return redirect(site_url() . 'searchOrderById?order_id=' . $data['orderid']);
@@ -461,7 +463,7 @@ class StripeController extends PayController
             //可能已异步回调成功，跳转
             return 'fail';
         } else {
-            $payInfo = Pays::query()->where('id', $cacheord['pay_way'])->first();
+            $payInfo = Pays::where('id', $cacheord['pay_way'])->first()->toArray();
             \Stripe\Stripe::setApiKey($payInfo['merchant_pem']);
             $source_object = \Stripe\Source::retrieve($data['source']);
             if ($source_object->status == 'chargeable') {
@@ -472,7 +474,7 @@ class StripeController extends PayController
                 ]);
             }
             if ($source_object->status == 'consumed' && $source_object->owner->name == $data['orderid']) {
-                $this->orderService->successOrder($data['orderid'], $source_object->id, $cacheord['actual_price']);
+                $this->successOrder($data['orderid'], $source_object->id, $cacheord['actual_price']);
                 return 'success';
             } else {
                 return 'fail';
@@ -490,7 +492,7 @@ class StripeController extends PayController
             return 'fail';
         } else {
             try {
-                $payInfo = Pays::query()->where('id', $cacheord['pay_way'])->first();
+                $payInfo = Pays::where('id', $cacheord['pay_way'])->first()->toArray();
                 \Stripe\Stripe::setApiKey($payInfo['merchant_pem']);
                 $result = \Stripe\Charge::create([
                     'amount' => number_format($this->getUsdCurrency($cacheord['actual_price']), 2, '.', '') * 100,
@@ -498,7 +500,7 @@ class StripeController extends PayController
                     'source' => $data['stripeToken'],
                 ]);
                 if ($result->status == 'succeeded') {
-                    $this->orderService->successOrder($data['orderid'], $data['stripeToken'], $cacheord['actual_price']);
+                    $this->successOrder($data['orderid'], $data['stripeToken'], $cacheord['actual_price']);
                     return 'success';
                 }
                 return $result;
