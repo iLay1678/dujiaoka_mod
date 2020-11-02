@@ -56,7 +56,7 @@ class OrderService
     {
         $this->productService = new ProductService();
         $this->couponService = new CouponService();
-        $this->cardsService = new CardsService();
+        $this->cardsService = new CardService();
     }
 
     /**
