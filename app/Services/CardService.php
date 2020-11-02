@@ -6,7 +6,7 @@ namespace App\Services;
 
 use App\Models\Cards;
 
-class CardsService
+class CardService
 {
 
     /**
