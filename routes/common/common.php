@@ -2,7 +2,7 @@
 
 Route::group(['middleware' => ['switch.language'], 'namespace' => 'Home'], function () {
     Route::get('/', 'HomeController@index');
-    Route::get('buy/{product}', 'HomeController@buy');
+    Route::match(['get', 'post'],'buy/{product}', 'HomeController@buy');
     Route::get('bill/{orderid}', 'OrderController@bill');
     Route::post('postOrder', 'OrderController@createOrder');
     Route::get('getOrderStatus/{orderid}', 'OrderController@getOrderStatus');
