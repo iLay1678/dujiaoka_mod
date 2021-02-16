@@ -49,7 +49,11 @@ class HomeController extends Controller
      */
     public function buy(Products $product)
     {
+        $data = $request->all();
         $info = $this->productService->productInfo($product);
+        if(array_key_exists("pwd",$data)){
+            $info['pwd'] = $data['pwd'];
+        }
         return $this->view('static_pages/buy', $info);
     }
     /**
