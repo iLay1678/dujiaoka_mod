@@ -51,7 +51,8 @@ class HomeController extends Controller
     {
         $data = $request->all();
         $info = $this->productService->productInfo($product);
-        if( is_null($info->passwd) || $info->passwd == '' ){
+        $password = $request->session()->get('productPwd','');
+        if( is_null($info->passwd) || $info->passwd == '' || $info->passwd == $password){
             return $this->view('static_pages/buy', $info);
         }else{
             return $this->pwd($info);
@@ -67,6 +68,7 @@ class HomeController extends Controller
         $data = $request->all();
         $info = $this->productService->productInfo($product);
          if($data['pwd'] == $info['passwd']){
+                $request->session()->put('productPwd', $data['pwd']);
                 return $this->view('static_pages/buy', $info);
             }else{
                 $return['ok'] = false;
