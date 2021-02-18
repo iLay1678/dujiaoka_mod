@@ -23,3 +23,5 @@ yarn-error.log
 .htaccess
 nginx.htaccess
 /error
+.user.ini
+404.html
