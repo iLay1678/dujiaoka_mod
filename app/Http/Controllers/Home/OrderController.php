@@ -14,7 +14,7 @@ use Illuminate\Support\Facades\Cookie;
 use Illuminate\Support\Facades\Redis;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Str;
-
+use App\Models\Orders;
 /**
  * 订单控制器.
  * Class OrderController
@@ -68,7 +68,9 @@ class OrderController extends Controller
      * @throws \Illuminate\Validation\ValidationException
      */
     public function createOrder(Request $request)
+
     {
+        //dd(Orders::create($request->all()));
         $validator = Validator::make($request->all(), [
             'account' => ['required', 'email'],
             'payway' => ['required', 'integer'],

@@ -6,12 +6,13 @@ Route::group(['middleware' => ['switch.language'], 'namespace' => 'Home'], funct
     Route::get('bill/{orderid}', 'OrderController@bill');
     Route::post('postOrder', 'OrderController@createOrder');
     Route::get('getOrderStatus/{orderid}', 'OrderController@getOrderStatus');
-    Route::get('searchOrder', 'OrdersController@searchOrder');
+    Route::get('searchOrder', 'OrderController@searchOrder');
     Route::match(['get', 'post'], 'searchOrderById/{oid?}', 'OrderController@searchOrderById');
     Route::post('searchOrderByAccount', 'OrderController@searchOrderByAccount');
     Route::get('searchOrderByBrowser', 'OrderController@searchOrderByBrowser');
     Route::get('pages', 'HomeController@pages');
     Route::get('pages/{tag}.html', 'HomeController@page');
+    Route::post('password/{product}', 'HomeController@password');
 });
 
 //api相关

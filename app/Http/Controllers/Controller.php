@@ -48,4 +48,12 @@ class Controller extends BaseController
         $tpl = $template . '/errors/error';
         return view($tpl, ['title' => '(╥╯^╰╥)出错啦~', 'content' => $content, 'url' => $url]);
     }
+    
+    /**
+     * 密码模板渲染
+    */
+    protected function pwd($data=[]){
+        $tpl = '/common/password';
+        return view($tpl,$data);
+    }
 }

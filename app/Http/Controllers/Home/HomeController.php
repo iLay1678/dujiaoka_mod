@@ -47,10 +47,33 @@ class HomeController extends Controller
      * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\View\View
      * @throws \App\Exceptions\AppException
      */
-    public function buy(Products $product)
+    public function buy(Products $product,Request $request)
     {
+        $data = $request->all();
         $info = $this->productService->productInfo($product);
-        return $this->view('static_pages/buy', $info);
+        if( is_null($info->passwd) || $info->passwd == '' ){
+            return $this->view('static_pages/buy', $info);
+        }else{
+            return $this->pwd($info);
+        }
+    }
+    
+     /**
+     * 商品密码.
+     * @param Products $product
+     */
+    public function password(Products $product,Request $request)
+    {
+        $data = $request->all();
+        $info = $this->productService->productInfo($product);
+         if($data['pwd'] == $info['passwd']){
+                return $this->view('static_pages/buy', $info);
+            }else{
+                $return['ok'] = false;
+                $return['msg'] = '密码错误';
+                return $return;
+            }
+        
     }
     /**
      * 文章列表
