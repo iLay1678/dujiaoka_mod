@@ -38,7 +38,13 @@ class HomeController extends Controller
     public function index(Request $request)
     {
         $products = $this->productService->classAndProducts($request->all());
-        return $this->view('static_pages/home', ['classifys' => $products]);
+        $classes = array();
+        foreach ($products as $class) {
+            if(count($class['products']) > 0){
+                array_push($classes,$class);
+            }
+        }
+        return $this->view('static_pages/home', ['classifys' => $classes]);
     }
 
     /**
@@ -69,7 +75,8 @@ class HomeController extends Controller
         $info = $this->productService->productInfo($product);
          if($data['pwd'] == $info['passwd']){
                 $request->session()->put('productPwd', $data['pwd']);
-                return $this->view('static_pages/buy', $info);
+                // return $this->view('static_pages/buy', $info);
+                return redirect()->away('/buy/' . $product['id']);
             }else{
                 $return['ok'] = false;
                 $return['msg'] = '密码错误';
